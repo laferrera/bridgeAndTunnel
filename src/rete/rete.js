@@ -3,13 +3,11 @@ import * as ReactDOM from 'react-dom';
 import Rete from "rete";
 import ConnectionPlugin from 'rete-connection-plugin';
 import ConnectionPathPlugin from 'rete-connection-path-plugin';
-// import VueRenderPlugin from 'rete-vue-render-plugin';
 import ContextMenuPlugin from 'rete-context-menu-plugin';
 import ReactRenderPlugin from 'rete-react-render-plugin';
 import AreaPlugin from 'rete-area-plugin';
 
-var numSocket = new Rete.Socket('Number');
-var midiChannelSocket = new Rete.Socket('String');
+var numSocket = new Rete.Socket('Number value');
 
 class MyReactControl extends React.Component {
 
@@ -19,10 +17,11 @@ class MyReactControl extends React.Component {
 
   render() {
     return (
-        <input type="number" value={this.props.value} readOnly={this.props.readonly} onChange={e => this.props.onChange(+e.target.value)} />
-      )
+      <input type="number" value={this.props.value} readOnly={this.props.readonly} onChange={e => this.props.onChange(+e.target.value)} />
+    )
   }
 }
+
 
 class NumControl extends Rete.Control {
 
@@ -49,35 +48,6 @@ class NumControl extends Rete.Control {
     this.update();
   }
 }
-
-
-
-// class MidiChannelControl extends Rete.Control {
-
-//     constructor(emitter, key, readonly) {
-//         super(key);
-//         this.render = 'react';
-//         this.component = MyReactControl;
-
-//         this.key = key;
-//         this.props = {
-//             value: '',
-//             onChange: v => {
-//                 this.setValue(v),
-//                     emitter.trigger('process');
-//             },
-//             readonly,
-//             mounted: () => this.setValue(this.getData(this.key))
-//         };
-//     }
-
-//     setValue(val) {
-//         this.props.value = val;
-//         this.putData(this.key, val)
-//         this.update();
-//     }
-// }
-
 
 class NumComponent extends Rete.Component {
 
@@ -126,49 +96,31 @@ class AddComponent extends Rete.Component {
   }
 }
 
-
-// class MidiComponent extends Rete.Component {
-
-//     constructor() {
-//         super("MIDI");
-//     }
-
-//     builder(node) {
-//         var out1 = new Rete.Output('midiChannel', "String", midiChannelSocket);
-
-//         return node.addControl(new NumControl(this.editor, 'midiChannel')).addControl(new NumControl(this.editor, 'midiChannel2')).addOutput(out1);
-//     }
-
-//     worker(node, inputs, outputs) {
-//         outputs['num'] = node.data.num;
-//     }
-// }
-
-
 (async () => {
   var container = document.querySelector('#rete');
-  // var components = [new NumComponent(), new AddComponent(), new MidiComponent()];
   var components = [new NumComponent(), new AddComponent()];
 
   var editor = new Rete.NodeEditor('bridgeAndtunnel@0.1.0', container);
   editor.use(ConnectionPlugin);
   editor.use(ConnectionPathPlugin, {
-      type: ConnectionPathPlugin.DEFAULT, // DEFAULT or LINEAR transformer
-      // transformer: () => ([x1, y1, x2, y2]) => [[x1, y1], [x2, y2]], // optional, custom transformer
-      curve: ConnectionPathPlugin.curveBundle, // curve identifier
-      options: { vertical: false, curvature: 0.0 }, // optional
-      // arrow: { color: 'steelblue', marker: 'M-5,-10 L-5,10 L20,0 z' }
+    type: ConnectionPathPlugin.DEFAULT, // DEFAULT or LINEAR transformer
+    // transformer: () => ([x1, y1, x2, y2]) => [[x1, y1], [x2, y2]], // optional, custom transformer
+    curve: ConnectionPathPlugin.curveBundle, // curve identifier
+    options: { vertical: false, curvature: 0.0 }, // optional
   });
   editor.use(ReactRenderPlugin);
   editor.use(ContextMenuPlugin, {
     searchBar: false,
-    delay:5000
+    delay: 5000
   });
-  editor.use(AreaPlugin, { scaleExtent: { min: 0.5, max: 1 } });
-    var engine = new Rete.Engine('bridgeAndtunnel@0.1.0');
+  editor.use(AreaPlugin, { 
+    scaleExtent: { min: 0.5, max: 1 } 
+  });
+  var engine = new Rete.Engine('bridgeAndtunnel@0.1.0');
 
   components.map(c => {
-      editor.register(c);
+    editor.register(c);
+    engine.register(c);
   });
 
   var n1 = await components[0].createNode({ num: 2 });
@@ -186,7 +138,6 @@ class AddComponent extends Rete.Component {
 
   editor.connect(n1.outputs.get('num'), add.inputs.get('num'));
   editor.connect(n2.outputs.get('num'), add.inputs.get('num2'));
-
 
   editor.on('process nodecreated noderemoved connectioncreated connectionremoved', async () => {
     console.log('process');
@@ -209,3 +160,4 @@ class AddComponent extends Rete.Component {
   // https://github.com/retejs/area-plugin/blob/master/src/restrictor.js
   editor.trigger('process');
 })();
+
