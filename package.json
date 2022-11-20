@@ -1,6 +1,6 @@
 {
-  "name": "Bridg & Tunnel",
-  "productName": "Bridg & Tunnel",
+  "name": "Bridge & Tunnel",
+  "productName": "Bridge & Tunnel",
   "version": "1.0.0",
   "description": "MIDI/OSC Wrangler",
   "main": ".webpack/main",

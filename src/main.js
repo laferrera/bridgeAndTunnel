@@ -1,6 +1,6 @@
 const { app, BrowserWindow, ipcMain } = require('electron');
 const path = require('path');
-let midi = require('./midi/midi.js');
+let midi = require('./main/midi/midi.js');
 
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.

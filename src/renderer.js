@@ -31,7 +31,7 @@ console.log('👋 This message is being logged by "renderer.js", included via we
 import './index.css';
 import 'regenerator-runtime/runtime'
 // import './app.jsx';
-import './rete/rete.js'
+import './renderer/rete/rete.js'
 
 
 window.electronAPI.onMidiMessage((_event, message) => {
