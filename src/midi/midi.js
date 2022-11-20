@@ -4,13 +4,14 @@ module.exports = {
     debug: function () {
         console.log('debugging.');
     },
-    init: function () {
+    init: function (window) {
+        mainWindow = window;
 
         console.log('midi started.');
         // Set up a new input.
         const input = new midi.Input();
 
-        input.openVirtualPort('Flow');
+        input.openVirtualPort('Bridge & Tunne');
         // Count the available input ports.
         input.getPortCount();
 
@@ -23,7 +24,7 @@ module.exports = {
             //   [status, data1, data2]
             // https://www.cs.cf.ac.uk/Dave/Multimedia/node158.html has some helpful
             // information interpreting the messages.
-            console.log(`m: ${message} d: ${deltaTime}`);
+            // console.log(`m: ${message} d: ${deltaTime}`);
             mainWindow.webContents.send('midi-message', message);
         });
 

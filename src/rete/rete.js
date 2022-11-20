@@ -13,195 +13,199 @@ var midiChannelSocket = new Rete.Socket('String');
 
 class MyReactControl extends React.Component {
 
-    componentDidMount() {
-        this.props.mounted();
-    }
+  componentDidMount() {
+    this.props.mounted();
+  }
 
-    render() {
-        return (
-            <input type="number" value={this.props.value} readOnly={this.props.readonly} onChange={e => this.props.onChange(+e.target.value)} />
-        )
-    }
+  render() {
+    return (
+        <input type="number" value={this.props.value} readOnly={this.props.readonly} onChange={e => this.props.onChange(+e.target.value)} />
+      )
+  }
 }
 
 class NumControl extends Rete.Control {
 
-    constructor(emitter, key, readonly) {
-        super(key);
-        this.render = 'react';
-        this.component = MyReactControl;
+  constructor(emitter, key, readonly) {
+    super(key);
+    this.render = 'react';
+    this.component = MyReactControl;
 
-        this.key = key;
-        this.props = {
-            value: '',
-            onChange: v => {
-                this.setValue(v),
-                    emitter.trigger('process');
-            },
-            readonly,
-            mounted: () => this.setValue(this.getData(this.key))
-        };
-    }
+    this.key = key;
+    this.props = {
+      value: '',
+      onChange: v => {
+        this.setValue(v),
+          emitter.trigger('process');
+      },
+      readonly,
+      mounted: () => this.setValue(this.getData(this.key))
+    };
+  }
 
-    setValue(val) {
-        this.props.value = val;
-        this.putData(this.key, val)
-        this.update();
-    }
+  setValue(val) {
+    this.props.value = val;
+    this.putData(this.key, val)
+    this.update();
+  }
 }
 
 
-class MidiChannelControl extends Rete.Control {
 
-    constructor(emitter, key, readonly) {
-        super(key);
-        this.render = 'react';
-        this.component = MyReactControl;
+// class MidiChannelControl extends Rete.Control {
 
-        this.key = key;
-        this.props = {
-            value: '',
-            onChange: v => {
-                this.setValue(v),
-                    emitter.trigger('process');
-            },
-            readonly,
-            mounted: () => this.setValue(this.getData(this.key))
-        };
-    }
+//     constructor(emitter, key, readonly) {
+//         super(key);
+//         this.render = 'react';
+//         this.component = MyReactControl;
 
-    setValue(val) {
-        this.props.value = val;
-        this.putData(this.key, val)
-        this.update();
-    }
-}
+//         this.key = key;
+//         this.props = {
+//             value: '',
+//             onChange: v => {
+//                 this.setValue(v),
+//                     emitter.trigger('process');
+//             },
+//             readonly,
+//             mounted: () => this.setValue(this.getData(this.key))
+//         };
+//     }
+
+//     setValue(val) {
+//         this.props.value = val;
+//         this.putData(this.key, val)
+//         this.update();
+//     }
+// }
 
 
 class NumComponent extends Rete.Component {
 
-    constructor() {
-        super("Number");
-    }
+  constructor() {
+    super("Number");
+  }
 
-    builder(node) {
-        var out1 = new Rete.Output('num', "Number", numSocket);
+  builder(node) {
+    var out1 = new Rete.Output('num', "Number", numSocket);
 
-        return node.addControl(new NumControl(this.editor, 'num')).addOutput(out1);
-    }
+    return node.addControl(new NumControl(this.editor, 'num')).addOutput(out1);
+  }
 
-    worker(node, inputs, outputs) {
-        outputs['num'] = node.data.num;
-    }
+  worker(node, inputs, outputs) {
+    outputs['num'] = node.data.num;
+  }
 }
 
 class AddComponent extends Rete.Component {
-    constructor() {
-        super("Add");
-    }
+  constructor() {
+    super("Add");
+  }
 
-    builder(node) {
-        var inp1 = new Rete.Input('num', "Number", numSocket);
-        var inp2 = new Rete.Input('num2', "Number2", numSocket);
-        var out = new Rete.Output('num', "Number", numSocket);
+  builder(node) {
+    var inp1 = new Rete.Input('num', "Number", numSocket);
+    var inp2 = new Rete.Input('num2', "Number2", numSocket);
+    var out = new Rete.Output('num', "Number", numSocket);
 
-        inp1.addControl(new NumControl(this.editor, 'num'))
-        inp2.addControl(new NumControl(this.editor, 'num2'))
+    inp1.addControl(new NumControl(this.editor, 'num'))
+    inp2.addControl(new NumControl(this.editor, 'num2'))
 
-        return node
-            .addInput(inp1)
-            .addInput(inp2)
-            .addControl(new NumControl(this.editor, 'preview', true))
-            .addOutput(out);
-    }
+    return node
+      .addInput(inp1)
+      .addInput(inp2)
+      .addControl(new NumControl(this.editor, 'preview', true))
+      .addOutput(out);
+  }
 
-    worker(node, inputs, outputs) {
-        var n1 = inputs['num'].length ? inputs['num'][0] : node.data.num1;
-        var n2 = inputs['num2'].length ? inputs['num2'][0] : node.data.num2;
-        var sum = n1 + n2;
+  worker(node, inputs, outputs) {
+    var n1 = inputs['num'].length ? inputs['num'][0] : node.data.num1;
+    var n2 = inputs['num2'].length ? inputs['num2'][0] : node.data.num2;
+    var sum = n1 + n2;
 
-        this.editor.nodes.find(n => n.id == node.id).controls.get('preview').setValue(sum);
-        outputs['num'] = sum;
-    }
+    this.editor.nodes.find(n => n.id == node.id).controls.get('preview').setValue(sum);
+    outputs['num'] = sum;
+  }
 }
 
 
-class MidiComponent extends Rete.Component {
+// class MidiComponent extends Rete.Component {
 
-    constructor() {
-        super("MIDI");
-    }
+//     constructor() {
+//         super("MIDI");
+//     }
 
-    builder(node) {
-        var out1 = new Rete.Output('midiChannel', "String", midiChannelSocket);
+//     builder(node) {
+//         var out1 = new Rete.Output('midiChannel', "String", midiChannelSocket);
 
-        return node.addControl(new NumControl(this.editor, 'midiChannel')).addControl(new NumControl(this.editor, 'midiChannel2')).addOutput(out1);
-    }
+//         return node.addControl(new NumControl(this.editor, 'midiChannel')).addControl(new NumControl(this.editor, 'midiChannel2')).addOutput(out1);
+//     }
 
-    worker(node, inputs, outputs) {
-        outputs['num'] = node.data.num;
-    }
-}
+//     worker(node, inputs, outputs) {
+//         outputs['num'] = node.data.num;
+//     }
+// }
 
 
 (async () => {
-    var container = document.querySelector('#rete');
-    var components = [new NumComponent(), new AddComponent(), new MidiComponent()];
+  var container = document.querySelector('#rete');
+  // var components = [new NumComponent(), new AddComponent(), new MidiComponent()];
+  var components = [new NumComponent(), new AddComponent()];
 
-    var editor = new Rete.NodeEditor('demo@0.1.0', container);
-    editor.use(ConnectionPlugin);
-    editor.use(ConnectionPathPlugin, {
-        type: ConnectionPathPlugin.DEFAULT, // DEFAULT or LINEAR transformer
-        // transformer: () => ([x1, y1, x2, y2]) => [[x1, y1], [x2, y2]], // optional, custom transformer
-        curve: ConnectionPathPlugin.curveBundle, // curve identifier
-        options: { vertical: false, curvature: 0.1 }, // optional
-        // arrow: { color: 'steelblue', marker: 'M-5,-10 L-5,10 L20,0 z' }
-    });
-    editor.use(ReactRenderPlugin);
-    // editor.use(ContextMenuPlugin);
-    editor.use(ContextMenuPlugin, {
-        searchBar: false
-    });
-    // editor.use(AreaPlugin);
-    editor.use(AreaPlugin, { scaleExtent: { min: 0.5, max: 1 } });
-    var engine = new Rete.Engine('demo@0.1.0');
+  var editor = new Rete.NodeEditor('bridgeAndtunnel@0.1.0', container);
+  editor.use(ConnectionPlugin);
+  editor.use(ConnectionPathPlugin, {
+      type: ConnectionPathPlugin.DEFAULT, // DEFAULT or LINEAR transformer
+      // transformer: () => ([x1, y1, x2, y2]) => [[x1, y1], [x2, y2]], // optional, custom transformer
+      curve: ConnectionPathPlugin.curveBundle, // curve identifier
+      options: { vertical: false, curvature: 0.0 }, // optional
+      // arrow: { color: 'steelblue', marker: 'M-5,-10 L-5,10 L20,0 z' }
+  });
+  editor.use(ReactRenderPlugin);
+  editor.use(ContextMenuPlugin, {
+    searchBar: false,
+    delay:5000
+  });
+  editor.use(AreaPlugin, { scaleExtent: { min: 0.5, max: 1 } });
+    var engine = new Rete.Engine('bridgeAndtunnel@0.1.0');
 
-    components.map(c => {
-        editor.register(c);
-    });
+  components.map(c => {
+      editor.register(c);
+  });
 
-    var n1 = await components[0].createNode({ num: 2 });
-    var n2 = await components[0].createNode({ num: 0 });
-    var add = await components[1].createNode();
+  var n1 = await components[0].createNode({ num: 2 });
+  var n2 = await components[0].createNode({ num: 0 });
+  var add = await components[1].createNode();
 
-    n1.position = [80, 200];
-    n2.position = [80, 400];
-    add.position = [500, 240];
-
-
-    editor.addNode(n1);
-    editor.addNode(n2);
-    editor.addNode(add);
-
-    editor.connect(n1.outputs.get('num'), add.inputs.get('num'));
-    editor.connect(n2.outputs.get('num'), add.inputs.get('num2'));
+  n1.position = [80, 200];
+  n2.position = [80, 400];
+  add.position = [500, 240];
 
 
-    editor.on('process nodecreated noderemoved connectioncreated connectionremoved', async () => {
-        console.log('process');
-        window.electronAPI.nodeUpdate(editor.toJSON());
-        await engine.abort();
-        await engine.process(editor.toJSON());
-    });
+  editor.addNode(n1);
+  editor.addNode(n2);
+  editor.addNode(add);
 
-    editor.on('zoom', ({ source }) => {
-        console.log('Zoom:', source)
-        return source !== 'dblclick';
-    });
+  editor.connect(n1.outputs.get('num'), add.inputs.get('num'));
+  editor.connect(n2.outputs.get('num'), add.inputs.get('num2'));
 
-    editor.view.resize();
-    AreaPlugin.zoomAt(editor);
-    // AreaPlugin.restrictZoom();
-    // https://github.com/retejs/area-plugin/blob/master/src/restrictor.js
-    editor.trigger('process');
+
+  editor.on('process nodecreated noderemoved connectioncreated connectionremoved', async () => {
+    console.log('process');
+    await engine.abort();
+    await engine.process(editor.toJSON());
+  });
+
+  editor.on('nodecreated noderemoved', async () => {
+    window.electronAPI.nodeUpdate(editor.toJSON());
+  });
+
+  editor.on('zoom', ({ source }) => {
+    console.log('Zoom:', source)
+    return source !== 'dblclick';
+  });
+
+  editor.view.resize();
+  AreaPlugin.zoomAt(editor);
+  // AreaPlugin.restrictZoom();
+  // https://github.com/retejs/area-plugin/blob/master/src/restrictor.js
+  editor.trigger('process');
 })();
