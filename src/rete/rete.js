@@ -189,6 +189,7 @@ class MidiComponent extends Rete.Component {
 
     editor.on('process nodecreated noderemoved connectioncreated connectionremoved', async () => {
         console.log('process');
+        window.electronAPI.nodeUpdate(editor.toJSON());
         await engine.abort();
         await engine.process(editor.toJSON());
     });

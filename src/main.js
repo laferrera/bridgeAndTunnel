@@ -1,4 +1,4 @@
-const { app, BrowserWindow } = require('electron');
+const { app, BrowserWindow, ipcMain } = require('electron');
 const path = require('path');
 let midi = require('./midi/midi.js');
 
@@ -7,6 +7,12 @@ let midi = require('./midi/midi.js');
 if (require('electron-squirrel-startup')) {
   app.quit();
 }
+
+
+async function handleNodeUpdate(json){
+  console.log('renderer has updated nodes');
+  console.log(json);
+};
 
 const createWindow = () => {
   // Create the browser window.
@@ -30,6 +36,17 @@ const createWindow = () => {
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
 app.on('ready', createWindow);
+
+app.whenReady().then(() => {
+  // createWindow();
+  // ipcMain.on('rete:handleNodeUpdate', handleNodeUpdate);
+  ipcMain.on('rete:handleNodeUpdate', (event, json) => {
+    const webContents = event.sender
+    // const win = BrowserWindow.fromWebContents(webContents)
+    // win.setTitle(title)
+    handleNodeUpdate(json);
+  })
+});
 
 // Quit when all windows are closed, except on macOS. There, it's common
 // for applications and their menu bar to stay active until the user quits
