@@ -4,4 +4,6 @@ const { contextBridge, ipcRenderer } = require('electron')
 
 contextBridge.exposeInMainWorld('electronAPI', {
     nodeUpdate: (json) => ipcRenderer.send('rete:handleNodeUpdate', json),
+    onMidiMessage: (callback) => ipcRenderer.on('midi-message', callback)
+
 })

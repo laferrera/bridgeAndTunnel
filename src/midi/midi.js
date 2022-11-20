@@ -24,6 +24,7 @@ module.exports = {
             // https://www.cs.cf.ac.uk/Dave/Multimedia/node158.html has some helpful
             // information interpreting the messages.
             console.log(`m: ${message} d: ${deltaTime}`);
+            mainWindow.webContents.send('midi-message', message);
         });
 
         // Open the first available input port.

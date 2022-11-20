@@ -1,8 +1,8 @@
 {
-  "name": "flow",
-  "productName": "flow",
+  "name": "Bridg & Tunnel",
+  "productName": "Bridg & Tunnel",
   "version": "1.0.0",
-  "description": "My Electron application description",
+  "description": "MIDI/OSC Wrangler",
   "main": ".webpack/main",
   "scripts": {
     "start": "electron-forge start",

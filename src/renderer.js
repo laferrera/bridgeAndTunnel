@@ -32,3 +32,9 @@ import './index.css';
 import 'regenerator-runtime/runtime'
 // import './app.jsx';
 import './rete/rete.js'
+
+
+window.electronAPI.onMidiMessage((_event, message) => {
+    console.log('midi message received in renderer.js');
+    console.log(message);
+});
