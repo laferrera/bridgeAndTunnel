@@ -1,0 +1,66 @@
+TODO
+    side panel
+    
+    aesthetics
+        style context menu
+        more style in general
+        logo
+
+
+
+
+
+list of electron packages: https://nodesource.com/blog/fifteen-essential-packages-to-get-started-with-electron/
+
+to rebuild electron
+./node_modules/.bin/electron-rebuild
+
+menubar
+electron-context-menu
+electron-packager
+
+
+
+visual programming https://github.com/retejs/rete
+
+interprocess communication
+    https://www.electronjs.org/docs/latest/tutorial/ipc
+
+
+models
+    node
+    route
+    
+nodes (source )
+    midi
+    osc
+    grid
+    crow?
+    clock?
+    
+node (effect)
+    quantizer   
+    combiner
+    xor... 
+
+osc settings
+    ip
+    port
+    min
+    max
+    pattern
+    curve
+
+midi settings
+    type
+        note #
+        note name
+        cc
+    message type
+        hold
+        on/off
+    channel
+        1-16
+
+
+
