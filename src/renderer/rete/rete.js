@@ -42,7 +42,7 @@ class MidiChannelControl extends Rete.Control {
     this.props = {
       value: '',
       onChange: v => {
-        _v = Math.max(16, Math.min(1, v));
+        let _v = Math.min(16, Math.max(1, v));
         this.setValue(_v),
           emitter.trigger('process');
       },
@@ -154,6 +154,7 @@ class OSCComponent extends Rete.Component {
   editor.on('process nodecreated noderemoved connectioncreated connectionremoved', async () => {
     await engine.abort();
     await engine.process(editor.toJSON());
+    await window.electronAPI.initializeNodes(editor.toJSON().nodes);
   });
 
   editor.on('nodecreated noderemoved', async () => {
