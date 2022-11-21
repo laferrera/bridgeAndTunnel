@@ -32,33 +32,6 @@ class ReactNumComponent extends React.Component {
   }
 }
 
-
-class NumControl extends Rete.Control {
-  constructor(emitter, key, readonly) {
-    super(key);
-    this.render = 'react';
-    this.component = ReactNumComponent;
-
-    this.key = key;
-    this.props = {
-      value: '',
-      onChange: v => {
-        let _v = Math.max(1, Math.min(16, v));
-        this.setValue(_v),
-          emitter.trigger('process');
-      },
-      readonly,
-      mounted: () => this.setValue(this.getData(this.key))
-    };
-  }
-
-  setValue(val) {
-    this.props.value = val;
-    this.putData(this.key, val)
-    this.update();
-  }
-}
-
 class MidiChannelControl extends Rete.Control {
   constructor(emitter, key, readonly) {
     super(key);
@@ -94,7 +67,7 @@ class MIDIComponent extends Rete.Component {
     let inp1 = new Rete.Input('num', "Number", numSocket);
     let out = new Rete.Output('num', "Channel", numSocket);
 
-    inp1.addControl(new NumControl(this.editor, 'num'))
+    inp1.addControl(new MidiChannelControl(this.editor, 'num'))
 
     return node
       .addInput(inp1)
@@ -120,7 +93,7 @@ class OSCComponent extends Rete.Component {
     let inp1 = new Rete.Input('num', "Input", numSocket);
     let out = new Rete.Output('num', "Number", numSocket);
 
-    inp1.addControl(new NumControl(this.editor, 'num'))
+    inp1.addControl(new MidiChannelControl(this.editor, 'num'))
 
     return node
       .addInput(inp1)
