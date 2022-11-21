@@ -34,14 +34,15 @@
     "style-loader": "^3.0.0"
   },
   "dependencies": {
+    "@lachenmayer/midi-messages": "^1.0.1",
     "abletonlink": "^0.1.3",
     "alight": "^0.14.1",
     "electron-squirrel-startup": "^1.0.0",
     "midi": "^2.0.0",
     "monome-grid": "^1.0.2",
     "osc-emitter": "^1.0.4",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
     "regenerator-runtime": "^0.13.11",
     "rete": "^1.4.0",
     "rete-area-plugin": "^0.2.1",

@@ -1,6 +1,8 @@
 const { app, BrowserWindow, ipcMain } = require('electron');
 const path = require('path');
-let midi = require('./main/midi/midi.js');
+let  midi = require('./main/midi/midi.js');
+let Engine = require('./main/engine.js');
+const engine = new Engine('test');
 
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
@@ -8,11 +10,17 @@ if (require('electron-squirrel-startup')) {
   app.quit();
 }
 
-
-async function handleNodeUpdate(json){
-  console.log('renderer has updated nodes');
-  console.log(json);
+async function handleAddNode(node) {
+  engine.updateNode(node);
 };
+
+async function handleUpdateNode(node){
+  engine.updateNode(node);
+};
+
+async function handleInitializeNodes(nodes){
+  engine.initialzeNodes(nodes);
+}
 
 const createWindow = () => {
   // Create the browser window.
@@ -26,7 +34,7 @@ const createWindow = () => {
 
   // and load the index.html of the app.
   mainWindow.loadURL(MAIN_WINDOW_WEBPACK_ENTRY);
-  midi.init(mainWindow);
+  // midi.init(mainWindow);
 
   // Open the DevTools.
   mainWindow.webContents.openDevTools();
@@ -40,12 +48,18 @@ app.on('ready', createWindow);
 app.whenReady().then(() => {
   // createWindow();
   // ipcMain.on('rete:handleNodeUpdate', handleNodeUpdate);
-  ipcMain.on('rete:handleNodeUpdate', (event, json) => {
-    const webContents = event.sender
-    // const win = BrowserWindow.fromWebContents(webContents)
-    // win.setTitle(title)
-    handleNodeUpdate(json);
+  ipcMain.on('rete:initializeNodes', (event, nodes) => {
+    handleInitializeNodes(nodes);
   })
+
+  ipcMain.on('rete:handleUpdateNode', (event, node) => {
+    handleUpdateNode(node);
+  })
+
+  ipcMain.on('rete:handleAddNode', (event, node) => {
+    handleAddNode(node);
+  })
+
 });
 
 // Quit when all windows are closed, except on macOS. There, it's common

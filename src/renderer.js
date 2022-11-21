@@ -28,13 +28,13 @@
 
 
 console.log('👋 This message is being logged by "renderer.js", included via webpack');
+// import './app.jsx';
 import './index.css';
 import 'regenerator-runtime/runtime'
-// import './app.jsx';
 import './renderer/rete/rete.js'
 
 
-window.electronAPI.onMidiMessage((_event, message) => {
-    console.log('midi message received in renderer.js');
-    console.log(message);
-});
+// window.electronAPI.onMidiMessage((_event, message) => {
+//     console.log('midi message received in renderer.js');
+//     console.log(message);
+// });
