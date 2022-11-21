@@ -7,9 +7,9 @@ import ContextMenuPlugin from 'rete-context-menu-plugin';
 import ReactRenderPlugin from 'rete-react-render-plugin';
 import AreaPlugin from 'rete-area-plugin';
 
-var numSocket = new Rete.Socket('Number value');
+let numSocket = new Rete.Socket('Number value');
 
-class MyReactControl extends React.Component {
+class ReactControl extends React.Component {
   constructor(props) {
     super(props);
     this.input = React.createRef();
@@ -37,7 +37,7 @@ class NumControl extends Rete.Control {
   constructor(emitter, key, readonly) {
     super(key);
     this.render = 'react';
-    this.component = MyReactControl;
+    this.component = ReactControl;
 
     this.key = key;
     this.props = {
@@ -63,7 +63,7 @@ class MidiChannelControl extends Rete.Control {
   constructor(emitter, key, readonly) {
     super(key);
     this.render = 'react';
-    this.component = MyReactControl;
+    this.component = ReactControl;
 
     this.key = key;
     this.props = {
@@ -92,7 +92,7 @@ class NumComponent extends Rete.Component {
   }
 
   builder(node) {
-    var out1 = new Rete.Output('num', "Number", numSocket);
+    let out1 = new Rete.Output('num', "Number", numSocket);
 
     return node.addControl(new NumControl(this.editor, 'num')).addOutput(out1);
   }
@@ -108,9 +108,9 @@ class AddComponent extends Rete.Component {
   }
 
   builder(node) {
-    var inp1 = new Rete.Input('num', "Number", numSocket);
-    var inp2 = new Rete.Input('num2', "Number2", numSocket);
-    var out = new Rete.Output('num', "Number", numSocket);
+    let inp1 = new Rete.Input('num', "Number", numSocket);
+    let inp2 = new Rete.Input('num2', "Number2", numSocket);
+    let out = new Rete.Output('num', "Number", numSocket);
 
     inp1.addControl(new NumControl(this.editor, 'num'))
     inp2.addControl(new NumControl(this.editor, 'num2'))
@@ -123,9 +123,9 @@ class AddComponent extends Rete.Component {
   }
 
   worker(node, inputs, outputs) {
-    var n1 = inputs['num'].length ? inputs['num'][0] : node.data.num1;
-    var n2 = inputs['num2'].length ? inputs['num2'][0] : node.data.num2;
-    var sum = n1 + n2;
+    let n1 = inputs['num'].length ? inputs['num'][0] : node.data.num1;
+    let n2 = inputs['num2'].length ? inputs['num2'][0] : node.data.num2;
+    let sum = n1 + n2;
 
     this.editor.nodes.find(n => n.id == node.id).controls.get('preview').setValue(sum);
     outputs['num'] = sum;
@@ -138,8 +138,8 @@ class MIDIComponent extends Rete.Component {
   }
 
   builder(node) {
-    var inp1 = new Rete.Input('num', "Number", numSocket);
-    var out = new Rete.Output('num', "Channel", numSocket);
+    let inp1 = new Rete.Input('num', "Number", numSocket);
+    let out = new Rete.Output('num', "Channel", numSocket);
 
     inp1.addControl(new NumControl(this.editor, 'num'))
 
@@ -150,8 +150,8 @@ class MIDIComponent extends Rete.Component {
   }
 
   worker(node, inputs, outputs) {
-    var n1 = inputs['num'].length ? inputs['num'][0] : node.data.num1;
-    var sum = n1;
+    let n1 = inputs['num'].length ? inputs['num'][0] : node.data.num1;
+    let sum = n1;
 
     this.editor.nodes.find(n => n.id == node.id).controls.get('preview').setValue(sum);
     outputs['num'] = node.data.num;
@@ -164,8 +164,8 @@ class OSCComponent extends Rete.Component {
   }
 
   builder(node) {
-    var inp1 = new Rete.Input('num', "Input", numSocket);
-    var out = new Rete.Output('num', "Number", numSocket);
+    let inp1 = new Rete.Input('num', "Input", numSocket);
+    let out = new Rete.Output('num', "Number", numSocket);
 
     inp1.addControl(new NumControl(this.editor, 'num'))
 
@@ -176,8 +176,8 @@ class OSCComponent extends Rete.Component {
   }
 
   worker(node, inputs, outputs) {
-    var n1 = inputs['num'].length ? inputs['num'][0] : node.data.num1;
-    var sum = n1;
+    let n1 = inputs['num'].length ? inputs['num'][0] : node.data.num1;
+    let sum = n1;
 
     this.editor.nodes.find(n => n.id == node.id).controls.get('preview').setValue(sum);
     outputs['num'] = sum;
@@ -186,10 +186,10 @@ class OSCComponent extends Rete.Component {
 
 
 (async () => {
-  var container = document.querySelector('#rete');
-  var components = [new NumComponent(), new AddComponent(), new MIDIComponent(), new OSCComponent()];
+  let container = document.querySelector('#rete');
+  let components = [new NumComponent(), new AddComponent(), new MIDIComponent(), new OSCComponent()];
 
-  var editor = new Rete.NodeEditor('bridgeAndtunnel@0.1.0', container);
+  let editor = new Rete.NodeEditor('bridgeAndtunnel@0.1.0', container);
   editor.use(ConnectionPlugin);
   editor.use(ConnectionPathPlugin, {
     type: ConnectionPathPlugin.DEFAULT, // DEFAULT or LINEAR transformer
@@ -205,15 +205,15 @@ class OSCComponent extends Rete.Component {
   editor.use(AreaPlugin, { 
     scaleExtent: { min: 0.5, max: 1 } 
   });
-  var engine = new Rete.Engine('bridgeAndtunnel@0.1.0');
+  let engine = new Rete.Engine('bridgeAndtunnel@0.1.0');
 
   components.map(c => {
     editor.register(c);
     engine.register(c);
   });
 
-  var m1 = await components[2].createNode({ num: 1 });
-  var o1 = await components[3].createNode({ num: 1 });
+  let m1 = await components[2].createNode({ num: 1 });
+  let o1 = await components[3].createNode({ num: 1 });
 
 
   m1.position = [80, 200];

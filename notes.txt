@@ -1,10 +1,20 @@
 TODO
-    side panel
     
-    aesthetics
+
+    menu    
+        save
+        load
+        preferences
+
+    
+    renderer
+        side panel
         style context menu
         more style in general
         logo
+
+    more    
+        kill all button https://codepen.io/hatead1/pen/mdEVRdJ
 
 
 
@@ -56,6 +66,7 @@ midi settings
         note #
         note name
         cc
+        (what about device instead of port...)
     message type
         hold
         on/off
