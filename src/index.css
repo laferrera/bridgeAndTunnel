@@ -65,6 +65,10 @@ body {
   outline:none;
 }
 
+.node .control .spacer{
+  width:150px;
+}
+
 .node .control input,
 .node .input-control input {
   width: 140px;

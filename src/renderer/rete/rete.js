@@ -31,6 +31,21 @@ class ReactNumComponent extends React.Component {
     )
   }
 }
+
+class ReactMIDIConfigComponent extends React.Component {
+  constructor(props) {
+    super(props);
+  }
+
+  componentDidMount() {
+    this.props.mounted();
+  }
+
+  render() {
+    return (<div className='spacer'/>)      
+  }
+}
+
 class MIDIChannelControl extends Rete.Control {
   constructor(emitter, key, readonly) {
     super(key);
@@ -57,6 +72,39 @@ class MIDIChannelControl extends Rete.Control {
   }
 }
 
+class MIDIConfigControl extends Rete.Control {
+  constructor(emitter, key, readonly) {
+    super(key);
+    this.render = 'react';
+    this.component = ReactMIDIConfigComponent;
+
+    this.key = key;
+    this.props = {
+      value: '',
+      onChange: v => {
+        this.setValue(_v),
+          emitter.trigger('process');
+      },
+      readonly,
+      mounted: () => this.setValue({channel: true})
+    };
+  }
+
+  setValue(val) {
+    this.props.value = val;
+    this.putData(this.key, val)
+    this.update();
+  }
+
+  // setValues(values) {
+  //   values.forEach((kv) => {
+  //     this.props.kv.key = kv.value
+  //     this.putData(this.key, val)
+  //     this.update();
+  //   });
+  // }
+}
+
 
 class MIDIComponent extends Rete.Component {
   constructor() {
@@ -71,7 +119,8 @@ class MIDIComponent extends Rete.Component {
 
     return node
       .addInput(inp1)
-      .addControl(new MIDIChannelControl(this.editor, 'preview', true))
+      .addControl(new MIDIConfigControl(this.editor, 'config', true))
+      // .addControl(new MIDIChannelControl(this.editor, 'preview', true))
       .addOutput(out);
   }
 
@@ -79,7 +128,7 @@ class MIDIComponent extends Rete.Component {
     let n1 = inputs['num'].length ? inputs['num'][0] : node.data.num1;
     let sum = n1;
 
-    this.editor.nodes.find(n => n.id == node.id).controls.get('preview').setValue(sum);
+    // this.editor.nodes.find(n => n.id == node.id).controls.get('preview').setValue(sum);
     outputs['num'] = node.data.num;
   }
 }
@@ -138,8 +187,9 @@ class OSCComponent extends Rete.Component {
     engine.register(c);
   });
 
-  let m1 = await components.find(_c => MIDIComponent).createNode({ num: 1 });
-  let o1 = await components.find(_c => OSCComponent).createNode({ num: 1 });
+  // this.editor.nodes.find(n => n.id == node.id).controls.get('preview').setValue(sum);
+  let m1 = await components[0].createNode({ num: 1 });
+  let o1 = await components[1].createNode({ num: 1 });
 
 
   m1.position = [80, 200];
