@@ -31,8 +31,7 @@ class ReactNumComponent extends React.Component {
     )
   }
 }
-
-class MidiChannelControl extends Rete.Control {
+class MIDIChannelControl extends Rete.Control {
   constructor(emitter, key, readonly) {
     super(key);
     this.render = 'react';
@@ -58,6 +57,7 @@ class MidiChannelControl extends Rete.Control {
   }
 }
 
+
 class MIDIComponent extends Rete.Component {
   constructor() {
     super("MIDI");
@@ -67,11 +67,11 @@ class MIDIComponent extends Rete.Component {
     let inp1 = new Rete.Input('num', "Number", numSocket);
     let out = new Rete.Output('num', "Channel", numSocket);
 
-    inp1.addControl(new MidiChannelControl(this.editor, 'num'))
+    inp1.addControl(new MIDIChannelControl(this.editor, 'num'))
 
     return node
       .addInput(inp1)
-      .addControl(new MidiChannelControl(this.editor, 'preview', true))
+      .addControl(new MIDIChannelControl(this.editor, 'preview', true))
       .addOutput(out);
   }
 
@@ -93,11 +93,11 @@ class OSCComponent extends Rete.Component {
     let inp1 = new Rete.Input('num', "Input", numSocket);
     let out = new Rete.Output('num', "Number", numSocket);
 
-    inp1.addControl(new MidiChannelControl(this.editor, 'num'))
+    inp1.addControl(new MIDIChannelControl(this.editor, 'num'))
 
     return node
       .addInput(inp1)
-      .addControl(new MidiChannelControl(this.editor, 'preview', true))
+      .addControl(new MIDIChannelControl(this.editor, 'preview', true))
       .addOutput(out);
   }
 
