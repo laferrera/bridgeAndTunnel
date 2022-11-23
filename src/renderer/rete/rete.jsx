@@ -8,139 +8,45 @@ import ConnectionPlugin from 'rete-connection-plugin';
 import ConnectionPathPlugin from 'rete-connection-path-plugin';
 import AreaPlugin from "rete-area-plugin";
 import ContextMenu from "efficy-rete-context-menu-plugin";
-import { btNode } from "./btNode.jsx";
-
-var numSocket = new Rete.Socket("Number value");
-
-class NumControl extends Rete.Control {
-  static component = ({ value, onChange }) => (
-    <input
-      type="number"
-      value={value}
-      ref={(ref) => {
-        ref && ref.addEventListener("pointerdown", (e) => e.stopPropagation());
-      }}
-      onChange={(e) => onChange(+e.target.value)}
-    />
-  );
-
-  constructor(emitter, key, node, readonly = false) {
-    super(key);
-    this.emitter = emitter;
-    this.key = key;
-    this.component = NumControl.component;
-
-    const initial = node.data[key] || 0;
-
-    node.data[key] = initial;
-    this.props = {
-      readonly,
-      value: initial,
-      onChange: (v) => {
-        this.setValue(v);
-        this.emitter.trigger("process");
-      }
-    };
-  }
-
-  setValue(val) {
-    this.props.value = val;
-    this.putData(this.key, val);
-    // this.update();
-  }
-}
-
-class MIDIReceiveControl extends Rete.Control {
-  constructor(emitter, key, node, readonly = false) {
-    super(key);
-    this.emitter = emitter;
-    this.key = key;
-    // TODO turn this into a midicontrol component?
-    this.component = NumControl.component
-
-    const initial = node.data[key] || {};
-    node.data[key] = initial;
-    this.props = {
-      readonly,
-      value: initial,
-      onChange: (v) => {
-        this.setValue(v);
-        this.emitter.trigger('process')
-      }
-    }
-  }
-
-  setValue(val){
-    this.props.value = val;
-    this.putData(this.key,val);
-    this.emitter.update();
-  }
+// import {numSocket } from './numSocket.js';
+// import { btNode } from "./btNode.jsx";
+import { AddComponent } from "./AddComponent.jsx";
+import { MIDIRecieveComponent } from "./MIDIRecieveComponent.jsx";
 
 
-}
+// class MIDIReceiveControl extends Rete.Control {
+//   constructor(emitter, key, node, readonly = false) {
+//     super(key);
+//     this.emitter = emitter;
+//     this.key = key;
+//     // TODO turn this into a midicontrol component?
+//     this.component = NumControl.component
+
+//     const initial = node.data[key] || {};
+//     node.data[key] = initial;
+//     this.props = {
+//       readonly,
+//       value: initial,
+//       onChange: (v) => {
+//         this.setValue(v);
+//         this.emitter.trigger('process')
+//       }
+//     }
+//   }
+
+//   setValue(val){
+//     this.props.value = val;
+//     this.putData(this.key,val);
+//     this.emitter.update();
+//   }
 
 
-class AddComponent extends Rete.Component {
-  constructor() {
-    super("Add");
-    this.data.component = btNode; // optional
-  }
-
-  builder(node) {
-    var inp1 = new Rete.Input("num1", "Number", numSocket);
-    var inp2 = new Rete.Input("num2", "Number2", numSocket);
-    var out = new Rete.Output("num", "Number", numSocket);
-
-    inp1.addControl(new NumControl(this.editor, "num1", node));
-    inp2.addControl(new NumControl(this.editor, "num2", node));
-
-    return node
-      .addInput(inp1)
-      .addInput(inp2)
-      .addControl(new NumControl(this.editor, "preview", node, true))
-      .addOutput(out);
-  }
-
-  worker(node, inputs, outputs) {
-    var n1 = inputs["num1"].length ? inputs["num1"][0] : node.data.num1;
-    var n2 = inputs["num2"].length ? inputs["num2"][0] : node.data.num2;
-    var sum = n1 + n2;
-
-    this.editor.nodes
-      .find((n) => n.id == node.id)
-      .controls.get("preview")
-      .setValue(sum);
-    outputs["num"] = sum;
-  }
-}
-
-class MIDIRecieveComponent extends Rete.Component {
-  constructor() {
-    super("MIDI Receive");
-    this.data.component = btNode;
-  }
-
-  builder(node) {
-    // we dont have any inputs for Recieve
-    let out = new Rete.Output('num', "Number", numSocket);
-    node.data.config = {};
-    // let ctrl = new MIDIReceiveControl(this.editor, 'config', node);
-    return node
-      // .addControl(ctrl)
-      .addOutput(out);
-      
-  }
-
-  worker(node, inputs, outputs) {
-    // we dont have any inputs for Recieve
-    outputs['num'] = node.data.num;
-  }
-
-}
+// }
 
 
 export async function createEditor(container) {
   var components = [new MIDIRecieveComponent(), new AddComponent()];
+  let numSocket = new Rete.Socket("Number value");
 
   let editor = new Rete.NodeEditor('bridgeAndtunnel@0.1.0', container);
   editor.use(ConnectionPlugin);
@@ -153,10 +59,11 @@ export async function createEditor(container) {
   editor.use(ReactRenderPlugin, { createRoot });
   editor.use(ContextMenu, {
     searchBar: false,
-    delay: 50000
+    delay: 5000
   });
   editor.use(AreaPlugin, {
-    scaleExtent: { min: 0.5, max: 1 }
+    scaleExtent: { min: 0.5, max: 1 },
+    translateExtent: { width: 500, height: 500 }
   });
 
 
