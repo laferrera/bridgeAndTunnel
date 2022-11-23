@@ -12,7 +12,7 @@ import ContextMenu from "efficy-rete-context-menu-plugin";
 // import { btNode } from "./btNode.jsx";
 import { AddComponent } from "./AddComponent.jsx";
 import { MIDIRecieveComponent } from "./MIDIRecieveComponent.jsx";
-
+import { OSCEmitterComponent } from "./OSCEmitterComponent.jsx";
 
 // class MIDIReceiveControl extends Rete.Control {
 //   constructor(emitter, key, node, readonly = false) {
@@ -45,7 +45,7 @@ import { MIDIRecieveComponent } from "./MIDIRecieveComponent.jsx";
 
 
 export async function createEditor(container) {
-  var components = [new MIDIRecieveComponent(), new AddComponent()];
+  var components = [new MIDIRecieveComponent(), new AddComponent(), new OSCEmitterComponent()];
   let numSocket = new Rete.Socket("Number value");
 
   let editor = new Rete.NodeEditor('bridgeAndtunnel@0.1.0', container);
@@ -75,17 +75,20 @@ export async function createEditor(container) {
   });
 
   var mr1 = await new MIDIRecieveComponent().createNode({ num: 2 });
-  var mr2 = await components[0].createNode({ num: 3 });
+  var mr2 = await new MIDIRecieveComponent().createNode({ num: 3 });
+  var osc = await new OSCEmitterComponent().createNode({ num: 3 });
   var add = await components[1].createNode();
 
   mr1.position = [80, 200];
   mr2.position = [80, 400];
-  add.position = [500, 240];
+  osc.position = [500, 300];
+  add.position = [500, 100];
 
   
   mr1.data.testConfig = {key:"value"}
   editor.addNode(mr1);
   editor.addNode(mr2);
+  editor.addNode(osc);
   editor.addNode(add);
 
   editor.connect(mr1.outputs.get("num"), add.inputs.get("num1"));
