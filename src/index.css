@@ -17,6 +17,21 @@ body {
   width: 100%;
 }
 
+.app{
+  display: flex;
+  width: 100vw;
+  height: 100vh;
+}
+
+.panel{
+  min-width: 200px;
+  background:#999;
+}
+
+.crete{
+  width:100%;
+}
+
 select,
 input {
   width: 100%;

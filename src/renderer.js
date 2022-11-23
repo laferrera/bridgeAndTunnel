@@ -56,17 +56,30 @@ import React, { useState } from "react";
 import { createRoot } from "react-dom/client";
 import 'regenerator-runtime/runtime'
 import { useRete } from "./renderer/rete/rete.jsx";
-
+import Panel from "./renderer/panel/panel.jsx";
 import './index.css';
+
+// function Panel(){
+//   const [setContainer] = usePanel();
+//   return (
+//     <div
+//       style={{
+//         width: "100vw",
+//         height: "100vh"
+//       }}
+//       ref={(ref) => ref && setContainer(ref)}
+//     />
+//   );
+// }
+
 
 function Editor() {
   const [setContainer] = useRete();
-
   return (
     <div
       style={{
-        width: "100vw",
-        height: "100vh"
+        // width: "100vw",
+        // height: "100vh"
       }}
       ref={(ref) => ref && setContainer(ref)}
     />
@@ -77,9 +90,14 @@ function App() {
   const [visible, setVisible] = useState(true);
 
   return (
-    <div className="App">
-      <button onClick={() => setVisible(false)}>Destroy</button>
-      {visible && <Editor />}
+    <div className="app">
+      {/* <button onClick={() => setVisible(false)}>Destroy</button> */}
+      <div className="panel">
+        {visible && <Panel />}
+      </div>
+      <div className="crete">
+        {visible && <Editor />}
+      </div>
     </div>
   );
 }

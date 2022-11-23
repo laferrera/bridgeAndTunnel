@@ -110,6 +110,11 @@ export async function createEditor(container) {
     }
   );
 
+  editor.on('nodeselect', (node) => {
+    console.log(node)
+  });
+    
+
   editor.on('zoom', ({ source }) => {
     return source !== 'dblclick';
   });
@@ -126,7 +131,7 @@ export async function createEditor(container) {
 }
 
 export function useRete() {
-  const [container, setContainer] = useState(null);
+  const [container, setReteContainer] = useState(null);
   const editorRef = useRef();
 
   useEffect(() => {
@@ -147,5 +152,5 @@ export function useRete() {
     };
   }, []);
 
-  return [setContainer];
+  return [setReteContainer];
 }
