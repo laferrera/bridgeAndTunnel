@@ -24,7 +24,7 @@ module.exports = class Engine extends EventEmitter{
 
   addNode(node){
     this.nodes.push(node);
-    console.log(node);
+    // console.log(node);
   }
 
   updateNode(node){

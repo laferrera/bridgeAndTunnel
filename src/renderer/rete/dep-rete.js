@@ -4,6 +4,7 @@ import Rete from "rete";
 import ConnectionPlugin from 'rete-connection-plugin';
 import ConnectionPathPlugin from 'rete-connection-path-plugin';
 import ContextMenuPlugin from 'rete-context-menu-plugin';
+import { createRoot } from 'react-dom/client';
 import ReactRenderPlugin from 'rete-react-render-plugin';
 import AreaPlugin from 'rete-area-plugin';
 
