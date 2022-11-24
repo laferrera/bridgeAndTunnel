@@ -57,26 +57,12 @@ import { createRoot } from "react-dom/client";
 import 'regenerator-runtime/runtime'
 import { useRete } from "./renderer/rete/rete.jsx";
 import Panel from "./renderer/panel/panel.jsx";
+import PanelExp from "./renderer/panel/panelExperiment.jsx";
 // import { usePanel } from "./renderer/panel/panel.jsx";
-// import PanelOld from "./renderer/panel/panelOld.jsx";
 import './index.css';
 const EventEmitter = require("events");
 
 const globalEmitter = new EventEmitter();
-
-// globalEmitter.on('nodeselect', (node) => {
-//   console.log(node);
-// });
-
-// function Panel() {
-//   const [setContainer] = usePanel(globalEmitter);
-//   return (
-//     <div
-//       ref={(ref) => ref && setContainer(ref)}
-//     />
-//   );
-// }
-
 
 function ReteEditor() {
   const [setContainer] = useRete(globalEmitter);
@@ -91,6 +77,7 @@ function App() {
   const [visible, setVisible] = useState(true);
   let [node, setNode] = useState([]);
   globalEmitter.on('nodeselect', (node) => {
+    console.log('node state', node);
     setNode(node);
   });
 
@@ -98,7 +85,7 @@ function App() {
     <div className="app">
       {/* <button onClick={() => setVisible(false)}>Destroy</button> */}
       <div className="panel">
-        <Panel node={ node }/>
+        <PanelExp node={ node }/>
       </div>
       <div className="rete">
         {visible && <ReteEditor />}
