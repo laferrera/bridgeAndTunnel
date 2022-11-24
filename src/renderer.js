@@ -76,9 +76,11 @@ function ReteEditor() {
 function App() {
   let [node, setNode] = useState([]);
   const [reteVisible, setReteVisible] = useState(true);
+  const [panelVisible, setPanelVisible] = useState(false);
 
   globalEmitter.on('nodeselect', (node) => {
     console.log('node state', node);
+    setPanelVisible(node);
     setNode(node);
   });
 
@@ -86,7 +88,7 @@ function App() {
     <div className="app">
       {/* <button onClick={() => setVisible(false)}>Destroy</button> */}
       <div className="panel">
-        <PanelExp node={ node }/>
+        {panelVisible && <PanelExp node={ node }/>}
       </div>
       <div className="rete">
         {reteVisible && <ReteEditor />}
