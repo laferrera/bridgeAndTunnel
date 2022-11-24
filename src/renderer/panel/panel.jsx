@@ -3,14 +3,23 @@ import React from 'react';
 import SelectDemo from "./select.jsx";
 
 function Panel({ node }) {
+
+    const onValueChange = (val) => {
+        console.log(val);
+    }
+
     return (
         <div>
             Panel
-            <SelectDemo />
+            <SelectDemo 
+                value='leek'
+                onValueChange={onValueChange}
+            />
             <p>{node.id}</p>
             <p>{node.name}</p>
         </div>
     )
+
 }
 
 export default Panel;

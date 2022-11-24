@@ -4,8 +4,24 @@ import classnames from 'classnames';
 import { CheckIcon, ChevronDownIcon, ChevronUpIcon } from '@radix-ui/react-icons';
 import './select.css';
 
-const SelectDemo = () => (
-  <Select.Root>
+// const SelectDemo = () => (
+function SelectDemo({ value, onValueChange }) {
+
+  const SelectItem = React.forwardRef(({ children, className, ...props }, forwardedRef) => {
+    return (
+      <Select.Item className={classnames('SelectItem', className)} {...props} ref={forwardedRef}>
+        <Select.ItemText>{children}</Select.ItemText>
+        <Select.ItemIndicator className="SelectItemIndicator">
+          <CheckIcon />
+        </Select.ItemIndicator>
+      </Select.Item>
+    );
+  });
+
+  return(
+  <Select.Root
+    value={value}
+    onValueChange={onValueChange}>
     <Select.Trigger className="SelectTrigger" aria-label="Food">
       <Select.Value placeholder="Select a fruit…" />
       <Select.Icon className="SelectIcon">
@@ -56,17 +72,8 @@ const SelectDemo = () => (
       </Select.Content>
     </Select.Portal>
   </Select.Root>
-);
-
-const SelectItem = React.forwardRef(({ children, className, ...props }, forwardedRef) => {
-  return (
-    <Select.Item className={classnames('SelectItem', className)} {...props} ref={forwardedRef}>
-      <Select.ItemText>{children}</Select.ItemText>
-      <Select.ItemIndicator className="SelectItemIndicator">
-        <CheckIcon />
-      </Select.ItemIndicator>
-    </Select.Item>
   );
-});
 
+
+}
 export default SelectDemo;
