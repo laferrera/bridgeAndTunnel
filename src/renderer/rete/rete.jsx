@@ -1,6 +1,5 @@
 // looking here https://codesandbox.io/s/retejs-react-render-t899c?file=/src/rete.jsx:3766-3794
-
-import React, { useState, useEffect, useCallback, useRef } from "react";
+import { useState, useEffect, useCallback, useRef, useContext } from "react";
 import Rete from "rete";
 import { createRoot } from "react-dom/client";
 import ReactRenderPlugin from "rete-react-render-plugin";
@@ -44,7 +43,7 @@ import { OSCEmitterComponent } from "./OSCEmitterComponent.jsx";
 // }
 
 
-export async function createEditor(container) {
+export async function createEditor(container, emitter) {
   var components = [new MIDIRecieveComponent(), new AddComponent(), new OSCEmitterComponent()];
   let numSocket = new Rete.Socket("Number value");
 
@@ -111,7 +110,7 @@ export async function createEditor(container) {
   );
 
   editor.on('nodeselect', (node) => {
-    console.log(node)
+    emitter.emit('nodeselect', node);
   });
     
 
@@ -130,13 +129,13 @@ export async function createEditor(container) {
   return editor;
 }
 
-export function useRete() {
+export function useRete(emitter) {
   const [container, setReteContainer] = useState(null);
   const editorRef = useRef();
 
   useEffect(() => {
     if (container) {
-      createEditor(container).then((value) => {
+      createEditor(container, emitter).then((value) => {
         console.log("rete created");
         editorRef.current = value;
       });

@@ -57,30 +57,31 @@ import { createRoot } from "react-dom/client";
 import 'regenerator-runtime/runtime'
 import { useRete } from "./renderer/rete/rete.jsx";
 import Panel from "./renderer/panel/panel.jsx";
+// import { usePanel } from "./renderer/panel/panel.jsx";
+// import PanelOld from "./renderer/panel/panelOld.jsx";
 import './index.css';
+const EventEmitter = require("events");
 
-// function Panel(){
-//   const [setContainer] = usePanel();
+const globalEmitter = new EventEmitter();
+
+// globalEmitter.on('nodeselect', (node) => {
+//   console.log(node);
+// });
+
+// function Panel() {
+//   const [setContainer] = usePanel(globalEmitter);
 //   return (
 //     <div
-//       style={{
-//         width: "100vw",
-//         height: "100vh"
-//       }}
 //       ref={(ref) => ref && setContainer(ref)}
 //     />
 //   );
 // }
 
 
-function Editor() {
-  const [setContainer] = useRete();
+function ReteEditor() {
+  const [setContainer] = useRete(globalEmitter);
   return (
     <div
-      style={{
-        // width: "100vw",
-        // height: "100vh"
-      }}
       ref={(ref) => ref && setContainer(ref)}
     />
   );
@@ -88,15 +89,19 @@ function Editor() {
 
 function App() {
   const [visible, setVisible] = useState(true);
+  let [node, setNode] = useState([]);
+  globalEmitter.on('nodeselect', (node) => {
+    setNode(node);
+  });
 
   return (
     <div className="app">
       {/* <button onClick={() => setVisible(false)}>Destroy</button> */}
       <div className="panel">
-        {visible && <Panel />}
+        <Panel node={ node }/>
       </div>
-      <div className="crete">
-        {visible && <Editor />}
+      <div className="rete">
+        {visible && <ReteEditor />}
       </div>
     </div>
   );
