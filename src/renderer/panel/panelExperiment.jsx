@@ -31,9 +31,6 @@ const fruitsArray = ["Apple", "Orange", "Lemon", "Melon"];
 
 export default function PanelExperiment(node) {
   console.log("panel experiment NODE selectDemoValue", node.node.id, node.node.data.config.selectDemoValue);
-  // const [myNode, setMyNode] = useState(node.node);
-  // const config = node.node.data.config;
-  // const [config, setConfig] = useState(node.node.data.config);
   const [selectDemoValue, setSelectDemoValue] = useState(node.node.data.config.selectDemoValue);
   const [switchDemoValue, setSwitchDemoValue] = useState(node.node.data.config.switchDemoValue);
   const [checkboxDemoValue, setCheckboxDemoValue] = useState(node.node.data.config.checkboxDemoValue);

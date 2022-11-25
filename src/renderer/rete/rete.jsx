@@ -109,11 +109,10 @@ export async function createEditor(container, emitter) {
     }
   );
 
-  editor.on('nodeselect', (node) => {
+  editor.on('nodeselected', (node) => {
     emitter.emit('nodeselect', node);
   });
     
-
   editor.on('zoom', ({ source }) => {
     return source !== 'dblclick';
   });

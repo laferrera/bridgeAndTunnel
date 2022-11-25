@@ -71,6 +71,7 @@ body,
 .SelectMenuWrapper {
   display: flex;
   flex-direction: column;
+  cursor:pointer;
 }
 
 .SelectTrigger {
@@ -241,6 +242,7 @@ body,
   position: relative;
   /* margin: 7px 15px 0 15px; */
   transition: background-color 0.3s ease;
+  cursor:pointer;
 }
 
 .Switch:hover {
@@ -453,7 +455,8 @@ div[data-radix-popper-content-wrapper]{
 .HoverCardImage{
 width: 200px;
 height: 128px;
-background-image: url("https://source.unsplash.com/featured/?airplane");
+background:#f0f;
+/* background-image: url("https://source.unsplash.com/featured/?airplane"); */
 background-size: cover;
 border-radius: 0px;
 overflow: hidden;

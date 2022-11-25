@@ -58,9 +58,8 @@ import { useRete } from "./renderer/rete/rete.jsx";
 // import { Panel } from "./renderer/panel/panel.jsx";
 import PanelExp from "./renderer/panel/panelExperiment.jsx";
 import './index.css';
+
 const EventEmitter = require("events");
-
-
 const globalEmitter = new EventEmitter();
 
 function ReteEditor() {
@@ -75,7 +74,6 @@ function ReteEditor() {
 function App() {
   const [selectedNode, setSelectedNode] = useState(null);
   const [reteVisible, setReteVisible] = useState(true);
-  // const [panelVisible, setPanelVisible] = useState(false);
 
   useEffect(() => {
     globalEmitter.on('nodeselect', (node) => {

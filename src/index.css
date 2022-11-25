@@ -72,7 +72,11 @@ input {
 .node:hover{
   background: cyan;
   border: 1px solid black;
-  cursor: grab;
+  cursor: pointer;
+}
+
+.node *:hover{
+  cursor:pointer;
 }
 
 .node.selected {
