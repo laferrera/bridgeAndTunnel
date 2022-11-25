@@ -114,6 +114,7 @@ export async function createEditor(container, emitter) {
 
   editor.on('nodeselected', (node) => {
     emitter.emit('nodeselect', node);
+    console.log
   });
     
   editor.on('zoom', ({ source }) => {

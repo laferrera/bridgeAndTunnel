@@ -48,6 +48,7 @@
     "classnames": "^2.3.2",
     "efficy-rete-context-menu-plugin": "^1.0.0-alpha9",
     "electron-squirrel-startup": "^1.0.0",
+    "electron-store": "^8.1.0",
     "midi": "^2.0.0",
     "monome-grid": "^1.0.2",
     "osc-emitter": "^1.0.4",

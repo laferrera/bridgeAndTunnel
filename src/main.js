@@ -3,7 +3,8 @@ const path = require('path');
 let  midi = require('./main/midi/midi.js');
 let Engine = require('./main/engine.js');
 const engine = new Engine('test');
-
+const Store = require('electron-store');
+const menu = require('./main/menu.js');
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 if (require('electron-squirrel-startup')) {
