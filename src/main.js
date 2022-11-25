@@ -112,6 +112,8 @@ app.on('save-file', (event, value) => {
   }).catch(err => {
     console.log(err)
   });
-
-
 });
+
+getFileFromUser = () => {
+  console.log('getFileFromUser?');
+}
