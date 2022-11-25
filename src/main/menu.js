@@ -22,7 +22,7 @@ const template = [
       { label: 'Save As',
         accelerator: 'CommandOrControl+S',
         click(item, focusedWindow) {
-          focusedWindow.webContents.send('save-file');
+          if (focusedWindow) focusedWindow.webContents.send('save-file');
         },
       },
       {

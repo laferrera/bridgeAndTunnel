@@ -1,4 +1,6 @@
-'use strict';
+
+const mainWindow = require('../main');
+const { app, Menu } = require('electron')
 const EventEmitter = require("events");
 const midi = require('./midi/midi.js');
 const OscEmitter = require('osc-emitter');
@@ -38,8 +40,8 @@ module.exports = class Engine extends EventEmitter{
   }
 
   initialzeNodes(nodes){
-    // this.nodes = nodes;
-    this.nodes = Object.values(nodes);
+    this.nodes = nodes;
+    // this.nodes = Object.values(nodes);
     console.log(nodes);
   }
 
@@ -48,14 +50,20 @@ module.exports = class Engine extends EventEmitter{
   }
 
   distributeMIDIMessage(message){
+    console.log('midi!', message);
     let channel = message.channel;
-    let midis = this.nodes.filter(n => (n.name == "MIDI" && n.data.num == channel));
+    let midis = Object.values(this.nodes).filter(n => (n.name == "MIDI Receive" && n.data.config.channel == channel));
     midis.forEach(midi => {
-      let node_id = Object.values(midi.outputs.num.connections)[0].node;
-      Object.values(midi.outputs.num.connections).forEach(connection => {
-        let node = this.nodes.find(n => n.id == connection.node);
+      midi.outputs.num.connections.forEach(connection => {
+        console.log('connection', connection);
+        let node = this.nodes[connection.node];
+        // let node = this.nodes.find(n => n.id == connection.node);
         // TODO try block... 
-        if (node) this.handleMIDIMessage(message, node);
+        if (node){
+          console.log('node', node)
+          this.handleMIDIMessage(message, node);
+          mainWindow.webContents.send('midi-message', message, node);
+        }
         
       });
     });
@@ -63,10 +71,10 @@ module.exports = class Engine extends EventEmitter{
 
   handleMIDIMessage(message, node){
     switch(node.name){
-      case "MIDI":
+      case "MIDI Receive":
         this.distributeMIDIMessage(message, node);
         break;
-      case "OSC":
+      case "OSC Emitter":
         this.handleOSCMessage(message, node);
         break;
       default:

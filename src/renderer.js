@@ -69,6 +69,12 @@ function App() {
     globalEmitter.on('noderemoved', (node) => {
       setSelectedNode(null);
     });
+    window.electronAPI.handleMidiMessage((event, value) => {
+      console.log('midi event', event);
+      console.log('midi value', value);
+    })
+
+
   }, []);
 
 
