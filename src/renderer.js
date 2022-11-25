@@ -52,7 +52,7 @@ console.log('👋 This message is being logged by "renderer.js", included via we
 
 
 // import React, { useEffect, useState } from "react";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { createRoot } from "react-dom/client";
 import 'regenerator-runtime/runtime'
 import { useRete } from "./renderer/rete/rete.jsx";
@@ -61,6 +61,7 @@ import PanelExp from "./renderer/panel/panelExperiment.jsx";
 // import { usePanel } from "./renderer/panel/panel.jsx";
 import './index.css';
 const EventEmitter = require("events");
+
 
 const globalEmitter = new EventEmitter();
 
@@ -74,21 +75,22 @@ function ReteEditor() {
 }
 
 function App() {
-  let [node, setNode] = useState([]);
+  const [selectedNode, setSelectedNode] = useState(null);
   const [reteVisible, setReteVisible] = useState(true);
-  const [panelVisible, setPanelVisible] = useState(false);
+  // const [panelVisible, setPanelVisible] = useState(false);
 
-  globalEmitter.on('nodeselect', (node) => {
-    console.log('node state', node);
-    setPanelVisible(node);
-    setNode(node);
-  });
+  useEffect(() => {
+    globalEmitter.on('nodeselect', (node) => {
+      // console.log('render nodeselect', node.id);
+      setSelectedNode(node);
+    });
+  }, []);
 
   return (
     <div className="app">
       {/* <button onClick={() => setVisible(false)}>Destroy</button> */}
       <div className="panel">
-        {panelVisible && <PanelExp node={ node }/>}
+        {selectedNode && <PanelExp node={ selectedNode }/>}
       </div>
       <div className="rete">
         {reteVisible && <ReteEditor />}

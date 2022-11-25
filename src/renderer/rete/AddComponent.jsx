@@ -2,6 +2,7 @@ import Rete from "rete";
 import { btNode } from "./btNode.jsx";
 import { NumControl } from "./NumControl.jsx";
 import { numSocket } from "./numSocket.js";
+import { midiReceiveConfig } from "./midiRecieveConfig.js";
 export class AddComponent extends Rete.Component {
   constructor() {
     super("Add");
@@ -16,6 +17,7 @@ export class AddComponent extends Rete.Component {
     inp1.addControl(new NumControl(this.editor, "num1", node));
     inp2.addControl(new NumControl(this.editor, "num2", node));
 
+    node.data.config = {...midiReceiveConfig};
     return node
       .addInput(inp1)
       .addInput(inp2)

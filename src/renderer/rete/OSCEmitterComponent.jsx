@@ -13,7 +13,7 @@ export class OSCEmitterComponent extends Rete.Component {
   builder(node) {
     let inp = new Rete.Input('num', "Number", numSocket);
     // inp.addControl(new NumControl(this.editor, "num", node));
-    node.data.config = oscEmitterConfig;
+    node.data.config = {...oscEmitterConfig};
     return node
       .addInput(inp);
 

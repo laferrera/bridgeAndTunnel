@@ -30,26 +30,38 @@ const countriesArray = [
 const fruitsArray = ["Apple", "Orange", "Lemon", "Melon"];
 
 export default function PanelExperiment(node) {
-  const [selectDemoValue, setSelectDemoValue] = useState(countriesArray[0]);
-  const [switchDemoValue, setSwitchDemoValue] = useState(true);
-  const [checkboxDemoValue, setCheckboxDemoValue] = useState(true);
-  const [radioGroupDemoValue, setRadioGroupDemoValue] = useState("default");
+  console.log("node", node.node.id);
+  // const [myNode, setMyNode] = useState(node.node);
+  // const config = node.node.data.config;
+  const [config, setConfig] = useState(node.node.data.config);
+  const [selectDemoValue, setSelectDemoValue] = useState(config.selectDemoValue);
+  const [switchDemoValue, setSwitchDemoValue] = useState(node.node.data.config.switchDemoValue);
+  const [checkboxDemoValue, setCheckboxDemoValue] = useState(node.node.data.config.checkboxDemoValue);
+  const [radioGroupDemoValue, setRadioGroupDemoValue] = useState(node.node.data.config.radioGroupDemoValue);
+  // const stateVars = [selectDemoValue, switchDemoValue, checkboxDemoValue, radioGroupDemoValue];
+  const stateVars = { selectDemoValue: selectDemoValue, switchDemoValue: switchDemoValue, checkboxDemoValue: checkboxDemoValue, radioGroupDemoValue: radioGroupDemoValue };
+
 
   const didMount = React.useRef(false);
 
   // console.log("node", node);
 
   React.useEffect(() => {
-    // if (!didMount.current) {
-    //   didMount.current = true;
-    //   return;
-    // }
-
-    if (node.node.length != 0 && selectDemoValue) {
-      node.node.data.selectDemoValue = selectDemoValue;
-      console.log(node.node.data)
+    if (!didMount.current) {
+      didMount.current = true;
+      return;
     }
-  }, [selectDemoValue]);
+
+    Object.keys(stateVars).forEach((key, index) => {
+      if (stateVars[key] !== node.node.data.config[key]) {
+        console.log("stateVars[key]", stateVars[key]);
+        node.node.data.config[key] = stateVars[key]
+      }
+    });
+  }, [Object.keys(stateVars)]);
+  // }, [selectDemoValue, switchDemoValue]);
+
+
 
 
   return (
@@ -85,7 +97,7 @@ export default function PanelExperiment(node) {
                 <Select.Group>
                   <Select.Label className="SelectLabel">Countries</Select.Label>
                   {countriesArray.map((address) => (
-                    <Select.Item value={address} className="SelectItem">
+                    <Select.Item key={address} value={address} className="SelectItem">
                       <Select.ItemIndicator className="SelectItemIndicator">
                         <CheckIcon />
                       </Select.ItemIndicator>
@@ -99,7 +111,7 @@ export default function PanelExperiment(node) {
                 <Select.Group>
                   <Select.Label className="SelectLabel">Fruits</Select.Label>
                   {fruitsArray.map((address) => (
-                    <Select.Item value={address} className="SelectItem">
+                    <Select.Item key={address} value={address} className="SelectItem">
                       <Select.ItemIndicator className="SelectItemIndicator">
                         <CheckIcon />
                       </Select.ItemIndicator>
