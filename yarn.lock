@@ -5096,6 +5096,11 @@
   "resolved" "https://registry.npmjs.org/rete-history-plugin/-/rete-history-plugin-0.2.2.tgz"
   "version" "0.2.2"
 
+"rete-keyboard-plugin@^0.1.2":
+  "integrity" "sha512-lgQ1+3hNfR8UwWp90IZ3osf70s3J1JlyxBJ0mGGBnh5I7EbWuufPg5SvfoqeYTJHeS/au+cq2m8/qMiZX9AIcA=="
+  "resolved" "https://registry.npmjs.org/rete-keyboard-plugin/-/rete-keyboard-plugin-0.1.2.tgz"
+  "version" "0.1.2"
+
 "rete-react-render-plugin@^0.3.0":
   "integrity" "sha512-iNEpJjqHO950WBE5CWw+WlFbV3D98Gx5tgnBp5y5ZniHEMzsqE0UuBjD9OdStVd+KmJfDEePoMiuOeFZPhEwHQ=="
   "resolved" "https://registry.npmjs.org/rete-react-render-plugin/-/rete-react-render-plugin-0.3.0.tgz"

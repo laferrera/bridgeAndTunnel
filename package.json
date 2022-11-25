@@ -61,6 +61,7 @@
     "rete-connection-plugin": "^0.9.0",
     "rete-context-menu-plugin": "^0.3.5-alpha9",
     "rete-history-plugin": "^0.2.2",
+    "rete-keyboard-plugin": "^0.1.2",
     "rete-react-render-plugin": "^0.3.0",
     "vue": "^3.2.37"
   }

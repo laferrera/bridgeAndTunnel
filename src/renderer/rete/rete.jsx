@@ -7,8 +7,9 @@ import ConnectionPlugin from 'rete-connection-plugin';
 import ConnectionPathPlugin from 'rete-connection-path-plugin';
 import AreaPlugin from "rete-area-plugin";
 import ContextMenu from "efficy-rete-context-menu-plugin";
-// import {numSocket } from './numSocket.js';
-// import { btNode } from "./btNode.jsx";
+import HistoryPlugin from 'rete-history-plugin'
+import keyboardPlugin from "./keyboardPlugin.js";
+
 import { AddComponent } from "./AddComponent.jsx";
 import { MIDIRecieveComponent } from "./MIDIRecieveComponent.jsx";
 import { OSCEmitterComponent } from "./OSCEmitterComponent.jsx";
@@ -64,6 +65,9 @@ export async function createEditor(container, emitter) {
     scaleExtent: { min: 0.5, max: 1 },
     translateExtent: { width: 500, height: 500 }
   });
+  editor.use(keyboardPlugin);
+
+  
 
 
   let engine = new Rete.Engine('bridgeAndtunnel@0.1.0');
@@ -102,10 +106,9 @@ export async function createEditor(container, emitter) {
     }
   );
 
-  editor.on(
-    "nodecreated noderemoved",
-    async () => {
+  editor.on("nodecreated noderemoved", async (node) => {
       window.electronAPI.addNode(editor.toJSON());
+      emitter.emit('noderemoved', node);
     }
   );
 
@@ -125,6 +128,8 @@ export async function createEditor(container, emitter) {
   // https://github.com/retejs/area-plugin/blob/master/src/restrictor.js
   window.electronAPI.initializeNodes(editor.toJSON().nodes);
 
+
+  editor.use(HistoryPlugin);
   return editor;
 }
 
