@@ -1,4 +1,4 @@
-const { app, BrowserWindow, ipcMain } = require('electron');
+const { app, BrowserWindow, dialog, ipcMain } = require('electron');
 const path = require('path');
 let  midi = require('./main/midi/midi.js');
 let Engine = require('./main/engine.js');
@@ -23,9 +23,11 @@ async function handleInitializeNodes(nodes){
   engine.initialzeNodes(nodes);
 }
 
+let mainWindow = null;
+
 const createWindow = () => {
   // Create the browser window.
-  const mainWindow = new BrowserWindow({
+  mainWindow = new BrowserWindow({
     width: 800,
     height: 600,
     webPreferences: {
@@ -114,6 +116,22 @@ app.on('save-file', (event, value) => {
   });
 });
 
-getFileFromUser = () => {
-  console.log('getFileFromUser?');
+
+const getFileFromUser = exports.getFileFromUser = () => {
+  dialog.showOpenDialog(mainWindow, {
+    properties: ['openFile'],
+    filters: [
+      { name: 'Text Files', extensions: ['txt'] },
+      { name: 'Markdown Files', extensions: ['md', 'markdown'] }
+    ]
+  }).then(result => {
+    if (result.filePaths.length > 0) { openFile(result.filePaths[0]); }
+  }).catch(err => {
+    console.log(err);
+  })
+};
+
+const openFile = (file) => {
+  const content = fs.readFileSync(file).toString();
+  mainWindow.webContents.send('file-opened', file, content);
 }
