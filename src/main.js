@@ -82,3 +82,36 @@ app.on('activate', () => {
 
 // In this file you can include the rest of your app's specific main process
 // code. You can also put them in separate files and import them here.
+
+app.on('save-file', (event, value) => {
+  dialog.showSaveDialog({
+    title: 'Select the File Path to save',
+    defaultPath: path.join(__dirname, '../assets/sample.txt'),
+    // defaultPath: path.join(__dirname, '../assets/'),
+    buttonLabel: 'Save',
+    // Restricting the user to only Text Files.
+    filters: [
+      {
+        name: 'Text Files',
+        extensions: ['txt', 'docx']
+      },],
+    properties: []
+  }).then(file => {
+    // Stating whether dialog operation was cancelled or not.
+    console.log(file.canceled);
+    if (!file.canceled) {
+      console.log(file.filePath.toString());
+
+      // Creating and Writing to the sample.txt file
+      fs.writeFile(file.filePath.toString(),
+        'This is a Sample File', function (err) {
+          if (err) throw err;
+          console.log('Saved!');
+        });
+    }
+  }).catch(err => {
+    console.log(err)
+  });
+
+
+});

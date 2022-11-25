@@ -6,5 +6,6 @@ contextBridge.exposeInMainWorld('electronAPI', {
     updateNode: (node) => ipcRenderer.send('rete:handleUpdateNode', node),
     addNode: (node) => ipcRenderer.send('rete:handleAddNode', node),
     initializeNodes: (json) => ipcRenderer.send('rete:initializeNodes', json),
-    onMidiMessage: (callback) => ipcRenderer.on('midi-message', callback)
+    handleMidiMessage: (callback) => ipcRenderer.on('midi-message', callback),
+    handleSaveFile: (callback) => ipcRenderer.on('save-file', callback),
 })

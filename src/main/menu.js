@@ -1,3 +1,4 @@
+const mainProcess = require('../main');
 const {app, Menu } = require('electron')
 
 const isMac = process.platform === 'darwin'
@@ -9,11 +10,6 @@ const template = [
     submenu: [
       { role: 'about' },
       { type: 'separator' },
-      { role: 'services' },
-      { type: 'separator' },
-      { role: 'hide' },
-      { role: 'hideOthers' },
-      { role: 'unhide' },
       { type: 'separator' },
       { role: 'quit' }
     ]
@@ -23,7 +19,20 @@ const template = [
     label: 'File',
     submenu: [
       isMac ? { role: 'close' } : { role: 'quit' },
-      { role: 'save' },
+      { label: 'Save As',
+        accelerator: 'CommandOrControl+S',
+        click(item, focusedWindow) {
+          focusedWindow.webContents.send('save-file');
+        },
+      },
+      {
+        label: 'Open File',
+        accelerator: 'CommandOrControl+O',
+        click(item, focusedWindow) {
+          mainProcess.getFileFromUser(focusedWindow);
+        },
+      },
+      // { role: 'save' },
       // { role: 'saveAs' },
       // { role: 'open' },
       // { role: 'openRecent' }
@@ -93,10 +102,14 @@ const template = [
     role: 'help',
     submenu: [
       {
-        label: 'Learn More',
-        click: async () => {
-          const { shell } = require('electron')
-          await shell.openExternal('https://electronjs.org')
+        label: 'Visit Website',
+        click() { /* To be implemented */ }
+      },
+      {
+        label: 'Toggle Developer Tools',
+        accelerator: 'CommandOrControl+U',
+        click(item, focusedWindow) {
+          if (focusedWindow) focusedWindow.webContents.toggleDevTools();
         }
       }
     ]
