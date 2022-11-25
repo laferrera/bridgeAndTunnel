@@ -4488,7 +4488,7 @@
   dependencies:
     "binpack" "~0"
 
-"osc-receiver@^1.1.0":
+"osc-receiver@^1.1.0", "osc-receiver@^1.1.3":
   "integrity" "sha512-8n2XzkQ4deooIXi+bwMscu42skq37yUlhX/FMipiA+hwNiCj1Ie/dY68/1K4hByplFW23N80mH/kBsCauT8T2A=="
   "resolved" "https://registry.npmjs.org/osc-receiver/-/osc-receiver-1.1.3.tgz"
   "version" "1.1.3"

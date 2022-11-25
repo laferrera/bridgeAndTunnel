@@ -2,6 +2,7 @@
 const EventEmitter = require("events");
 const midi = require('./midi/midi.js');
 const OscEmitter = require('osc-emitter');
+const OscReciever = require('osc-receiver');
 const { DecodeStream } = require('@lachenmayer/midi-messages')
 const tempOSCPort = 10201;
 

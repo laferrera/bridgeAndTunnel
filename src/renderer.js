@@ -77,16 +77,20 @@ function App() {
 
   useEffect(() => {
     globalEmitter.on('nodeselect', (node) => {
-      // console.log('render nodeselect', node.id);
+      console.log('render nodeselect', node.id);
       setSelectedNode(node);
     });
+    globalEmitter.on('noderemoved', (node) => {
+      setSelectedNode(null);
+    });
   }, []);
+
 
   return (
     <div className="app">
       {/* <button onClick={() => setVisible(false)}>Destroy</button> */}
       <div className="panel">
-        {selectedNode && <PanelExp key= {selectedNode.id} node={ selectedNode }/>}
+        {selectedNode !== null&& <PanelExp key= {selectedNode.id} node={ selectedNode }/>}
       </div>
       <div className="rete">
         {reteVisible && <ReteEditor />}
