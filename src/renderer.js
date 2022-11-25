@@ -51,14 +51,12 @@ console.log('👋 This message is being logged by "renderer.js", included via we
 // // reportWebVitals();
 
 
-// import React, { useEffect, useState } from "react";
 import React, { useState, useEffect } from "react";
 import { createRoot } from "react-dom/client";
 import 'regenerator-runtime/runtime'
 import { useRete } from "./renderer/rete/rete.jsx";
-import Panel from "./renderer/panel/panel.jsx";
+// import { Panel } from "./renderer/panel/panel.jsx";
 import PanelExp from "./renderer/panel/panelExperiment.jsx";
-// import { usePanel } from "./renderer/panel/panel.jsx";
 import './index.css';
 const EventEmitter = require("events");
 
@@ -90,7 +88,7 @@ function App() {
     <div className="app">
       {/* <button onClick={() => setVisible(false)}>Destroy</button> */}
       <div className="panel">
-        {selectedNode && <PanelExp node={ selectedNode }/>}
+        {selectedNode && <PanelExp key= {selectedNode.id} node={ selectedNode }/>}
       </div>
       <div className="rete">
         {reteVisible && <ReteEditor />}

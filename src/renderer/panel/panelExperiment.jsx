@@ -30,42 +30,41 @@ const countriesArray = [
 const fruitsArray = ["Apple", "Orange", "Lemon", "Melon"];
 
 export default function PanelExperiment(node) {
-  console.log("node", node.node.id);
+  console.log("panel experiment NODE selectDemoValue", node.node.id, node.node.data.config.selectDemoValue);
   // const [myNode, setMyNode] = useState(node.node);
   // const config = node.node.data.config;
-  const [config, setConfig] = useState(node.node.data.config);
-  const [selectDemoValue, setSelectDemoValue] = useState(config.selectDemoValue);
+  // const [config, setConfig] = useState(node.node.data.config);
+  const [selectDemoValue, setSelectDemoValue] = useState(node.node.data.config.selectDemoValue);
   const [switchDemoValue, setSwitchDemoValue] = useState(node.node.data.config.switchDemoValue);
   const [checkboxDemoValue, setCheckboxDemoValue] = useState(node.node.data.config.checkboxDemoValue);
   const [radioGroupDemoValue, setRadioGroupDemoValue] = useState(node.node.data.config.radioGroupDemoValue);
   // const stateVars = [selectDemoValue, switchDemoValue, checkboxDemoValue, radioGroupDemoValue];
   const stateVars = { selectDemoValue: selectDemoValue, switchDemoValue: switchDemoValue, checkboxDemoValue: checkboxDemoValue, radioGroupDemoValue: radioGroupDemoValue };
-
-
   const didMount = React.useRef(false);
 
-  // console.log("node", node);
+  console.log('panel experiment USESTATE selectDemoValue', selectDemoValue);
 
   React.useEffect(() => {
     if (!didMount.current) {
       didMount.current = true;
       return;
     }
-
     Object.keys(stateVars).forEach((key, index) => {
       if (stateVars[key] !== node.node.data.config[key]) {
-        console.log("stateVars[key]", stateVars[key]);
+        console.log("setting stateVars[key]", stateVars[key]);
         node.node.data.config[key] = stateVars[key]
       }
     });
+    return () => {
+      didMount.current = false;
+    }
   }, [Object.keys(stateVars)]);
-  // }, [selectDemoValue, switchDemoValue]);
 
 
 
 
   return (
-    <div className="App">
+    <div>
       <div className="Sidebar">
         <h1 className="SidebarH1">Sidebar</h1>
 
@@ -198,11 +197,6 @@ export default function PanelExperiment(node) {
                 className="RadioGroupItem"
               >
                 <RadioGroup.Indicator className="RadioGroupIndicator" />
-                <img
-                  src="https://source.unsplash.com/featured/?default"
-                  alt="default"
-                  className="RadioGroupItemImageCover"
-                />
               </RadioGroup.Item>
               <Label.Root htmlFor="r1" className="RadioLabel">
                 Default
@@ -215,11 +209,7 @@ export default function PanelExperiment(node) {
                 className="RadioGroupItem"
               >
                 <RadioGroup.Indicator className="RadioGroupIndicator" />
-                <img
-                  src="https://source.unsplash.com/featured/?comfortable"
-                  alt="default"
-                  className="RadioGroupItemImageCover"
-                />
+
               </RadioGroup.Item>
               <Label.Root htmlFor="r2" className="RadioLabel">
                 Comfortable
@@ -232,11 +222,7 @@ export default function PanelExperiment(node) {
                 className="RadioGroupItem"
               >
                 <RadioGroup.Indicator className="RadioGroupIndicator" />
-                <img
-                  src="https://source.unsplash.com/featured/?compact"
-                  alt="default"
-                  className="RadioGroupItemImageCover"
-                />
+
               </RadioGroup.Item>
               <Label.Root htmlFor="r3" className="RadioLabel">
                 Compact
@@ -260,5 +246,6 @@ export default function PanelExperiment(node) {
         <span className="Label">{radioGroupDemoValue}</span>
       </div>
     </div>
+    
   );
 }
