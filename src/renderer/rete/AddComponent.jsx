@@ -2,7 +2,7 @@ import Rete from "rete";
 import { btNode } from "./btNode.jsx";
 import { NumControl } from "./NumControl.jsx";
 import { numSocket } from "./numSocket.js";
-import { midiReceiveConfig } from "./midiRecieveConfig.js";
+import { midiReceiveConfig } from "../nodeConfigs/midiRecieveConfig.js";
 export class AddComponent extends Rete.Component {
   constructor() {
     super("Add");

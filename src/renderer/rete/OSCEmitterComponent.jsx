@@ -1,7 +1,7 @@
 import Rete from "rete";
 import { btNode } from "./btNode.jsx";
 import { numSocket } from "./numSocket.js";
-import { oscEmitterConfig } from "./oscEmitterConfig.js";
+import { oscEmitterConfig } from "../nodeConfigs/oscEmitterConfig.js";
 
 
 export class OSCEmitterComponent extends Rete.Component {

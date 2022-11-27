@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
-
 import "./peStyles.css";
 import SelectDemo from "./select.jsx";
+require('../nodeConfigs')
+// require('../nodeConfigs/midiInput.js');
 
 import {
   CheckIcon,
