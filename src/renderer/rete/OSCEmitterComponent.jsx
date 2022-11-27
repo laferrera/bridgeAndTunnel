@@ -2,7 +2,7 @@ import Rete from "rete";
 import { btNode } from "./btNode.jsx";
 import { numSocket } from "./numSocket.js";
 import { oscEmitterConfig } from "../nodeConfigs/oscEmitterConfig.js";
-
+import { configBuilder } from "./configBuilder.js";
 
 export class OSCEmitterComponent extends Rete.Component {
   constructor() {
@@ -13,7 +13,8 @@ export class OSCEmitterComponent extends Rete.Component {
   builder(node) {
     let inp = new Rete.Input('num', "Number", numSocket);
     // inp.addControl(new NumControl(this.editor, "num", node));
-    node.data.config = JSON.parse(JSON.stringify(oscEmitterConfig));
+    node.data.configType = Object.keys({ oscEmitterConfig }).pop()
+    node.data.config = configBuilder(oscEmitterConfig);
     return node
       .addInput(inp);
 

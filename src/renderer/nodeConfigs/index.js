@@ -4,5 +4,9 @@
 //   require('./' + file)
 // }
 
-require('./midiRecieveConfig.js');
-require('./oscEmitterConfig.js');
+import { oscEmitterConfig } from "./oscEmitterConfig.js";
+import { midiReceiveConfig } from "./midiRecieveConfig.js";
+
+const uiConfigs = {oscEmitterConfig, midiReceiveConfig};
+
+export { uiConfigs };

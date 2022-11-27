@@ -1,16 +1,8 @@
 import React, { useState, useEffect } from "react";
 import "./peStyles.css";
 import SelectDemo from "./select.jsx";
-require('../nodeConfigs')
-// require('../nodeConfigs/midiInput.js');
+import { uiConfigs} from '../nodeConfigs';
 
-import {
-  CheckIcon,
-  ChevronDownIcon,
-  ChevronUpIcon
-} from "@radix-ui/react-icons";
-
-import * as Select from "@radix-ui/react-select";
 import * as Label from "@radix-ui/react-label";
 import * as Switch from "@radix-ui/react-switch";
 import * as Checkbox from "@radix-ui/react-checkbox";
@@ -19,7 +11,7 @@ import * as HoverCard from "@radix-ui/react-hover-card";
 
 export default function Panel(node) {
   let nodeConfig = node.node.data.config;
-
+  const uiConfig = uiConfigs[node.node.data.configType];
   const state = {};
   const components = [];
   for (const setting of Object.keys(nodeConfig)) {
@@ -28,15 +20,16 @@ export default function Panel(node) {
       val: resultArr[0],
       fn: resultArr[1]
     };
-
-    if(nodeConfig[setting].ui === "select") {
-      console.log("select", setting);
-      components.push(<SelectDemo key={setting} state={state} settingKey={setting} setting={nodeConfig[setting]}/>);
+    if (uiConfig.hasOwnProperty(setting)){
+      if (uiConfig[setting].ui === "select") {
+        components.push(<SelectDemo key={setting} state={state} settingKey={setting} setting={uiConfig[setting]} />);
+      }
     }
+
   }
   const didMount = React.useRef(false);
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (!didMount.current) {
       didMount.current = true;
       return;

@@ -63,7 +63,6 @@ function App() {
 
   useEffect(() => {
     globalEmitter.on('nodeselect', (node) => {
-      console.log('render nodeselect', node.id);
       setSelectedNode(node);
     });
     globalEmitter.on('noderemoved', (node) => {

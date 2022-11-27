@@ -10,8 +10,6 @@ import * as Select from "@radix-ui/react-select";
 import * as Label from "@radix-ui/react-label";
 
 export default function SelectDemo(select) {
-  console.log('select', select)
-
   return (
     <div className="SelectMenuWrapper">
       <Label.Root

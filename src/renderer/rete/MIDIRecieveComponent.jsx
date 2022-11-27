@@ -13,8 +13,8 @@ export class MIDIRecieveComponent extends Rete.Component {
   builder(node) {
     // we dont have any inputs for Recieve
     let out = new Rete.Output('num', "Number", numSocket);
+    node.data.configType = Object.keys({ midiReceiveConfig }).pop()
     node.data.config = configBuilder(midiReceiveConfig);
-    // node.data.config = JSON.parse(JSON.stringify(midiReceiveConfig));
     // let ctrl = new MIDIReceiveControl(this.editor, 'config', node);
     return node
       // .addControl(ctrl)
