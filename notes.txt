@@ -87,3 +87,12 @@ osc     { type: ....,     x: 1, y: 1 , z: 1 }
 crow    { type: ....,     x: 1, y: 1 , z: 1 }  
 
 
+
+custom engine....
+detect recursion
+should_emit_nodes = []
+everything latches...
+
+
+
+

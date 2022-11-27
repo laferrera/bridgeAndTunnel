@@ -1,10 +1,10 @@
 const { app, BrowserWindow, dialog, ipcMain } = require('electron');
 const path = require('path');
-let  midi = require('./main/midi/midi.js');
 let Engine = require('./main/engine.js');
 const engine = new Engine('test');
 const Store = require('electron-store');
-const menu = require('./main/menu.js');
+require('./main/menu.js');
+import 'regenerator-runtime/runtime'
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 if (require('electron-squirrel-startup')) {

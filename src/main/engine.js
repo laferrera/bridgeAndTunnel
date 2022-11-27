@@ -2,7 +2,8 @@
 const mainWindow = require('../main');
 const { app, Menu } = require('electron')
 const EventEmitter = require("events");
-const midi = require('./midi/midi.js');
+const midiInput = require('./midi/midiInput.js');
+const reteEngine = require('./reteEngine.js');
 const OscEmitter = require('osc-emitter');
 const OscReciever = require('osc-receiver');
 const { DecodeStream } = require('@lachenmayer/midi-messages')
@@ -13,7 +14,7 @@ module.exports = class Engine extends EventEmitter{
     super();
     this.name = name;
     this.nodes = [];
-    this.midi = midi.init(this);
+    this.midi = midiInput.init(this);
     this.emitter = new OscEmitter();
     this.emitter.add('127.0.0.1', tempOSCPort);
     this.decode = new DecodeStream();
