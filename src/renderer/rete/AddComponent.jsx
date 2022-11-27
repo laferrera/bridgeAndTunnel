@@ -17,7 +17,7 @@ export class AddComponent extends Rete.Component {
     inp1.addControl(new NumControl(this.editor, "num1", node));
     inp2.addControl(new NumControl(this.editor, "num2", node));
 
-    node.data.config = {...midiReceiveConfig};
+    node.data.config = JSON.parse(JSON.stringify(midiReceiveConfig));
     return node
       .addInput(inp1)
       .addInput(inp2)

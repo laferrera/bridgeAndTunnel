@@ -30,11 +30,12 @@ const countriesArray = [
 const fruitsArray = ["Apple", "Orange", "Lemon", "Melon"];
 
 export default function PanelExperiment(node) {
-  console.log("panel experiment NODE selectDemoValue", node.node.id, node.node.data.config.selectDemoValue);
-  const [selectDemoValue, setSelectDemoValue] = useState(node.node.data.config.selectDemoValue);
-  const [switchDemoValue, setSwitchDemoValue] = useState(node.node.data.config.switchDemoValue);
-  const [checkboxDemoValue, setCheckboxDemoValue] = useState(node.node.data.config.checkboxDemoValue);
-  const [radioGroupDemoValue, setRadioGroupDemoValue] = useState(node.node.data.config.radioGroupDemoValue);
+  let nodeConfig = node.node.data.config;
+  console.log("panel experiment NODE selectDemoValue", node.node.id, nodeConfig.selectDemoValue.value);
+  const [selectDemoValue, setSelectDemoValue] = useState(nodeConfig.selectDemoValue.value);
+  const [switchDemoValue, setSwitchDemoValue] = useState(nodeConfig.switchDemoValue.value);
+  const [checkboxDemoValue, setCheckboxDemoValue] = useState(nodeConfig.checkboxDemoValue.value);
+  const [radioGroupDemoValue, setRadioGroupDemoValue] = useState(nodeConfig.radioGroupDemoValue.value);
   // const stateVars = [selectDemoValue, switchDemoValue, checkboxDemoValue, radioGroupDemoValue];
   const stateVars = { selectDemoValue: selectDemoValue, switchDemoValue: switchDemoValue, checkboxDemoValue: checkboxDemoValue, radioGroupDemoValue: radioGroupDemoValue };
   const didMount = React.useRef(false);
@@ -47,9 +48,9 @@ export default function PanelExperiment(node) {
       return;
     }
     Object.keys(stateVars).forEach((key, index) => {
-      if (stateVars[key] !== node.node.data.config[key]) {
+      if (stateVars[key] !== node.node.data.config[key].value) {
         console.log("setting stateVars[key]", stateVars[key]);
-        node.node.data.config[key] = stateVars[key]
+        nodeConfig[key].value = stateVars[key]
       }
     });
     return () => {
@@ -79,7 +80,7 @@ export default function PanelExperiment(node) {
           >
             <Select.Trigger className="SelectTrigger" id="sampleSelectMenu">
               <Select.Value aria-label={selectDemoValue}>
-                {countriesArray[selectDemoValue]}
+                {selectDemoValue}
               </Select.Value>
               <Select.Icon>
                 <ChevronDownIcon className="ChevronIcon" />
@@ -91,8 +92,8 @@ export default function PanelExperiment(node) {
               </Select.ScrollUpButton>
               <Select.Viewport className="SelectViewport">
                 <Select.Group>
-                  <Select.Label className="SelectLabel">Countries</Select.Label>
-                  {countriesArray.map((address) => (
+                  <Select.Label className="SelectLabel">nodeConfig.selectDemoValue.label</Select.Label>
+                  {nodeConfig.selectDemoValue.options.map((address) => (
                     <Select.Item key={address} value={address} className="SelectItem">
                       <Select.ItemIndicator className="SelectItemIndicator">
                         <CheckIcon />
@@ -104,7 +105,7 @@ export default function PanelExperiment(node) {
 
                 <Select.Separator className="SelectSeparator" />
 
-                <Select.Group>
+                {/* <Select.Group>
                   <Select.Label className="SelectLabel">Fruits</Select.Label>
                   {fruitsArray.map((address) => (
                     <Select.Item key={address} value={address} className="SelectItem">
@@ -114,7 +115,7 @@ export default function PanelExperiment(node) {
                       <Select.ItemText>{address}</Select.ItemText>
                     </Select.Item>
                   ))}
-                </Select.Group>
+                </Select.Group> */}
               </Select.Viewport>
               <Select.ScrollDownButton className="SelectScrollButtonStyles">
                 <ChevronDownIcon />

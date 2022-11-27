@@ -33,8 +33,8 @@ import React, { useState, useEffect } from "react";
 import { createRoot } from "react-dom/client";
 import 'regenerator-runtime/runtime'
 import { useRete } from "./renderer/rete/rete.jsx";
-// import { Panel } from "./renderer/panel/panel.jsx";
-import PanelExp from "./renderer/panel/panelExperiment.jsx";
+import Panel from "./renderer/panel/panel.jsx";
+// import PanelExp from "./renderer/panel/panelExperiment.jsx";
 import './index.css';
 
 const EventEmitter = require("events");
@@ -82,7 +82,7 @@ function App() {
     <div className="app">
       {/* <button onClick={() => setVisible(false)}>Destroy</button> */}
       <div className="panel">
-        {selectedNode !== null&& <PanelExp key= {selectedNode.id} node={ selectedNode }/>}
+        {selectedNode !== null&& <Panel key= {selectedNode.id} node={ selectedNode }/>}
       </div>
       <div className="rete">
         {reteVisible && <ReteEditor />}

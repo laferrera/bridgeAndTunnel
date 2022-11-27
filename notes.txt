@@ -66,12 +66,24 @@ midi settings
         note #
         note name
         cc
-        (what about device instead of port...)
+        input 
+            virtual port
+            other devices            
     message type
         hold
         on/off
     channel
         1-16
+    mpe
+        ......
+    
 
+
+
+
+midi!   { type: 'NoteOn', channel: 1, note: 54, velocity: 100 }
+grid    { type: 'NoteOn', x: 1, y: 1 }
+osc     { type: ....,     x: 1, y: 1 , z: 1 }
+crow    { type: ....,     x: 1, y: 1 , z: 1 }  
 
 

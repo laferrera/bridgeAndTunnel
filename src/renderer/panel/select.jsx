@@ -1,79 +1,65 @@
-import React from 'react';
-import * as Select from '@radix-ui/react-select';
-import classnames from 'classnames';
-import { CheckIcon, ChevronDownIcon, ChevronUpIcon } from '@radix-ui/react-icons';
-import './select.css';
+import React, { children } from "react";
 
-// const SelectDemo = () => (
-function SelectDemo({ value, onValueChange }) {
+import {
+  CheckIcon,
+  ChevronDownIcon,
+  ChevronUpIcon
+} from "@radix-ui/react-icons";
 
-  const SelectItem = React.forwardRef(({ children, className, ...props }, forwardedRef) => {
-    return (
-      <Select.Item className={classnames('SelectItem', className)} {...props} ref={forwardedRef}>
-        <Select.ItemText>{children}</Select.ItemText>
-        <Select.ItemIndicator className="SelectItemIndicator">
-          <CheckIcon />
-        </Select.ItemIndicator>
-      </Select.Item>
-    );
-  });
+import * as Select from "@radix-ui/react-select";
+import * as Label from "@radix-ui/react-label";
 
-  return(
-  <Select.Root
-    value={value}
-    onValueChange={onValueChange}>
-    <Select.Trigger className="SelectTrigger" aria-label="Food">
-      <Select.Value placeholder="Select a fruit…" />
-      <Select.Icon className="SelectIcon">
-        <ChevronDownIcon />
-      </Select.Icon>
-    </Select.Trigger>
-    <Select.Portal>
-      <Select.Content className="SelectContent">
-        <Select.ScrollUpButton className="SelectScrollButton">
-          <ChevronUpIcon />
-        </Select.ScrollUpButton>
-        <Select.Viewport className="SelectViewport">
-          <Select.Group>
-            <Select.Label className="SelectLabel">Fruits</Select.Label>
-            <SelectItem value="apple">Apple</SelectItem>
-            <SelectItem value="banana">Banana</SelectItem>
-            <SelectItem value="blueberry">Blueberry</SelectItem>
-            <SelectItem value="grapes">Grapes</SelectItem>
-            <SelectItem value="pineapple">Pineapple</SelectItem>
-          </Select.Group>
+export default function SelectDemo(select) {
+  console.log('select', select)
 
-          <Select.Separator className="SelectSeparator" />
+  return (
+    <div className="SelectMenuWrapper">
+      <Label.Root
+        htmlFor="sampleSelectMenu"
+        className="Label"
+        key={select.setting.label}
+      >
+        {select.setting.label}
+      </Label.Root>
+      <Select.Root
+        value={select.state[select.settingKey].val}
+        onValueChange={select.state[select.settingKey].fn}
+        key={select.settingKey}
+      >
+        <Select.Trigger className="SelectTrigger" id="sampleSelectMenu">
+          <Select.Value aria-label={select.value}>
+            {select.value}
+          </Select.Value>
+          <Select.Icon>
+            <ChevronDownIcon className="ChevronIcon" />
+          </Select.Icon>
+        </Select.Trigger>
+        <Select.Content className="SelectContent">
+          <Select.ScrollUpButton className="SelectScrollButtonStyles">
+            <ChevronUpIcon />
+          </Select.ScrollUpButton>
+          <Select.Viewport className="SelectViewport">
+            <Select.Group>
+              <Select.Label className="SelectLabel">
+                {select.setting.label}
+              </Select.Label>
+              {select.setting.options.map((opt) => (
+                <Select.Item key={opt} value={opt} className="SelectItem">
+                  <Select.ItemIndicator className="SelectItemIndicator">
+                    <CheckIcon />
+                  </Select.ItemIndicator>
+                  <Select.ItemText>{opt}</Select.ItemText>
+                </Select.Item>
+              ))}
+            </Select.Group>
 
-          <Select.Group>
-            <Select.Label className="SelectLabel">Vegetables</Select.Label>
-            <SelectItem value="aubergine">Aubergine</SelectItem>
-            <SelectItem value="broccoli">Broccoli</SelectItem>
-            <SelectItem value="carrot" disabled>
-              Carrot
-            </SelectItem>
-            <SelectItem value="courgette">Courgette</SelectItem>
-            <SelectItem value="leek">leek</SelectItem>
-          </Select.Group>
-
-          <Select.Separator className="SelectSeparator" />
-
-          <Select.Group>
-            <Select.Label className="SelectLabel">Meat</Select.Label>
-            <SelectItem value="beef">Beef</SelectItem>
-            <SelectItem value="chicken">Chicken</SelectItem>
-            <SelectItem value="lamb">Lamb</SelectItem>
-            <SelectItem value="pork">Pork</SelectItem>
-          </Select.Group>
-        </Select.Viewport>
-        <Select.ScrollDownButton className="SelectScrollButton">
-          <ChevronDownIcon />
-        </Select.ScrollDownButton>
-      </Select.Content>
-    </Select.Portal>
-  </Select.Root>
-  );
-
-
+            {/* <Select.Separator className="SelectSeparator" /> */}
+          </Select.Viewport>
+          <Select.ScrollDownButton className="SelectScrollButtonStyles">
+            <ChevronDownIcon />
+          </Select.ScrollDownButton>
+        </Select.Content>
+      </Select.Root>
+    </div>
+  )
 }
-export default SelectDemo;
