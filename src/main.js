@@ -1,7 +1,8 @@
-const { app, BrowserWindow, dialog, ipcMain } = require('electron');
+const { app, BrowserWindow, dialog, ipcMain, Menu } = require('electron');
 const path = require('path');
 const Store = require('electron-store');
-require('./main/menu.js');
+// require('./main/menu.js');
+import menuTemplate from './main/menu.js';
 import 'regenerator-runtime/runtime'
 import Engine from './main/engine.js';
 const engine = new Engine('bridgeAndtunnel@0.1.0');
@@ -32,6 +33,9 @@ app.on('ready', createWindow);
 
 app.whenReady().then(() => {
   // createWindow();
+  const menu = Menu.buildFromTemplate(menuTemplate);
+  Menu.setApplicationMenu(menu);
+
 
   ipcMain.on('rete:initializeNodes', (event, nodes) => {
     // this used to be an async function, does it need to be

@@ -3,7 +3,7 @@ const {app, Menu } = require('electron')
 
 const isMac = process.platform === 'darwin'
 
-const template = [
+const menuTemplate = [
   // { role: 'appMenu' }
   ...(isMac ? [{
     label: app.name,
@@ -116,5 +116,8 @@ const template = [
   }
 ]
 
-const menu = Menu.buildFromTemplate(template)
-Menu.setApplicationMenu(menu)
+
+// const menu = Menu.buildFromTemplate(template)
+// Menu.setApplicationMenu(menu)
+// export default menu;
+export default menuTemplate;

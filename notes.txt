@@ -18,6 +18,11 @@ TODO
 
 
 
+add sockets? 
+    http://jsfiddle.net/vmxdcLbq/27/
+    http://jsfiddle.net/vmxdcLbq/43/
+
+
 
 
 list of electron packages: https://nodesource.com/blog/fifteen-essential-packages-to-get-started-with-electron/

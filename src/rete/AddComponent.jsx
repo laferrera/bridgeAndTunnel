@@ -23,7 +23,7 @@ export class AddComponent extends Rete.Component {
     return node
       .addInput(inp1)
       .addInput(inp2)
-      .addControl(new NumControl(this.editor, "preview", node, true))
+      // .addControl(new NumControl(this.editor, "preview", node, true))
       .addOutput(out);
   }
 
