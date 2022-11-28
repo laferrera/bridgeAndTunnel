@@ -9,11 +9,12 @@ import * as Checkbox from "@radix-ui/react-checkbox";
 import * as RadioGroup from "@radix-ui/react-radio-group";
 import * as HoverCard from "@radix-ui/react-hover-card";
 
-export default function Panel(node) {
-  let nodeConfig = node.node.data.config;
-  const uiConfig = uiConfigs[node.node.data.configType];
+export default function Panel(props) {
+  let nodeConfig = props.node.data.config;
+  const uiConfig = uiConfigs[props.node.data.configType];
   const state = {};
   const components = [];
+  const didMount = React.useRef(false);
   for (const setting of Object.keys(nodeConfig)) {
     const resultArr = useState(nodeConfig[setting].value);
     state[setting] = {
@@ -25,20 +26,23 @@ export default function Panel(node) {
         components.push(<SelectDemo key={setting} state={state} settingKey={setting} setting={uiConfig[setting]} />);
       }
     }
-
   }
-  const didMount = React.useRef(false);
 
   useEffect(() => {
     if (!didMount.current) {
       didMount.current = true;
       return;
     }
+    let alertEngine = false;
     Object.keys(state).forEach((key, index) => {
-      if (state[key].val !== node.node.data.config[key].value) {
+      if (state[key].val !== props.node.data.config[key].value) {
+        alertEngine = true;
         nodeConfig[key].value = state[key].val;
       }
     });
+    if (alertEngine) {
+      props.emitter.emit("updateEngine");
+    }
     return () => {
       didMount.current = false;
     }

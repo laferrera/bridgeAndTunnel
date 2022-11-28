@@ -40,9 +40,11 @@ class Engine extends EventEmitter{
     this.reteEngine.process(json);
   }
 
-  process(){
-    let json = {id: this.name, nodes: this.nodes};
-    this.reteEngine.process(json);
+  process(nodeIds){
+    let data = {id: this.name, nodes: this.nodes};
+    nodeIds.forEach(id => {
+      this.reteEngine.process(data, id);
+    });
   }
 
   setMainWindow(mainWindow){
@@ -87,7 +89,7 @@ class Engine extends EventEmitter{
       mr.data.noteOut = message.note;
       mr.data.velocityOut = message.velocity;
     })
-    this.process();
+    this.process(midiReceivers.map(mr => mr.id));
   }
 
   emitOSC(node){  

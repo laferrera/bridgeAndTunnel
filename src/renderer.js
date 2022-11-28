@@ -88,7 +88,7 @@ function App() {
     <div className="app">
       {/* <button onClick={() => setVisible(false)}>Destroy</button> */}
       <div className="panel">
-        {selectedNode !== null&& <Panel key= {selectedNode.id} node={ selectedNode }/>}
+        {selectedNode !== null && <Panel key={selectedNode.id} node={ selectedNode } emitter={rendererEmitter}/>}
       </div>
       <div className="rete">
         {reteVisible && <ReteEditor />}

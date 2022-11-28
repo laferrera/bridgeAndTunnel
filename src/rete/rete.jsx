@@ -92,6 +92,12 @@ export async function createEditor(container, emitter) {
     }
   );
 
+  emitter.on('updateEngine',
+    async () => {
+      await window.electronAPI.initializeNodes(editor.toJSON().nodes);
+    }
+  );
+
   editor.on('nodeselected', (node) => {
     emitter.emit('nodeselect', node);
   });
