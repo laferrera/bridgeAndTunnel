@@ -113,6 +113,11 @@ input {
   outline:none;
 }
 
+.node .inputs-outputs-container{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
 
 .node .control input,
 .node .input-control input {

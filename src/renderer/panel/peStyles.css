@@ -74,6 +74,7 @@ body,
   cursor:pointer;
 }
 
+.Button,
 .SelectTrigger {
   all: unset;
   display: inline-flex;
@@ -95,10 +96,13 @@ body,
   transition: background-color 0.2s ease;
 }
 
+.Button:hover,
 .SelectTrigger:hover {
   background-color: rgba(0, 0, 0, 0.1);
+  cursor: pointer;
 }
 
+.Button:focus,
 .SelectTrigger:focus {
   background-color: rgba(0, 0, 0, 0.2);
   box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.15);
@@ -478,3 +482,4 @@ border: 1px solid rgb(78, 78, 78);
 
   max-width: 200px;
 }
+

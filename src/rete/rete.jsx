@@ -6,11 +6,12 @@ import ReactRenderPlugin from "rete-react-render-plugin";
 import ConnectionPlugin from 'rete-connection-plugin';
 import ConnectionPathPlugin from 'rete-connection-path-plugin';
 import AreaPlugin from "rete-area-plugin";
-// import ContextMenu from "efficy-rete-context-menu-plugin";
-import ContextMenu from "rete-context-menu-plugin";
+import ContextMenu from "efficy-rete-context-menu-plugin";
+// import ContextMenu from "rete-context-menu-plugin";
 import HistoryPlugin from 'rete-history-plugin'
 import keyboardPlugin from "./keyboardPlugin.js";
 
+import { numSocket } from "./numSocket.js";
 import { AddComponent } from "./AddComponent.jsx";
 import { MIDIRecieveComponent } from "./MIDIRecieveComponent.jsx";
 import { OSCEmitterComponent } from "./OSCEmitterComponent.jsx";
@@ -29,16 +30,16 @@ export async function createEditor(container, emitter) {
   editor.use(ContextMenu, {
     searchBar: false,
     delay: 5000,
-    nodeItems: node => {
-      if (node.name === 'OSC Emitter') {
-        return {
-          'Only for Add nodes'() { console.log('Works for add node!') }
-        }
-      }
-      return {
-        'Click me'() { console.log('Works for node!') }
-      }
-    }
+    // nodeItems: node => {
+    //   if (node.name === 'OSC Emitter') {
+    //     return {
+    //       'Only for Add nodes'() { console.log('Works for add node!') }
+    //     }
+    //   }
+    //   return {
+    //     'Click me'() { console.log('Works for node!') }
+    //   }
+    // }
   });
   editor.use(AreaPlugin, {
     scaleExtent: { min: 0.5, max: 1 },
@@ -106,6 +107,27 @@ export async function createEditor(container, emitter) {
       await window.electronAPI.initializeNodes(editor.toJSON().nodes);
     }
   );
+
+  emitter.on('addInput',(node) => {
+    let inputLength = Array.from(node.inputs).length;
+    inputLength++;
+    let inp = new Rete.Input('num' + inputLength, "Number", numSocket);
+    node.addInput(inp);
+    node.update();
+    }
+  );
+
+  emitter.on('removeInput', (node) => {
+    let inputLength = Array.from(node.inputs).length;
+    if (inputLength > 1) {
+      let inp = Array.from(node.inputs).pop()[1];
+      node.removeInput(inp);
+      node.update();
+    }
+  }
+  );
+
+
 
   editor.on('nodeselected', (node) => {
     emitter.emit('nodeselect', node);

@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import "./peStyles.css";
 import SelectDemo from "./select.jsx";
-import { uiConfigs} from '../nodeConfigs';
+import Button from "./button.jsx";
+import { uiConfigs } from '../nodeConfigs';
 
 import * as Label from "@radix-ui/react-label";
 import * as Switch from "@radix-ui/react-switch";
@@ -24,6 +25,9 @@ export default function Panel(props) {
     if (uiConfig.hasOwnProperty(setting)){
       if (uiConfig[setting].ui === "select") {
         components.push(<SelectDemo key={setting} state={state} settingKey={setting} setting={uiConfig[setting]} />);
+      }
+      if(uiConfig[setting].ui === "button"){
+        components.push(<Button key={setting} emitter={props.emitter} node={props.node} setting={uiConfig[setting]}/>);
       }
     }
   }
