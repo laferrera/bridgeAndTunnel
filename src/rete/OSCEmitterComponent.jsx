@@ -1,7 +1,7 @@
 import Rete from "rete";
 import { btNode } from "./btNode.jsx";
 import { numSocket } from "./numSocket.js";
-import { oscEmitterConfig } from "../nodeConfigs/oscEmitterConfig.js";
+import { oscEmitterConfig } from "../renderer/nodeConfigs/oscEmitterConfig.js";
 import { configBuilder } from "./configBuilder.js";
 
 export class OSCEmitterComponent extends Rete.Component {
@@ -21,11 +21,9 @@ export class OSCEmitterComponent extends Rete.Component {
   }
 
   worker(node, inputs, outputs) {
-    // we dont have any outputs for Recieve
+    // we dont have any outputs for Emitter
     node.data.num = inputs['num1'];
     node.data.shouldEmmit = true;
-    console.log("osc ", node.data.num[0]);
-    console.log("osc ", node.data);
   }
 
 }

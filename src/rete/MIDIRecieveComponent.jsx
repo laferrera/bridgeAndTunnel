@@ -1,7 +1,7 @@
 import Rete from "rete";
 import { btNode } from "./btNode.jsx";
 import { numSocket } from "./numSocket.js";
-import { midiReceiveConfig } from "../nodeConfigs/midiRecieveConfig.js";
+import { midiReceiveConfig } from "../renderer/nodeConfigs/midiRecieveConfig.js";
 import { configBuilder } from "./configBuilder.js";
 import { NumControl } from "./NumControl.jsx";
 

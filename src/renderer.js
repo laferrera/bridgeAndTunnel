@@ -32,16 +32,16 @@ console.log('👋 This message is being logged by "renderer.js", included via we
 import React, { useState, useEffect } from "react";
 import { createRoot } from "react-dom/client";
 import 'regenerator-runtime/runtime'
-import { useRete } from "./renderer/rete/rete.jsx";
+import { useRete } from "./rete/rete.jsx";
 import Panel from "./renderer/panel/panel.jsx";
 // import PanelExp from "./renderer/panel/panelExperiment.jsx";
 import './index.css';
 
 const EventEmitter = require("events");
-const globalEmitter = new EventEmitter();
+const rendererEmitter = new EventEmitter();
 
 function ReteEditor() {
-  const [setContainer] = useRete(globalEmitter);
+  const [setContainer] = useRete(rendererEmitter);
   return (
     <div
       ref={(ref) => ref && setContainer(ref)}
@@ -49,23 +49,30 @@ function ReteEditor() {
   );
 }
 
+window.electronAPI.handleEngineError((event, message, data) => {
+  // maybe just one alert?
+  // https://stackoverflow.com/questions/4866986/detect-if-an-alert-or-confirm-is-displayed-on-a-page
+  window.alert("Engine Error! " + message);
+  console.log(data);
+});
+
 window.electronAPI.handleMidiMessage((event, value) => {
   console.log('midi message', value);
-})
+});
 
 window.electronAPI.handleSaveFile((event, value) => {
   console.log('save file', value);
-})
+});
 
 function App() {
   const [selectedNode, setSelectedNode] = useState(null);
   const [reteVisible, setReteVisible] = useState(true);
 
   useEffect(() => {
-    globalEmitter.on('nodeselect', (node) => {
+    rendererEmitter.on('nodeselect', (node) => {
       setSelectedNode(node);
     });
-    globalEmitter.on('noderemoved', (node) => {
+    rendererEmitter.on('noderemoved', (node) => {
       setSelectedNode(null);
     });
     window.electronAPI.handleMidiMessage((event, value) => {

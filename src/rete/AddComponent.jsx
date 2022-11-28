@@ -2,7 +2,7 @@ import Rete from "rete";
 import { btNode } from "./btNode.jsx";
 import { NumControl } from "./NumControl.jsx";
 import { numSocket } from "./numSocket.js";
-import { midiReceiveConfig } from "../nodeConfigs/midiRecieveConfig.js";
+import { midiReceiveConfig } from "../renderer/nodeConfigs/midiRecieveConfig.js";
 import { configBuilder } from "./configBuilder.js";
 export class AddComponent extends Rete.Component {
   constructor() {
@@ -38,10 +38,10 @@ export class AddComponent extends Rete.Component {
     };
 
     outputs["sum"] = sum;
-    this.editor.nodes
-      .find((n) => n.id == node.id)
-      .controls.get("preview")
-      .setValue(sum);
+    // this.editor.nodes
+    //   .find((n) => n.id == node.id)
+    //   .controls.get("preview")
+    //   .setValue(sum);
 
     
     console.log("sum", sum);

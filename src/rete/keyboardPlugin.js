@@ -9,8 +9,9 @@ function install(editor) {
         commanded = true;
         break;
       case 'KeyI': 
-      console.log('selected nodes')
-        console.log(editor.selected);
+        console.log(editor.nodes);
+        console.log("-------")
+        console.log(editor.toJSON());
         break;
       case 'Backspace':
         editor.selected.each(n => 

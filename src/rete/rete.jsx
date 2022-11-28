@@ -15,7 +15,7 @@ import { MIDIRecieveComponent } from "./MIDIRecieveComponent.jsx";
 import { OSCEmitterComponent } from "./OSCEmitterComponent.jsx";
 
 export async function createEditor(container, emitter) {
-  var components = [new MIDIRecieveComponent(), new AddComponent(), new OSCEmitterComponent()];
+  let components = [new MIDIRecieveComponent(), new AddComponent(), new OSCEmitterComponent()];
   let numSocket = new Rete.Socket("Number value");
 
   let editor = new Rete.NodeEditor('bridgeAndtunnel@0.1.0', container);
@@ -40,11 +40,11 @@ export async function createEditor(container, emitter) {
   
 
 
-  let engine = new Rete.Engine('bridgeAndtunnel@0.1.0');
+  // let engine = new Rete.Engine('bridgeAndtunnel@0.1.0');
 
   components.map((c) => {
     editor.register(c);
-    engine.register(c);
+    // engine.register(c);
   });
 
   var mr1 = await new MIDIRecieveComponent().createNode({ num: 2 });
@@ -71,9 +71,11 @@ export async function createEditor(container, emitter) {
   editor.on(
     "process nodecreated noderemoved connectioncreated connectionremoved",
     async () => {
-      await engine.abort();
-      await engine.process(editor.toJSON());
+      // should this be ASYNC?
       await window.electronAPI.initializeNodes(editor.toJSON().nodes);
+      await window.electronAPI.engineProcessJSON(editor.toJSON());
+      // await engine.abort();
+      // await engine.process(editor.toJSON());
     }
   );
 
@@ -83,9 +85,15 @@ export async function createEditor(container, emitter) {
     }
   );
 
+  editor.on("process nodecreated noderemoved connectioncreated connectionremoved",
+  // should this be ASYNC?
+    async () => {
+     await window.electronAPI.initializeNodes(editor.toJSON().nodes);
+    }
+  );
+
   editor.on('nodeselected', (node) => {
     emitter.emit('nodeselect', node);
-    console.log
   });
     
   editor.on('zoom', ({ source }) => {
@@ -121,7 +129,7 @@ export function useRete(emitter) {
   useEffect(() => {
     return () => {
       if (editorRef.current) {
-        console.log("rete destroy");
+        console.log("rete destroyed");
         editorRef.current.destroy();
       }
     };

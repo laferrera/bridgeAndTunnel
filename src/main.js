@@ -4,7 +4,7 @@ const Store = require('electron-store');
 require('./main/menu.js');
 import 'regenerator-runtime/runtime'
 import Engine from './main/engine.js';
-const engine = new Engine('test');
+const engine = new Engine('bridgeAndtunnel@0.1.0');
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 if (require('electron-squirrel-startup')) {
@@ -24,6 +24,7 @@ const createWindow = () => {
 
   mainWindow.loadURL(MAIN_WINDOW_WEBPACK_ENTRY);
   mainWindow.webContents.openDevTools();
+  engine.setMainWindow(mainWindow);
 };
 
 
@@ -37,8 +38,8 @@ app.whenReady().then(() => {
     engine.initialzeNodes(nodes);
   })
 
-  ipcMain.on('rete:engineProcess', (event, json) => {
-    engine.process(json);
+  ipcMain.on('rete:engineProcessJSON', (event, json) => {
+    engine.processJSON(json);
   })
 
   ipcMain.on('rete:handleUpdateNode', (event, node) => {

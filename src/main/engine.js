@@ -5,6 +5,9 @@ const EventEmitter = require("events");
 const midiInput = require('./midi/midiInput.js');
 // const reteEngine = require('./reteEngine.js');
 import Rete from "rete";
+import { AddComponent } from "../rete/AddComponent.jsx";
+import { MIDIRecieveComponent } from "../rete/MIDIRecieveComponent.jsx";
+import { OSCEmitterComponent } from "../rete/OSCEmitterComponent.jsx";
 const OscEmitter = require('osc-emitter');
 const OscReciever = require('osc-receiver');
 const { DecodeStream } = require('@lachenmayer/midi-messages')
@@ -14,14 +17,38 @@ class Engine extends EventEmitter{
   constructor(name) {
     super();
     this.name = name;
-    this.nodes = [];
+    this.nodes = {};
     this.midi = midiInput.init(this);
     this.emitter = new OscEmitter();
     this.emitter.add('127.0.0.1', tempOSCPort);
     this.decode = new DecodeStream();
     this.decode.on('data', message => { this.distributeMIDIMessage(message) });
     this.on('midi-message', (message) => { this.decodeMIDIMessage(message); });
-    this.reteEngine = new Rete.Engine('bridgeAndtunnel@0.1.0');
+    this.reteEngine = new Rete.Engine(name);
+    this.reteEngine.on('error', ({ message, data }) => {
+      this.alertErrorToRenderer(message, data);
+    });
+    let components = [new MIDIRecieveComponent(), new AddComponent(), new OSCEmitterComponent()];
+    components.map((c) => {
+      this.reteEngine.register(c);
+    });
+  }
+
+  processJSON(json){
+    this.reteEngine.process(json);
+  }
+
+  process(){
+    let json = {id: this.name, nodes: this.nodes};
+    this.reteEngine.process(json);
+  }
+
+  setMainWindow(mainWindow){
+    this.mainWindow = mainWindow;
+  }
+
+  alertErrorToRenderer(message, data){
+    this.mainWindow.webContents.send('engine-error', message, data);
   }
 
   display() {
@@ -44,8 +71,6 @@ class Engine extends EventEmitter{
 
   initialzeNodes(nodes){
     this.nodes = nodes;
-    // this.nodes = Object.values(nodes);
-    console.log(nodes);
   }
 
   decodeMIDIMessage(message){
@@ -53,35 +78,14 @@ class Engine extends EventEmitter{
   }
 
   distributeMIDIMessage(message){
-    console.log('midi!', message);
+    console.log('midi message: ', message);
     let channel = message.channel;
-    let midis = Object.values(this.nodes).filter(n => (n.name == "MIDI Receive" && n.data.config.channel == channel));
-    midis.forEach(midi => {
-      midi.outputs.num.connections.forEach(connection => {
-        console.log('connection', connection);
-        let node = this.nodes[connection.node];
-        // let node = this.nodes.find(n => n.id == connection.node);
-        // TODO try block... 
-        if (node){
-          console.log('node', node)
-          this.handleMIDIMessage(message, node);
-          mainWindow.webContents.send('midi-message', message, node);
-        }
-        
-      });
-    });
-  }
-
-  handleMIDIMessage(message, node){
-    switch(node.name){
-      case "MIDI Receive":
-        this.distributeMIDIMessage(message, node);
-        break;
-      case "OSC Emitter":
-        this.handleOSCMessage(message, node);
-        break;
-      default:
-    }
+    let midiReceivers = Object.values(this.nodes).filter(n => (n.name == "MIDI Receive" && n.data.config.channel.value == channel));
+    midiReceivers.forEach(mr => {
+      mr.data.noteOut = message.note;
+      mr.data.velocityOut = message.velocity;
+    })
+    this.process();
   }
 
   handleOSCMessage(message, node){

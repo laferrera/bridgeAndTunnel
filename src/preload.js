@@ -3,10 +3,13 @@
 const { contextBridge, ipcRenderer } = require('electron')
 
 contextBridge.exposeInMainWorld('electronAPI', {
+    // to Main process from Renderer
     updateNode: (node) => ipcRenderer.send('rete:handleUpdateNode', node),
     addNode: (node) => ipcRenderer.send('rete:handleAddNode', node),
     initializeNodes: (json) => ipcRenderer.send('rete:initializeNodes', json),
-    engineProcess: (json) => ipcRenderer.send('rete:engineProcess', json),
+    engineProcessJSON: (json) => ipcRenderer.send('rete:engineProcessJSON', json),
+    // to Renderer from Main process
+    handleEngineError: (callback) => ipcRenderer.on('engine-error', callback),
     handleNodeEvent: (callback) => ipcRenderer.on('node-event', callback),
     handleMidiMessage: (callback) => ipcRenderer.on('midi-message', callback),
     handleSaveFile: (callback) => ipcRenderer.on('save-file', callback),
