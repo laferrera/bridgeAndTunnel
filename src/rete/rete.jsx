@@ -73,7 +73,7 @@ export async function createEditor(container, emitter) {
     async () => {
       // should this be ASYNC?
       await window.electronAPI.initializeNodes(editor.toJSON().nodes);
-      await window.electronAPI.engineProcessJSON(editor.toJSON());
+      // await window.electronAPI.engineProcessJSON(editor.toJSON());
       // await engine.abort();
       // await engine.process(editor.toJSON());
     }

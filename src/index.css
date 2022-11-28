@@ -67,6 +67,11 @@ input {
   box-sizing: content-box;
   min-width: 160px;
   border-radius: 0px;
+  transition: background 200ms;
+}
+
+.node.event{
+  background: #999;
 }
 
 .node:hover{

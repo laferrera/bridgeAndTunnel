@@ -1,9 +1,7 @@
 
-const mainWindow = require('../main');
 const { app, Menu } = require('electron')
 const EventEmitter = require("events");
 const midiInput = require('./midi/midiInput.js');
-// const reteEngine = require('./reteEngine.js');
 import Rete from "rete";
 import { AddComponent } from "../rete/AddComponent.jsx";
 import { MIDIRecieveComponent } from "../rete/MIDIRecieveComponent.jsx";
@@ -11,6 +9,7 @@ import { OSCEmitterComponent } from "../rete/OSCEmitterComponent.jsx";
 const OscEmitter = require('osc-emitter');
 const OscReciever = require('osc-receiver');
 const { DecodeStream } = require('@lachenmayer/midi-messages')
+import { emitterEmitter } from "../rete/emitterEmitter.js";
 const tempOSCPort = 10201;
 
 class Engine extends EventEmitter{
@@ -19,8 +18,8 @@ class Engine extends EventEmitter{
     this.name = name;
     this.nodes = {};
     this.midi = midiInput.init(this);
-    this.emitter = new OscEmitter();
-    this.emitter.add('127.0.0.1', tempOSCPort);
+    this.OSCEmitter = new OscEmitter();
+    this.OSCEmitter.add('127.0.0.1', tempOSCPort);
     this.decode = new DecodeStream();
     this.decode.on('data', message => { this.distributeMIDIMessage(message) });
     this.on('midi-message', (message) => { this.decodeMIDIMessage(message); });
@@ -32,6 +31,9 @@ class Engine extends EventEmitter{
     components.map((c) => {
       this.reteEngine.register(c);
     });
+
+    emitterEmitter.on('osc-message', (node) => { this.emitOSC(node); });
+
   }
 
   processJSON(json){
@@ -86,6 +88,13 @@ class Engine extends EventEmitter{
       mr.data.velocityOut = message.velocity;
     })
     this.process();
+  }
+
+  emitOSC(node){  
+    const address = node.data.config.address.value;
+    const args = node.data.num;
+    console.log('emit osc: ', node.id, address, args);
+    this.OSCEmitter.emit(address, args);
   }
 
   handleOSCMessage(message, node){

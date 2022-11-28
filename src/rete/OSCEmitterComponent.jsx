@@ -3,7 +3,7 @@ import { btNode } from "./btNode.jsx";
 import { numSocket } from "./numSocket.js";
 import { oscEmitterConfig } from "../renderer/nodeConfigs/oscEmitterConfig.js";
 import { configBuilder } from "./configBuilder.js";
-
+import { emitterEmitter } from "./emitterEmitter.js";
 export class OSCEmitterComponent extends Rete.Component {
   constructor() {
     super("OSC Emitter");
@@ -24,6 +24,7 @@ export class OSCEmitterComponent extends Rete.Component {
     // we dont have any outputs for Emitter
     node.data.num = inputs['num1'];
     node.data.shouldEmmit = true;
+    emitterEmitter.emit("osc-message", node);
   }
 
 }
