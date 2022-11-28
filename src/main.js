@@ -1,32 +1,19 @@
 const { app, BrowserWindow, dialog, ipcMain } = require('electron');
 const path = require('path');
-let Engine = require('./main/engine.js');
-const engine = new Engine('test');
 const Store = require('electron-store');
 require('./main/menu.js');
 import 'regenerator-runtime/runtime'
+import Engine from './main/engine.js';
+const engine = new Engine('test');
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 if (require('electron-squirrel-startup')) {
   app.quit();
 }
 
-async function handleAddNode(node) {
-  engine.updateNode(node);
-};
-
-async function handleUpdateNode(node){
-  engine.updateNode(node);
-};
-
-async function handleInitializeNodes(nodes){
-  engine.initialzeNodes(nodes);
-}
-
 let mainWindow = null;
 
 const createWindow = () => {
-  // Create the browser window.
   mainWindow = new BrowserWindow({
     width: 800,
     height: 600,
@@ -35,32 +22,31 @@ const createWindow = () => {
     },
   });
 
-  // and load the index.html of the app.
   mainWindow.loadURL(MAIN_WINDOW_WEBPACK_ENTRY);
-  // midi.init(mainWindow);
-
-  // Open the DevTools.
   mainWindow.webContents.openDevTools();
 };
 
-// This method will be called when Electron has finished
-// initialization and is ready to create browser windows.
-// Some APIs can only be used after this event occurs.
+
 app.on('ready', createWindow);
 
 app.whenReady().then(() => {
   // createWindow();
-  // ipcMain.on('rete:handleNodeUpdate', handleNodeUpdate);
+
   ipcMain.on('rete:initializeNodes', (event, nodes) => {
-    handleInitializeNodes(nodes);
+    // this used to be an async function, does it need to be
+    engine.initialzeNodes(nodes);
+  })
+
+  ipcMain.on('rete:engineProcess', (event, json) => {
+    engine.process(json);
   })
 
   ipcMain.on('rete:handleUpdateNode', (event, node) => {
-    handleUpdateNode(node);
+    engine.updateNode(node);
   })
 
   ipcMain.on('rete:handleAddNode', (event, node) => {
-    handleAddNode(node);
+    engine.updateNode(node);
   })
 
 });

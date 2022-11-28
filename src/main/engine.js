@@ -3,13 +3,14 @@ const mainWindow = require('../main');
 const { app, Menu } = require('electron')
 const EventEmitter = require("events");
 const midiInput = require('./midi/midiInput.js');
-const reteEngine = require('./reteEngine.js');
+// const reteEngine = require('./reteEngine.js');
+import Rete from "rete";
 const OscEmitter = require('osc-emitter');
 const OscReciever = require('osc-receiver');
 const { DecodeStream } = require('@lachenmayer/midi-messages')
 const tempOSCPort = 10201;
 
-module.exports = class Engine extends EventEmitter{
+class Engine extends EventEmitter{
   constructor(name) {
     super();
     this.name = name;
@@ -20,6 +21,7 @@ module.exports = class Engine extends EventEmitter{
     this.decode = new DecodeStream();
     this.decode.on('data', message => { this.distributeMIDIMessage(message) });
     this.on('midi-message', (message) => { this.decodeMIDIMessage(message); });
+    this.reteEngine = new Rete.Engine('bridgeAndtunnel@0.1.0');
   }
 
   display() {
@@ -99,3 +101,5 @@ module.exports = class Engine extends EventEmitter{
   }
 
 }
+
+export default Engine

@@ -64,8 +64,9 @@ export async function createEditor(container, emitter) {
   editor.addNode(osc);
   editor.addNode(add);
 
-  editor.connect(mr1.outputs.get("num"), add.inputs.get("num1"));
-  editor.connect(mr2.outputs.get("num"), add.inputs.get("num2"));
+  editor.connect(mr1.outputs.get("noteOut"), add.inputs.get("num1"));
+  editor.connect(mr1.outputs.get("velocityOut"), add.inputs.get("num2"));
+  editor.connect(add.outputs.get("sum"), osc.inputs.get("num1"));
 
   editor.on(
     "process nodecreated noderemoved connectioncreated connectionremoved",

@@ -32,6 +32,11 @@ function install(editor) {
           editor.trigger('undo');
         }
       default: break;
+      case 'KeyT':
+        editor.nodes[0].data.noteOut = parseInt(Math.random() * 10)
+        editor.nodes[0].data.velocityOut = parseInt(Math.random() * 20)
+        editor.trigger("process");
+        break;
     }
   });
 

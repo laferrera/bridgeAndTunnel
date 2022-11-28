@@ -3,6 +3,7 @@ import { btNode } from "./btNode.jsx";
 import { numSocket } from "./numSocket.js";
 import { midiReceiveConfig } from "../nodeConfigs/midiRecieveConfig.js";
 import { configBuilder } from "./configBuilder.js";
+import { NumControl } from "./NumControl.jsx";
 
 export class MIDIRecieveComponent extends Rete.Component {
   constructor() {
@@ -12,19 +13,23 @@ export class MIDIRecieveComponent extends Rete.Component {
 
   builder(node) {
     // we dont have any inputs for Recieve
-    let out = new Rete.Output('num', "Number", numSocket);
+    let noteOut = new Rete.Output('noteOut', 'Note', numSocket);
+    let velocityOut = new Rete.Output('velocityOut', 'Velocity', numSocket);
     node.data.configType = Object.keys({ midiReceiveConfig }).pop()
     node.data.config = configBuilder(midiReceiveConfig);
+
     // let ctrl = new MIDIReceiveControl(this.editor, 'config', node);
     return node
       // .addControl(ctrl)
-      .addOutput(out);
+      .addOutput(noteOut)
+      .addOutput(velocityOut);
 
   }
 
   worker(node, inputs, outputs) {
     // we dont have any inputs for Recieve
-    outputs['num'] = node.data.num;
+    outputs['noteOut'] = node.data.noteOut;
+    outputs['velocityOut'] = node.data.velocityOut;
   }
 
 }

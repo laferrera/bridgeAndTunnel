@@ -11,7 +11,7 @@ export class OSCEmitterComponent extends Rete.Component {
   }
 
   builder(node) {
-    let inp = new Rete.Input('num', "Number", numSocket);
+    let inp = new Rete.Input('num1', "Number", numSocket);
     // inp.addControl(new NumControl(this.editor, "num", node));
     node.data.configType = Object.keys({ oscEmitterConfig }).pop()
     node.data.config = configBuilder(oscEmitterConfig);
@@ -21,8 +21,11 @@ export class OSCEmitterComponent extends Rete.Component {
   }
 
   worker(node, inputs, outputs) {
-    // we dont have any inputs for Recieve
-    inputs['num'] = node.data.num;
+    // we dont have any outputs for Recieve
+    node.data.num = inputs['num1'];
+    node.data.shouldEmmit = true;
+    console.log("osc ", node.data.num[0]);
+    console.log("osc ", node.data);
   }
 
 }
