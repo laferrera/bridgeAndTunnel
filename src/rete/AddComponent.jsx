@@ -3,7 +3,7 @@ import { btNode } from "./btNode.jsx";
 import { NumControl } from "./NumControl.jsx";
 import { numSocket } from "./numSocket.js";
 import { midiReceiveConfig } from "../renderer/nodeConfigs/midiRecieveConfig.js";
-import { configBuilder } from "./configBuilder.js";
+import { configBuilder } from "./utils.js";
 export class AddComponent extends Rete.Component {
   constructor() {
     super("Add");
