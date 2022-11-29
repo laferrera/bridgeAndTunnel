@@ -29,7 +29,8 @@ class Engine extends EventEmitter{
     this.reteEngine.on('error', ({ message, data }) => {
       this.alertErrorToRenderer(message, data);
     });
-    this.setupGrid();
+    this.setupMonomeGrid();
+    this.monomeGridLed = []
 
 
     let components = [new MIDIRecieveComponent(), new AddComponent(), new OSCEmitterComponent(), new MonomeGridComponent()];
@@ -39,10 +40,16 @@ class Engine extends EventEmitter{
     emitterEmitter.on('osc-message', (node) => { this.emitOSC(node); });
   }
 
-  setupGrid(){
+  setupMonomeGrid(){
     monomeGrid().then(grid => {
       this.monomeGrid = grid;
-      this.monomeGrid.key((x, y, s) => { this.distributeGridPress(x, y, s); });
+      this.monomeGrid.key((x, y, s) => { this.distributeMonomeGridPress(x, y, s); });
+      // todo, find grid x and y
+
+      for (let y = 0; y < 8; y++) {
+        this.monomeGridLed[y] = Array.from(new Float32Array(16));
+      }
+      this.monomeGrid.refresh(this.monomeGridLed);
     });
   }
 
@@ -53,6 +60,7 @@ class Engine extends EventEmitter{
   process(nodeIds){
     let data = {id: this.name, nodes: this.nodes};
     nodeIds.forEach(id => {
+      console.log("nodeIds:",id);
       this.reteEngine.process(data, id);
     });
   }
@@ -125,8 +133,17 @@ class Engine extends EventEmitter{
     }
   }
 
-  distributeGridPress(x, y, state){
+  distributeMonomeGridPress(x, y, state){
     console.log('grid press: ', x, y, state);
+    this.monomeGridLed[y][x] = state * 15;
+    this.monomeGrid.refresh(this.monomeGridLed);
+    let grids = Object.values(this.nodes).filter(n => (n.name == "Grid"));
+    grids.forEach(mg => {
+      mg.data.x = x;
+      mg.data.y = y;
+      mg.data.state = state;
+    })
+    this.process(grids.map(mg => mg.id));
   }
 
 }

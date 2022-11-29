@@ -7,9 +7,6 @@ TODO
         preferences
             osc ip / port
             color theme
-
-
-    
     renderer
 
     more    
@@ -21,7 +18,11 @@ look into
     electorn-window-state
     electron-context-menu
     electron-settings
-
+    electron before quit
+        turn off grid
+        disconnect crow
+    determine usb plugged in
+        https://github.com/MadLittleMods/node-usb-detection
 
 
 visual programming https://github.com/retejs/rete

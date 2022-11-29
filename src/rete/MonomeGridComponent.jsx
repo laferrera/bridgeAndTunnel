@@ -16,7 +16,7 @@ export class MonomeGridComponent extends Rete.Component {
     var inpState = new Rete.Input("state", "State", numSocket);
     var outX = new Rete.Output("x", "X", numSocket);
     var outY = new Rete.Output("y", "Y", numSocket);
-    var outPress = new Rete.Output("press", "Press", numSocket);
+    var outState = new Rete.Output("state", "State", numSocket);
 
     // inp1.addControl(new NumControl(this.editor, "num1", node));
     // inp2.addControl(new NumControl(this.editor, "num2", node));
@@ -29,19 +29,20 @@ export class MonomeGridComponent extends Rete.Component {
       .addInput(inpState)
       .addOutput(outX)
       .addOutput(outY)
-      .addOutput(outPress);
+      .addOutput(outState);
   }
 
   worker(node, inputs, outputs) {
-    // var n1 = inputs["num1"].length ? inputs["num1"][0] : node.data.num1;
-    // var n2 = inputs["num2"].length ? inputs["num2"][0] : node.data.num2;
-    let n1 = inputs["num1"].length ? inputs["num1"][0] : 0;
-    let n2 = inputs["num2"].length ? inputs["num2"][0] : 0;
-    let sum = n1 + n2;
-    if (Number.isNaN(sum)) {
-      sum = 0;
-    };
-    outputs["sum"] = sum;   
-    console.log("sum", sum);
+    let x = inputs["x"].length ? inputs["x"][0] : 0;
+    let y = inputs["y"].length ? inputs["y"][0] : 0;
+    let state = inputs["state"].length ? inputs["state"][0] : 0;
+ 
+    if (inputs["x"].length){ node.data.x = x; }
+    if (inputs["y"].length) { node.data.y = y; }
+    if (inputs["state"].length) { node.data.state = state; }
+
+    outputs['x'] = node.data.x ? node.data.x : 0;
+    outputs['y'] = node.data.y ? node.data.y : 0;
+    outputs["state"] = node.data.press ? node.data.press : 0;
   }
 }
