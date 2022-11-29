@@ -3,7 +3,7 @@ function install(editor) {
   let commanded = false
 
   editor.on('keydown', e => {
-
+    // console.log('keydown', e.code)
     switch (e.code) {
       case 'MetaLeft':
       case 'MetaRight':
@@ -58,6 +58,4 @@ function install(editor) {
 
 }
 
-export default {
-  install
-}
+export default { install}

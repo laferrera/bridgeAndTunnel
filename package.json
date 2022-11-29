@@ -36,6 +36,7 @@
   },
   "dependencies": {
     "@lachenmayer/midi-messages": "^1.0.1",
+    "@mbraun/rete-advanced-selection-plugin": "^0.0.1-beta.0",
     "@radix-ui/colors": "^0.1.8",
     "@radix-ui/react-checkbox": "^1.0.1",
     "@radix-ui/react-hover-card": "^1.0.2",
@@ -63,6 +64,8 @@
     "rete-connection-path-plugin": "^0.3.1",
     "rete-connection-plugin": "^0.9.0",
     "rete-context-menu-plugin": "^1.0.0-alpha9",
+    "rete-context-menu-plugin-react": "^0.0.8",
+    "rete-drag-selection-plugin": "^0.1.5",
     "rete-history-plugin": "^0.2.2",
     "rete-keyboard-plugin": "^0.1.2",
     "rete-react-render-plugin": "^0.3.0",

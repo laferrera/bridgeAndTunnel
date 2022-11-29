@@ -9,24 +9,24 @@ import {
 import * as Select from "@radix-ui/react-select";
 import * as Label from "@radix-ui/react-label";
 
-export default function SelectDemo(select) {
+export default function SelectDemo(props) {
   return (
     <div className="SelectMenuWrapper">
       <Label.Root
         htmlFor="sampleSelectMenu"
         className="Label"
-        key={select.setting.label}
+        key={props.setting.label}
       >
-        {select.setting.label}
+        {props.setting.label}
       </Label.Root>
       <Select.Root
-        value={select.state[select.settingKey].val}
-        onValueChange={select.state[select.settingKey].fn}
-        key={select.settingKey}
+        value={props.state[props.settingKey].val}
+        onValueChange={props.state[props.settingKey].fn}
+        key={props.settingKey}
       >
         <Select.Trigger className="SelectTrigger" id="sampleSelectMenu">
-          <Select.Value aria-label={select.value}>
-            {select.value}
+          <Select.Value aria-label={props.value}>
+            {props.value}
           </Select.Value>
           <Select.Icon>
             <ChevronDownIcon className="ChevronIcon" />
@@ -39,14 +39,14 @@ export default function SelectDemo(select) {
           <Select.Viewport className="SelectViewport">
             <Select.Group>
               <Select.Label className="SelectLabel">
-                {select.setting.label}
+                {props.setting.label}
               </Select.Label>
-              {select.setting.options.map((opt) => (
-                <Select.Item key={opt} value={opt} className="SelectItem">
+              {props.setting.options.map((opt) => (
+                <Select.Item key={opt} value={opt[1]} className="SelectItem">
                   <Select.ItemIndicator className="SelectItemIndicator">
                     <CheckIcon />
                   </Select.ItemIndicator>
-                  <Select.ItemText>{opt}</Select.ItemText>
+                  <Select.ItemText>{opt[0]}</Select.ItemText>
                 </Select.Item>
               ))}
             </Select.Group>

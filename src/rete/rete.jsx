@@ -6,10 +6,12 @@ import ReactRenderPlugin from "rete-react-render-plugin";
 import ConnectionPlugin from 'rete-connection-plugin';
 import ConnectionPathPlugin from 'rete-connection-path-plugin';
 import AreaPlugin from "rete-area-plugin";
+import ContextMenuPlugin, {ReactMenu,} from 'rete-context-menu-plugin-react';
 // import ContextMenu from "efficy-rete-context-menu-plugin";
-import ContextMenu from "rete-context-menu-plugin";
-import HistoryPlugin from 'rete-history-plugin'
-import keyboardPlugin from "./keyboardPlugin.js";
+// import ContextMenu from "rete-context-menu-plugin";
+import HistoryPlugin from 'rete-history-plugin';
+import KeyboardPlugin from "./plugins/keyboard-plugin.js";
+import MultiSelectPlugin from './plugins/multi-select-plugin.js';
 
 import { numSocket } from "./numSocket.js";
 import { AddComponent } from "./AddComponent.jsx";
@@ -26,26 +28,33 @@ export async function createEditor(container, emitter) {
     curve: ConnectionPathPlugin.curveBundle, // curve identifier
     options: { vertical: false, curvature: 0.0 }, // optional
   });
+  // editor.use(SelectionPlugin, { enabled: true })
   editor.use(ReactRenderPlugin, { createRoot });
-  editor.use(ContextMenu, {
-    searchBar: false,
-    delay: 5000,
-    nodeItems: node => {
-      if (node.name === 'OSC Emitter') {
-        return {
-          'Only for Add nodes'() { console.log('Works for add node!') }
-        }
-      }
-      return {
-        'Click me'() { console.log('Works for node!') }
-      }
+  editor.use(ContextMenuPlugin, {
+    Menu: ReactMenu, // required
+    searchBar: false, // true by default
+    searchKeep: title => true, // leave item when searching, optional. For example, title => ['Refresh'].includes(title)
+    delay: 100,
+    allocate(component) {
+      return ['Submenu'];
+    },
+    rename(component) {
+      return component.name;
+    },
+    items: {
+      'Click me'() { console.log('Works!') }
+    },
+    nodeItems: {
+      'Click me'() { console.log('Works for node!') }
     }
   });
+
   editor.use(AreaPlugin, {
     scaleExtent: { min: 0.5, max: 1 },
     translateExtent: { width: 500, height: 500 }
   });
-  editor.use(keyboardPlugin);
+  editor.use(KeyboardPlugin);
+  editor.use(MultiSelectPlugin);
 
   
 

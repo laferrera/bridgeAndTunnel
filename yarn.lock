@@ -654,6 +654,11 @@
   dependencies:
     "cross-spawn" "^7.0.1"
 
+"@mbraun/rete-advanced-selection-plugin@^0.0.1-beta.0":
+  "integrity" "sha512-gLrW7qyMM3YDz0K4CAJ2Wx0EQZcVYZI6GBTRm0buY3n6w5rdKRE1lElIVGf3/CF3tFrysMsKIqBhZrwX0/CCog=="
+  "resolved" "https://registry.npmjs.org/@mbraun/rete-advanced-selection-plugin/-/rete-advanced-selection-plugin-0.0.1-beta.0.tgz"
+  "version" "0.0.1-beta.0"
+
 "@nodelib/fs.scandir@2.1.5":
   "integrity" "sha512-vq24Bq3ym5HEQm2NKCr3yXDwjc7vTsEThRDnkp2DK9p1uqLR+DHurm/NOTo0KG7HYHU7eppKZj3MyqYuMBf62g=="
   "resolved" "https://registry.npmjs.org/@nodelib/fs.scandir/-/fs.scandir-2.1.5.tgz"
@@ -3929,7 +3934,7 @@
   dependencies:
     "lodash._reinterpolate" "^3.0.0"
 
-"lodash@^4.17.10", "lodash@^4.17.15", "lodash@^4.17.20", "lodash@^4.17.21", "lodash@^4.17.4":
+"lodash@^4.17.10", "lodash@^4.17.11", "lodash@^4.17.15", "lodash@^4.17.20", "lodash@^4.17.21", "lodash@^4.17.4":
   "integrity" "sha512-v2kDEe57lecTulaDIuNTPy3Ry4gLGJ6Z1O3vE1krgXZNrsQ+LFTGHVxVjcXPs17LhbZVGedAJv8XZ1tvj5FvSg=="
   "resolved" "https://registry.npmjs.org/lodash/-/lodash-4.17.21.tgz"
   "version" "4.17.21"
@@ -4928,6 +4933,11 @@
     "loose-envify" "^1.1.0"
     "scheduler" "^0.23.0"
 
+"react-dom@npm:@pika/react-dom@16.13.1":
+  "integrity" "sha512-tCROpA6uP7caCNodaOUcqmauQmpVOmFXsaaKUJgLOMiZdlW+L02ItK3WAqGSOw25rM0bbwDXNC/x9PpfiQ9ESg=="
+  "resolved" "https://registry.npmjs.org/@pika/react-dom/-/react-dom-16.13.1.tgz"
+  "version" "16.13.1"
+
 "react-remove-scroll-bar@^2.3.3":
   "integrity" "sha512-63C4YQBUt0m6ALadE9XV56hV8BgJWDmmTPY758iIJjfQKt2nYwoUrPk0LXRXcB/yIj82T1/Ixfdpdk68LwIB0A=="
   "resolved" "https://registry.npmjs.org/react-remove-scroll-bar/-/react-remove-scroll-bar-2.3.4.tgz"
@@ -4955,6 +4965,11 @@
     "get-nonce" "^1.0.0"
     "invariant" "^2.2.4"
     "tslib" "^2.0.0"
+
+"react@^16.0.0", "react@npm:@pika/react@16.13.1":
+  "integrity" "sha512-v33Ub2QxntNpDFRnkj3tCbT6jMb7Etu7LOMQO/YAulLRIDtDvJdMwuOVJDdPYUmDtWjfWOB5xSP7nl7k0BApbQ=="
+  "resolved" "https://registry.npmjs.org/@pika/react/-/react-16.13.1.tgz"
+  "version" "16.13.1"
 
 "react@^16.8 || ^17.0 || ^18.0", "react@^16.8.0 || ^17.0.0 || ^18.0.0", "react@^16.8.6 || ^17 || ^18", "react@^16.9.0 || ^17.0.0 || ^18.0.0", "react@^16.x || ^17.x || ^18.x", "react@^18.2.0", "react@>=16.8.0":
   "integrity" "sha512-/3IjMdb2L9QbBdWiW5e3P2/npwMBaU9mHCSCUzNln0ZCYbcfTsGbTJrU/kGemdH2IWmB2ioZ+zkxtmq6g09fGQ=="
@@ -5130,10 +5145,24 @@
   "resolved" "https://registry.npmjs.org/rete-connection-plugin/-/rete-connection-plugin-0.9.0.tgz"
   "version" "0.9.0"
 
+"rete-context-menu-plugin-react@^0.0.8":
+  "integrity" "sha512-evl65UcS5yHbEHVBZQvNEBzpzfwQDjm3ZRCFAeGiNMTAvkXrxLlGN6Tpfuk8+/YpvgveeAJ3/fjXoXD2cPCB4g=="
+  "resolved" "https://registry.npmjs.org/rete-context-menu-plugin-react/-/rete-context-menu-plugin-react-0.0.8.tgz"
+  "version" "0.0.8"
+  dependencies:
+    "lodash" "^4.17.11"
+    "react" "npm:@pika/react@16.13.1"
+    "react-dom" "npm:@pika/react-dom@16.13.1"
+
 "rete-context-menu-plugin@^1.0.0-alpha9":
   "integrity" "sha512-dtW+IIlzDSe4z36ygcB77QKpczJnzS1AdC2C6Wx0QkhU5+mL7axU9Tp5AUcVH/Y7RLXskAiHX3GAO6ZGgI2iSg=="
   "resolved" "https://registry.npmjs.org/rete-context-menu-plugin/-/rete-context-menu-plugin-1.0.0-alpha9.tgz"
   "version" "1.0.0-alpha9"
+
+"rete-drag-selection-plugin@^0.1.5":
+  "integrity" "sha512-zt3o15FO3w8kxnWv0jEbpNtvJn0krxn1WbT0sdSZ+eNuTeNauRWvIGK1TpYyp4SXZEYIRzpNE/7SAOm2Vv7A5A=="
+  "resolved" "https://registry.npmjs.org/rete-drag-selection-plugin/-/rete-drag-selection-plugin-0.1.5.tgz"
+  "version" "0.1.5"
 
 "rete-history-plugin@^0.2.2":
   "integrity" "sha512-FkPd5Z9WV7pGVHKEF7n+9aeY52MjJ9gQQUlQE45TGjffU2mVdUkx6P8fMtQw04089tD8N4SLJwiy8TkHqlAGWQ=="
@@ -5150,7 +5179,7 @@
   "resolved" "https://registry.npmjs.org/rete-react-render-plugin/-/rete-react-render-plugin-0.3.0.tgz"
   "version" "0.3.0"
 
-"rete@^1.4.0", "rete@^1.4.9":
+"rete@^1.3.0", "rete@^1.4.0", "rete@^1.4.9":
   "integrity" "sha512-AYuCPt8dVsDAJB1561vBzH7lbX1zjkBzt71mqIAVU6I7wxeLg5yI6FHM12gnphj+BeWSxmMUcO7dHFTmy1pmYw=="
   "resolved" "https://registry.npmjs.org/rete/-/rete-1.4.9.tgz"
   "version" "1.4.9"

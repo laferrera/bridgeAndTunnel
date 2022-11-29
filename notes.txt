@@ -5,34 +5,22 @@ TODO
         save
         load
         preferences
+            osc ip / port
+            color theme
+
 
     
     renderer
-        side panel
-        style context menu
-        more style in general
-        logo
 
     more    
         kill all button https://codepen.io/hatead1/pen/mdEVRdJ
 
 
 
-add sockets? 
-    http://jsfiddle.net/vmxdcLbq/27/
-    http://jsfiddle.net/vmxdcLbq/43/
-
-
-
-
-list of electron packages: https://nodesource.com/blog/fifteen-essential-packages-to-get-started-with-electron/
-
-to rebuild electron
-./node_modules/.bin/electron-rebuild
-
-menubar
-electron-context-menu
-electron-packager
+look into
+    electorn-window-state
+    electron-context-menu
+    electron-settings
 
 
 
@@ -47,16 +35,18 @@ models
     route
     
 nodes (source )
-    midi
-    osc
-    grid
-    crow?
-    clock?
+    midi in /out 
+    osc in / out
+    grid 
+    crow
+    clock 
+    ableton link
     
 node (effect)
-    quantizer   
-    combiner
-    xor... 
+    math
+    quantizer
+    random
+    sequencer
 
 osc settings
     ip
@@ -82,22 +72,5 @@ midi settings
     mpe
         ......
     
-
-
-
-
-midi!   { type: 'NoteOn', channel: 1, note: 54, velocity: 100 }
-grid    { type: 'NoteOn', x: 1, y: 1 }
-osc     { type: ....,     x: 1, y: 1 , z: 1 }
-crow    { type: ....,     x: 1, y: 1 , z: 1 }  
-
-
-
-custom engine....
-detect recursion
-should_emit_nodes = []
-everything latches...
-
-
 
 

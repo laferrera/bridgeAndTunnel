@@ -30,6 +30,7 @@ body {
 
 .rete{
   width:100%;
+  user-select: none;
 }
 
 select,
