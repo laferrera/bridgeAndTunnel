@@ -28,8 +28,6 @@ export class AddComponent extends Rete.Component {
   }
 
   worker(node, inputs, outputs) {
-    // var n1 = inputs["num1"].length ? inputs["num1"][0] : node.data.num1;
-    // var n2 = inputs["num2"].length ? inputs["num2"][0] : node.data.num2;
     let n1 = inputs["num1"].length ? inputs["num1"][0] : 0;
     let n2 = inputs["num2"].length ? inputs["num2"][0] : 0;
     let sum = n1 + n2;
