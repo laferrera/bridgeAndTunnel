@@ -31,6 +31,7 @@
     "babel-loader": "^9.1.0",
     "css-loader": "^6.0.0",
     "electron": "21.3.0",
+    "electron-rebuild": "^3.2.9",
     "node-loader": "^2.0.0",
     "style-loader": "^3.0.0"
   },
@@ -69,6 +70,7 @@
     "rete-history-plugin": "^0.2.2",
     "rete-keyboard-plugin": "^0.1.2",
     "rete-react-render-plugin": "^0.3.0",
+    "usb-detection": "^4.14.1",
     "vue": "^3.2.37"
   }
 }

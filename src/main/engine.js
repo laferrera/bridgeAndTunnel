@@ -117,21 +117,21 @@ class Engine extends EventEmitter{
     this.OSCEmitter.emit(address, args);
   }
 
-  handleOSCMessage(message, node){
-    // type, channel, note, velocity
-    switch (message.type) {
-      case "NoteOn":
-        console.log("note on : " + message.note, message.velocity);
-        this.emitter.emit('/note_on', message.note, message.velocity);
-        break;
-      case "NoteOff":
-        console.log("note off : " + message.note, message.velocity);
-        this.emitter.emit('/note_off', message.note, message.velocity);
-        break;
-      default:
-      // code block
-    }
-  }
+  // handleOSCMessage(message, node){
+  //   // type, channel, note, velocity
+  //   switch (message.type) {
+  //     case "NoteOn":
+  //       console.log("note on : " + message.note, message.velocity);
+  //       this.emitter.emit('/note_on', message.note, message.velocity);
+  //       break;
+  //     case "NoteOff":
+  //       console.log("note off : " + message.note, message.velocity);
+  //       this.emitter.emit('/note_off', message.note, message.velocity);
+  //       break;
+  //     default:
+  //     // code block
+  //   }
+  // }
 
   distributeMonomeGridPress(x, y, state){
     console.log('grid press: ', x, y, state);

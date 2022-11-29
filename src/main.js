@@ -7,6 +7,16 @@ import 'regenerator-runtime/runtime'
 import Engine from './main/engine.js';
 const engine = new Engine('bridgeAndtunnel@0.1.0');
 
+
+
+var usbDetect = require('usb-detection');
+usbDetect.startMonitoring();
+usbDetect.on('add', function (device) { console.log('add', device); });
+usbDetect.on('remove', function (device) { console.log('remove', device); });
+// Allow the process to exit
+//usbDetect.stopMonitoring()
+
+
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 if (require('electron-squirrel-startup')) {
   app.quit();
