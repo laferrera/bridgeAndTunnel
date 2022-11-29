@@ -3,7 +3,7 @@ import { btNode } from "./btNode.jsx";
 import { NumControl } from "./NumControl.jsx";
 import { numSocket } from "./numSocket.js";
 import { midiReceiveConfig } from "../renderer/nodeConfigs/midiRecieveConfig.js";
-import { configBuilder } from "./configBuilder.js";
+import { configBuilder, inputsHaveChanged } from "./utils.js";
 export class MonomeGridComponent extends Rete.Component {
   constructor() {
     super("Grid");
@@ -43,6 +43,6 @@ export class MonomeGridComponent extends Rete.Component {
 
     outputs['x'] = node.data.x ? node.data.x : 0;
     outputs['y'] = node.data.y ? node.data.y : 0;
-    outputs["state"] = node.data.press ? node.data.press : 0;
+    outputs["state"] = node.data.state ? node.data.state : 0;
   }
 }

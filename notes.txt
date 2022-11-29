@@ -1,5 +1,7 @@
 TODO
-    
+
+    to mess around
+    https://codesandbox.io/s/retejs-react-render-t899c?file=/src/rete.jsx:1619-1940    
 
     menu    
         save
@@ -23,7 +25,8 @@ look into
         disconnect crow
     determine usb plugged in
         https://github.com/MadLittleMods/node-usb-detection
-
+    autosave every x actions? seconds?
+    also save history....
 
 visual programming https://github.com/retejs/rete
 
