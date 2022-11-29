@@ -1,16 +1,17 @@
-
-const { app, Menu } = require('electron')
 const EventEmitter = require("events");
 const midiInput = require('./midi/midiInput.js');
-import Rete from "rete";
-import { AddComponent } from "../rete/AddComponent.jsx";
-import { MIDIRecieveComponent } from "../rete/MIDIRecieveComponent.jsx";
-import { OSCEmitterComponent } from "../rete/OSCEmitterComponent.jsx";
+const monomeGrid = require('monome-grid');
 const OscEmitter = require('osc-emitter');
 const OscReciever = require('osc-receiver');
 const { DecodeStream } = require('@lachenmayer/midi-messages')
 import { emitterEmitter } from "../rete/emitterEmitter.js";
 const tempOSCPort = 10201;
+
+import Rete from "rete";
+import { AddComponent } from "../rete/AddComponent.jsx";
+import { MIDIRecieveComponent } from "../rete/MIDIRecieveComponent.jsx";
+import { OSCEmitterComponent } from "../rete/OSCEmitterComponent.jsx";
+import { MonomeGridComponent } from "../rete/MonomeGridComponent.jsx";
 
 class Engine extends EventEmitter{
   constructor(name) {
@@ -20,6 +21,7 @@ class Engine extends EventEmitter{
     this.midi = midiInput.init(this);
     this.OSCEmitter = new OscEmitter();
     this.OSCEmitter.add('127.0.0.1', tempOSCPort);
+    this.OscReciever = new OscReciever();
     this.decode = new DecodeStream();
     this.decode.on('data', message => { this.distributeMIDIMessage(message) });
     this.on('midi-message', (message) => { this.decodeMIDIMessage(message); });
@@ -27,13 +29,21 @@ class Engine extends EventEmitter{
     this.reteEngine.on('error', ({ message, data }) => {
       this.alertErrorToRenderer(message, data);
     });
-    let components = [new MIDIRecieveComponent(), new AddComponent(), new OSCEmitterComponent()];
+    this.setupGrid();
+
+
+    let components = [new MIDIRecieveComponent(), new AddComponent(), new OSCEmitterComponent(), new MonomeGridComponent()];
     components.map((c) => {
       this.reteEngine.register(c);
     });
-
     emitterEmitter.on('osc-message', (node) => { this.emitOSC(node); });
+  }
 
+  setupGrid(){
+    monomeGrid().then(grid => {
+      this.monomeGrid = grid;
+      this.monomeGrid.key((x, y, s) => { this.distributeGridPress(x, y, s); });
+    });
   }
 
   processJSON(json){
@@ -113,6 +123,10 @@ class Engine extends EventEmitter{
       default:
       // code block
     }
+  }
+
+  distributeGridPress(x, y, state){
+    console.log('grid press: ', x, y, state);
   }
 
 }

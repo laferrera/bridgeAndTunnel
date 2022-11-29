@@ -17,9 +17,9 @@ import { numSocket } from "./numSocket.js";
 import { AddComponent } from "./AddComponent.jsx";
 import { MIDIRecieveComponent } from "./MIDIRecieveComponent.jsx";
 import { OSCEmitterComponent } from "./OSCEmitterComponent.jsx";
+import { MonomeGridComponent } from "./MonomeGridComponent.jsx";
 
 export async function createEditor(container, emitter) {
-  let components = [new MIDIRecieveComponent(), new AddComponent(), new OSCEmitterComponent()];
   let editor = new Rete.NodeEditor('bridgeAndtunnel@0.1.0', container);
   editor.use(ConnectionPlugin);
   editor.use(ConnectionPathPlugin, {
@@ -44,9 +44,20 @@ export async function createEditor(container, emitter) {
     items: {
       'Click me'() { console.log('Works!') }
     },
-    nodeItems: {
-      'Click me'() { console.log('Works for node!') }
-    }
+    // nodeItems: {
+    //   'Click me'() { console.log('Works for node!') }
+    // }
+    // nodeItems: node => {
+      // if (node.name === 'Add') {
+      //   return {
+      //     'Only for Add nodes'() { console.log('Works for add node!') },
+      //   } 
+      // } else {
+      //   return {
+      //     'Click me'() { console.log('Works for node!') }
+      //   }
+      // }
+    // }
   });
 
   editor.use(AreaPlugin, {
@@ -56,14 +67,10 @@ export async function createEditor(container, emitter) {
   editor.use(KeyboardPlugin);
   editor.use(MultiSelectPlugin);
 
-  
 
-
-  // let engine = new Rete.Engine('bridgeAndtunnel@0.1.0');
-
+  let components = [new MIDIRecieveComponent(), new AddComponent(), new OSCEmitterComponent(), new MonomeGridComponent()];
   components.map((c) => {
     editor.register(c);
-    // engine.register(c);
   });
 
   var mr1 = await new MIDIRecieveComponent().createNode({ num: 2 });
