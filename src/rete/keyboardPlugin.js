@@ -3,6 +3,7 @@ function install(editor) {
   let commanded = false
 
   editor.on('keydown', e => {
+
     switch (e.code) {
       case 'MetaLeft':
       case 'MetaRight':
@@ -32,12 +33,15 @@ function install(editor) {
         if (commanded) {
           editor.trigger('undo');
         }
-      default: break;
+      case 'Escape':
+        editor.trigger('hidecontextmenu');
+        break;
       case 'KeyT':
         editor.nodes[0].data.noteOut = parseInt(Math.random() * 10)
         editor.nodes[0].data.velocityOut = parseInt(Math.random() * 20)
         editor.trigger("process");
         break;
+      default: break;
     }
   });
 

@@ -36,14 +36,7 @@ export class AddComponent extends Rete.Component {
     if (Number.isNaN(sum)) {
       sum = 0;
     };
-
-    outputs["sum"] = sum;
-    // this.editor.nodes
-    //   .find((n) => n.id == node.id)
-    //   .controls.get("preview")
-    //   .setValue(sum);
-
-    
+    outputs["sum"] = sum;   
     console.log("sum", sum);
   }
 }

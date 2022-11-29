@@ -22,7 +22,7 @@ export class OSCEmitterComponent extends Rete.Component {
 
   worker(node, inputs, outputs) {
     // we dont have any outputs for Emitter
-    node.data.num = inputs['num1'];
+    node.data.oscValues = Object.values(inputs).map(a => a[0]);
     emitterEmitter.emit("osc-message", node);
   }
 

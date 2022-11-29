@@ -5,6 +5,7 @@
   "description": "MIDI/OSC Wrangler",
   "main": ".webpack/main",
   "scripts": {
+    "install": "npm run build",
     "start": "electron-forge start",
     "package": "electron-forge package",
     "make": "electron-forge make",
@@ -61,7 +62,7 @@
     "rete-comment-plugin": "^0.7.0-rc.1",
     "rete-connection-path-plugin": "^0.3.1",
     "rete-connection-plugin": "^0.9.0",
-    "rete-context-menu-plugin": "^0.3.5-alpha9",
+    "rete-context-menu-plugin": "^1.0.0-alpha9",
     "rete-history-plugin": "^0.2.2",
     "rete-keyboard-plugin": "^0.1.2",
     "rete-react-render-plugin": "^0.3.0",

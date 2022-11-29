@@ -6,8 +6,8 @@ import ReactRenderPlugin from "rete-react-render-plugin";
 import ConnectionPlugin from 'rete-connection-plugin';
 import ConnectionPathPlugin from 'rete-connection-path-plugin';
 import AreaPlugin from "rete-area-plugin";
-import ContextMenu from "efficy-rete-context-menu-plugin";
-// import ContextMenu from "rete-context-menu-plugin";
+// import ContextMenu from "efficy-rete-context-menu-plugin";
+import ContextMenu from "rete-context-menu-plugin";
 import HistoryPlugin from 'rete-history-plugin'
 import keyboardPlugin from "./keyboardPlugin.js";
 
@@ -30,16 +30,16 @@ export async function createEditor(container, emitter) {
   editor.use(ContextMenu, {
     searchBar: false,
     delay: 5000,
-    // nodeItems: node => {
-    //   if (node.name === 'OSC Emitter') {
-    //     return {
-    //       'Only for Add nodes'() { console.log('Works for add node!') }
-    //     }
-    //   }
-    //   return {
-    //     'Click me'() { console.log('Works for node!') }
-    //   }
-    // }
+    nodeItems: node => {
+      if (node.name === 'OSC Emitter') {
+        return {
+          'Only for Add nodes'() { console.log('Works for add node!') }
+        }
+      }
+      return {
+        'Click me'() { console.log('Works for node!') }
+      }
+    }
   });
   editor.use(AreaPlugin, {
     scaleExtent: { min: 0.5, max: 1 },

@@ -94,7 +94,7 @@ class Engine extends EventEmitter{
 
   emitOSC(node){  
     const address = node.data.config.address.value;
-    const args = node.data.num;
+    const args = node.data.oscValues;
     console.log('emit osc: ', node.id, address, args);
     this.OSCEmitter.emit(address, args);
   }
