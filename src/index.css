@@ -56,9 +56,10 @@ input {
 }
 
 .node {
+  all: unset;
   font-family: '04b';
   background: #999;
-  border: 1px solid black;
+  /* border: 1px solid black; */
   border-radius: 10px;
   cursor: pointer;
   display: inline-block;
@@ -76,7 +77,7 @@ input {
 
 .node:hover{
   background: cyan;
-  border: 1px solid black;
+  /* border: 1px solid black; */
   cursor: pointer;
 }
 
@@ -86,17 +87,21 @@ input {
 
 .node.selected {
   background: magenta;
-
-  border: 1px solid black;
+  /* border: 1px solid black; */
 }
 
 .node .title{
   font-family: '04b';
+  font-size: 14px;
+  background:rgba(200,200,200,0.5);
+  text-align: center;
+  padding: 2px;
 }
 
 .node .input-title,
 .node .output-title {
   font-family: '04b';
+  margin:0;
 }
 
 .node select,
@@ -128,6 +133,7 @@ input {
     border-radius: 8px;
     width: 16px;
     height: 16px;
+    border: 2px solid white;
 }
 
 .node .socket.used {
