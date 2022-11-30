@@ -1,5 +1,4 @@
 const { app, BrowserWindow, dialog, ipcMain, Menu } = require('electron');
-const path = require('path');
 const Store = require('electron-store');
 // require('./main/menu.js');
 import menuTemplate from './main/menu.js';
@@ -7,12 +6,10 @@ import 'regenerator-runtime/runtime'
 import Engine from './main/engine.js';
 const engine = new Engine('bridgeAndtunnel@0.1.0');
 
-
-
-var usbDetect = require('usb-detection');
-usbDetect.startMonitoring();
-usbDetect.on('add', function (device) { console.log('add', device); });
-usbDetect.on('remove', function (device) { console.log('remove', device); });
+// var usbDetect = require('usb-detection');
+// usbDetect.startMonitoring();
+// usbDetect.on('add', function (device) { console.log('add', device); });
+// usbDetect.on('remove', function (device) { console.log('remove', device); });
 // Allow the process to exit
 //usbDetect.stopMonitoring()
 
@@ -28,6 +25,8 @@ const createWindow = () => {
   mainWindow = new BrowserWindow({
     width: 800,
     height: 600,
+    // frame: false,
+    // titleBarStyle: 'hidden',
     webPreferences: {
       preload: MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY,
     },
@@ -36,6 +35,7 @@ const createWindow = () => {
   mainWindow.loadURL(MAIN_WINDOW_WEBPACK_ENTRY);
   mainWindow.webContents.openDevTools();
   engine.setMainWindow(mainWindow);
+  mainWindow.engine = engine;
 };
 
 
@@ -64,6 +64,22 @@ app.whenReady().then(() => {
     engine.updateNode(node);
   })
 
+
+  mainWindow.webContents.session.on('serial-port-added', (event, port) => {
+    console.log('serial-port-added FIRED WITH', port)
+    //Optionally update portList to add the new port
+  })
+
+  mainWindow.webContents.session.on('serial-port-removed', (event, port) => {
+    console.log('serial-port-removed FIRED WITH', port)
+    //Optionally update portList to remove the port
+  })
+
+  // ipcMain.on('dialog:open', async (_, args) => {
+  //   const result = await dialog.showOpenDialog({ properties: ['openFile'] })
+  //   return result
+  // })
+
 });
 
 // Quit when all windows are closed, except on macOS. There, it's common
@@ -83,56 +99,6 @@ app.on('activate', () => {
   }
 });
 
+
 // In this file you can include the rest of your app's specific main process
 // code. You can also put them in separate files and import them here.
-
-app.on('save-file', (event, value) => {
-  dialog.showSaveDialog({
-    title: 'Select the File Path to save',
-    defaultPath: path.join(__dirname, '../assets/sample.txt'),
-    // defaultPath: path.join(__dirname, '../assets/'),
-    buttonLabel: 'Save',
-    // Restricting the user to only Text Files.
-    filters: [
-      {
-        name: 'Text Files',
-        extensions: ['txt', 'docx']
-      },],
-    properties: []
-  }).then(file => {
-    // Stating whether dialog operation was cancelled or not.
-    console.log(file.canceled);
-    if (!file.canceled) {
-      console.log(file.filePath.toString());
-
-      // Creating and Writing to the sample.txt file
-      fs.writeFile(file.filePath.toString(),
-        'This is a Sample File', function (err) {
-          if (err) throw err;
-          console.log('Saved!');
-        });
-    }
-  }).catch(err => {
-    console.log(err)
-  });
-});
-
-
-const getFileFromUser = exports.getFileFromUser = () => {
-  dialog.showOpenDialog(mainWindow, {
-    properties: ['openFile'],
-    filters: [
-      { name: 'Text Files', extensions: ['txt'] },
-      { name: 'Markdown Files', extensions: ['md', 'markdown'] }
-    ]
-  }).then(result => {
-    if (result.filePaths.length > 0) { openFile(result.filePaths[0]); }
-  }).catch(err => {
-    console.log(err);
-  })
-};
-
-const openFile = (file) => {
-  const content = fs.readFileSync(file).toString();
-  mainWindow.webContents.send('file-opened', file, content);
-}

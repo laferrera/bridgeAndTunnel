@@ -35,29 +35,36 @@ export async function createEditor(container, emitter) {
     searchBar: false, // true by default
     searchKeep: title => true, // leave item when searching, optional. For example, title => ['Refresh'].includes(title)
     delay: 100,
-    allocate(component) {
-      return ['Submenu'];
-    },
+    // allocate(component) {
+    //   return ['Submenu'];
+    // },
     rename(component) {
       return component.name;
     },
     items: {
       'Click me'() { console.log('Works!') }
     },
-    // nodeItems: {
-    //   'Click me'() { console.log('Works for node!') }
+    nodeItems: {
+      'Click me'() { console.log('Works for node!') }
+    },
+    // nodeItems: node => {
+    //   if (node.name === 'Add') {
+    //     return {
+    //       'Only for Add nodes'() { console.log('Works for add node!') },
+    //     } 
+    //   } else {
+    //     return {
+    //       'Click me'() { console.log('Works for node!') }
+    //     }
+    //   }
     // }
     // nodeItems: node => {
-      // if (node.name === 'Add') {
-      //   return {
-      //     'Only for Add nodes'() { console.log('Works for add node!') },
-      //   } 
-      // } else {
-      //   return {
-      //     'Click me'() { console.log('Works for node!') }
-      //   }
-      // }
-    // }
+    //   if (node.name === "Add") {
+    //     return {
+    //       'Only for Add nodes'() { console.log('Works for add node!') },
+    //     }
+    //   }
+    // } 
   });
 
   editor.use(AreaPlugin, {

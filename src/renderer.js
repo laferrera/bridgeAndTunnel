@@ -64,6 +64,15 @@ window.electronAPI.handleSaveFile((event, value) => {
   console.log('save file', value);
 });
 
+window.electronAPI.handleLoadFile((event, file, content) => {
+  console.log('load file', file, content);
+});
+
+window.electronAPI.handleNewSession((event, value) => {
+  console.log('new session');
+});
+
+
 function App() {
   const [selectedNode, setSelectedNode] = useState(null);
   const [reteVisible, setReteVisible] = useState(true);

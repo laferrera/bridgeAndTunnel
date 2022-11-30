@@ -13,4 +13,6 @@ contextBridge.exposeInMainWorld('electronAPI', {
     handleNodeEvent: (callback) => ipcRenderer.on('node-event', callback),
     handleMidiMessage: (callback) => ipcRenderer.on('midi-message', callback),
     handleSaveFile: (callback) => ipcRenderer.on('save-file', callback),
+    handleLoadFile: (callback) => ipcRenderer.on('load-file', callback),
+    handleNewSession: (callback) => ipcRenderer.on('new-session', callback),
 })

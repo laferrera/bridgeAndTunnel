@@ -3,7 +3,7 @@ import { btNode } from "./btNode.jsx";
 import { NumControl } from "./NumControl.jsx";
 import { numSocket } from "./numSocket.js";
 import { midiReceiveConfig } from "../renderer/nodeConfigs/midiRecieveConfig.js";
-import { configBuilder, inputsHaveChanged } from "./utils.js";
+import { configBuilder, checkInputsAndSetData } from "./utils.js";
 export class MonomeGridComponent extends Rete.Component {
   constructor() {
     super("Grid");
@@ -23,6 +23,9 @@ export class MonomeGridComponent extends Rete.Component {
 
     node.data.configType = Object.keys({ midiReceiveConfig }).pop()
     node.data.config = configBuilder(midiReceiveConfig);
+    node.data.x = 0;
+    node.data.y = 0;
+    node.data.state = 0;
     return node
       .addInput(inpX)
       .addInput(inpY)
@@ -33,16 +36,10 @@ export class MonomeGridComponent extends Rete.Component {
   }
 
   worker(node, inputs, outputs) {
-    let x = inputs["x"].length ? inputs["x"][0] : 0;
-    let y = inputs["y"].length ? inputs["y"][0] : 0;
-    let state = inputs["state"].length ? inputs["state"][0] : 0;
- 
-    if (inputs["x"].length){ node.data.x = x; }
-    if (inputs["y"].length) { node.data.y = y; }
-    if (inputs["state"].length) { node.data.state = state; }
+    checkInputsAndSetData(inputs,node.data);
 
-    outputs['x'] = node.data.x ? node.data.x : 0;
-    outputs['y'] = node.data.y ? node.data.y : 0;
-    outputs["state"] = node.data.state ? node.data.state : 0;
+    outputs['x'] = node.data.x;
+    outputs['y'] = node.data.y;
+    outputs["state"] = node.data.state;
   }
 }

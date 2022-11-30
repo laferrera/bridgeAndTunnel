@@ -5,7 +5,7 @@ TODO
 
     menu    
         save
-        load
+        load https://gist.github.com/whoisryosuke/ab0ee89e878c48947fe7fd8eedb8431f
         preferences
             osc ip / port
             color theme
@@ -78,3 +78,26 @@ midi settings
     
 
 
+  editor.on('connectioncreated', ({ output, input }) => {
+    const actOut = output.node.outputs.get("actOut");
+    const actIn = input.node.inputs.get("actIn");
+    if (!actOut.connectedTo(actIn)){
+      editor.connect(actOut, actIn);
+    }
+  });
+
+  editor.on('connectionremoved', ({ output, input }) => {
+    let shouldRemove = true;
+    output.node.getConnections().forEach((connection) => {
+      if (connection.output.node.id === input.node.id) {
+        shouldRemove = false;
+      }
+    });
+    if (shouldRemove) {
+      const actOut = output.node.outputs.get("actOut");
+      const actIn = input.node.inputs.get("actIn");
+      if (!actOut.connectedTo(actIn)) {
+        editor.removeConnection(actOut, actIn);
+      }
+    }
+  });

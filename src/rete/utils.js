@@ -8,11 +8,9 @@ const configBuilder = (config) => {
   return outputConfig
 }
 
-const inputsHaveChanged = (inputs, data) => {
+const checkInputsAndSetData = (inputs, data) => {
   let changed = false;
   Object.keys(inputs).forEach(key => {
-    // console.log("inputs[key][0]",inputs[key][0]);
-    // console.log("data[key]", data[key]);
     if (inputs[key].length && inputs[key][0] !== data[key]) {
       changed = true;
       data[key] = inputs[key][0];
@@ -21,4 +19,11 @@ const inputsHaveChanged = (inputs, data) => {
   return changed;
 }
 
-export { configBuilder, inputsHaveChanged };
+const markInputsAsRead = (inputs) => {
+  Object.keys(inputs).forEach(key => {
+    inputs[key][0] = { v: inputs[key][0].v, r: true };
+  });
+}
+
+
+export { configBuilder, checkInputsAndSetData, markInputsAsRead };
