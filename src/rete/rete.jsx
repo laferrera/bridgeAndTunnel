@@ -101,7 +101,7 @@ export async function createEditor(container, rendererEmitter) {
 // emitter callbacks
 
   rendererEmitter.on('updateEngine', async () => {
-      await window.electronAPI.initializeNodes(editor.toJSON().nodes);
+    await window.electronAPI.sendNodesToMain(editor.toJSON().nodes);
   });
 
   rendererEmitter.on('addInput',(node) => {

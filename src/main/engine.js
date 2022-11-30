@@ -44,8 +44,7 @@ class Engine extends EventEmitter{
     monomeGrid().then(grid => {
       this.monomeGrid = grid;
       this.monomeGrid.key((x, y, s) => { this.distributeMonomeGridPress(x, y, s); });
-      // todo, find grid x and y
-
+      // todo, find grid x and y size
       for (let y = 0; y < 8; y++) {
         this.monomeGridLed[y] = Array.from(new Float32Array(16));
       }
@@ -60,7 +59,6 @@ class Engine extends EventEmitter{
   process(nodeIds){
     let data = {id: this.name, nodes: this.nodes};
     nodeIds.forEach(id => {
-      console.log("nodeIds:",id);
       this.reteEngine.process(data, id);
     });
   }
@@ -99,7 +97,7 @@ class Engine extends EventEmitter{
   emitOSC(node){  
     const address = node.data.config.address.value;
     const args = node.data.oscValues;
-    console.log('emit osc: ', node.id, address, args);
+    console.log('emit osc: ', node.id,' address: ', address, args);
     this.OSCEmitter.emit(address, args);
   }
 
