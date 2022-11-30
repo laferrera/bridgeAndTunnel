@@ -1,39 +1,41 @@
-TODO
-
-    to mess around
+  to mess around
     https://codesandbox.io/s/retejs-react-render-t899c?file=/src/rete.jsx:1619-1940    
 
-    menu    
-        recents
-        save and save-as
-        
-        https://www.npmjs.com/package/rete-history-plugin
-        preferences
-            osc ip / port
-            color theme
-    renderer
+TODO
+  open recents
+  save instead of save_as
+  preferences - 
+    osc ip / color theme
+  kill all button https://codepen.io/hatead1/pen/mdEVRdJ
+  history
+    https://www.npmjs.com/package/rete-history-plugin
+    panel history
+    send history to saveSession
+    restore history
+  new session
+  quantizer
+  maths 
+  filter 
+  AbletonLink
+  linting
+  multiselect panel
+  determine USB status
+    https://github.com/MadLittleMods/node-usb-detection
+  electron before quit
+    disconnect grid
+    disconnect crow
+    turn off USB monitoring
+  icon
+  splash screen
+  auto update https://www.electronjs.org/docs/latest/tutorial/updates
+  electron window state https://www.npmjs.com/package/electron-window-state
+  rete package
+    overwrite css?
+  new typeface
+  add midi inputs / outputs
+  window load time...
+  OSC Buffer issue....
 
-    more    
-        kill all button https://codepen.io/hatead1/pen/mdEVRdJ
-
-
-
-look into
-    electorn-window-state
-    electron-context-menu
-    electron-settings
-    electron before quit
-        turn off grid
-        disconnect crow
-    determine usb plugged in
-        https://github.com/MadLittleMods/node-usb-detection
-    autosave every x actions? seconds?
-    also save history....
-
-visual programming https://github.com/retejs/rete
-
-interprocess communication
-    https://www.electronjs.org/docs/latest/tutorial/ipc
 
 
 models
@@ -78,28 +80,3 @@ midi settings
     mpe
         ......
     
-
-
-  editor.on('connectioncreated', ({ output, input }) => {
-    const actOut = output.node.outputs.get("actOut");
-    const actIn = input.node.inputs.get("actIn");
-    if (!actOut.connectedTo(actIn)){
-      editor.connect(actOut, actIn);
-    }
-  });
-
-  editor.on('connectionremoved', ({ output, input }) => {
-    let shouldRemove = true;
-    output.node.getConnections().forEach((connection) => {
-      if (connection.output.node.id === input.node.id) {
-        shouldRemove = false;
-      }
-    });
-    if (shouldRemove) {
-      const actOut = output.node.outputs.get("actOut");
-      const actIn = input.node.inputs.get("actIn");
-      if (!actOut.connectedTo(actIn)) {
-        editor.removeConnection(actOut, actIn);
-      }
-    }
-  });

@@ -1460,11 +1460,6 @@
   dependencies:
     "cross-spawn" "^7.0.1"
 
-"@mbraun/rete-advanced-selection-plugin@^0.0.1-beta.0":
-  "integrity" "sha512-gLrW7qyMM3YDz0K4CAJ2Wx0EQZcVYZI6GBTRm0buY3n6w5rdKRE1lElIVGf3/CF3tFrysMsKIqBhZrwX0/CCog=="
-  "resolved" "https://registry.npmjs.org/@mbraun/rete-advanced-selection-plugin/-/rete-advanced-selection-plugin-0.0.1-beta.0.tgz"
-  "version" "0.0.1-beta.0"
-
 "@nodelib/fs.scandir@2.1.5":
   "integrity" "sha512-vq24Bq3ym5HEQm2NKCr3yXDwjc7vTsEThRDnkp2DK9p1uqLR+DHurm/NOTo0KG7HYHU7eppKZj3MyqYuMBf62g=="
   "resolved" "https://registry.npmjs.org/@nodelib/fs.scandir/-/fs.scandir-2.1.5.tgz"
@@ -3877,6 +3872,11 @@
     "word-wrap" "^1.2.3"
     "yargs" "^16.0.2"
 
+"electron-is-dev@^0.3.0":
+  "integrity" "sha512-jLttuuq8QK67n3mXmIe9pkrO7IH3LGIk12xJkhTmc852U2sCJaRAOpRGPSh+1Xnzck5v9escd9YXzuze9nGejg=="
+  "resolved" "https://registry.npmjs.org/electron-is-dev/-/electron-is-dev-0.3.0.tgz"
+  "version" "0.3.0"
+
 "electron-packager@^17.1.1":
   "integrity" "sha512-r1NDtlajsq7gf2EXgjRfblCVPquvD2yeg+6XGErOKblvxOpDi0iulZLVhgYDP4AEF1P5/HgbX/vwjlkEv7PEIQ=="
   "resolved" "https://registry.npmjs.org/electron-packager/-/electron-packager-17.1.1.tgz"
@@ -3953,7 +3953,7 @@
     "lodash.template" "^4.2.2"
     "temp" "^0.9.0"
 
-"electron@21.3.0":
+"electron@>= 6.0.0", "electron@21.3.0":
   "integrity" "sha512-MGRpshN8fBcx4IRuBABIsGDv0tB/MclIFsyFHFFXsBCUc+vIXaE/E6vuWaniGIFSz5WyeuapfTH5IeRb+7yIfw=="
   "resolved" "https://registry.npmjs.org/electron/-/electron-21.3.0.tgz"
   "version" "21.3.0"
@@ -4874,6 +4874,13 @@
   "resolved" "https://registry.npmjs.org/github-from-package/-/github-from-package-0.0.0.tgz"
   "version" "0.0.0"
 
+"github-url-to-object@^4.0.4":
+  "integrity" "sha512-NaqbYHMUAlPcmWFdrAB7bcxrNIiiJWJe8s/2+iOc9vlcHlwHqSGrPk+Yi3nu6ebTwgsZEa7igz+NH2vEq3gYwQ=="
+  "resolved" "https://registry.npmjs.org/github-url-to-object/-/github-url-to-object-4.0.6.tgz"
+  "version" "4.0.6"
+  dependencies:
+    "is-url" "^1.1.0"
+
 "glob-parent@^5.1.2", "glob-parent@~5.1.2":
   "integrity" "sha512-AOIgSQCepiJYwP3ARnGx+5VnTu2HBYdzbGP45eLw1vr3zB3vZLeyed1sC9hnbcOc9/SrMyM5RPQrkGz4aS9Zow=="
   "resolved" "https://registry.npmjs.org/glob-parent/-/glob-parent-5.1.2.tgz"
@@ -5603,6 +5610,11 @@
   "integrity" "sha512-knxG2q4UC3u8stRGyAVJCOdxFmv5DZiRcdlIaAQXAbSfJya+OhopNotLQrstBhququ4ZpuKbDc/8S6mgXgPFPw=="
   "resolved" "https://registry.npmjs.org/is-unicode-supported/-/is-unicode-supported-0.1.0.tgz"
   "version" "0.1.0"
+
+"is-url@^1.1.0", "is-url@^1.2.4":
+  "integrity" "sha512-ITvGim8FhRiYe4IQ5uHSkj7pVaPDrCTkNd3yq3cV7iZAcJdHTUMPMEHcqSOy9xZ9qFenQCvi+2wjH9a1nXqHww=="
+  "resolved" "https://registry.npmjs.org/is-url/-/is-url-1.2.4.tgz"
+  "version" "1.2.4"
 
 "is-weakref@^1.0.2":
   "integrity" "sha512-qctsuLZmIQ0+vSSMfoVvyFe2+GSEvnmZ2ezTup1SBse9+twCCeial6EEi3Nc2KFcf6+qz2FBPnjXsk8xhKSaPQ=="
@@ -7501,7 +7513,7 @@
   "resolved" "https://registry.npmjs.org/rete-react-render-plugin/-/rete-react-render-plugin-0.3.0.tgz"
   "version" "0.3.0"
 
-"rete@^1.3.0", "rete@^1.4.9", "rete@github:laferrera/rete":
+"rete@^1.4.9", "rete@github:laferrera/rete":
   "resolved" "git+ssh://git@github.com/laferrera/rete.git#2f4a63cd4171208f4b6f51635d833a97f7cf0ddd"
   "version" "1.5.0-rc1"
 
@@ -8525,6 +8537,16 @@
   dependencies:
     "escalade" "^3.1.1"
     "picocolors" "^1.0.0"
+
+"update-electron-app@^2.0.1":
+  "integrity" "sha512-e4xEner89UZZaBGYJbYlMdL1uUrC0VjOsTAL2N4opPjzFtn+j7mdsJJsnyXZzUVeLY+8tuCX4XEsUM98oBHmZg=="
+  "resolved" "https://registry.npmjs.org/update-electron-app/-/update-electron-app-2.0.1.tgz"
+  "version" "2.0.1"
+  dependencies:
+    "electron-is-dev" "^0.3.0"
+    "github-url-to-object" "^4.0.4"
+    "is-url" "^1.2.4"
+    "ms" "^2.1.1"
 
 "uri-js@^4.2.2":
   "integrity" "sha512-7rKUyy33Q1yc98pQ1DAmLtwX109F7TIfWlW1Ydo8Wl1ii1SeHieeh0HHfPeL2fMXK6z0s8ecKs9frCuLJvndBg=="

@@ -75,6 +75,7 @@
     "rete-history-plugin": "^0.2.2",
     "rete-keyboard-plugin": "^0.1.2",
     "rete-react-render-plugin": "^0.3.0",
+    "update-electron-app": "^2.0.1",
     "usb-detection": "^4.14.1",
     "vue": "^3.2.37"
   }

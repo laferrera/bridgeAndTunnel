@@ -1,18 +1,22 @@
 const { app, BrowserWindow, dialog, ipcMain, Menu } = require('electron');
 const Store = require('electron-store');
 import menuTemplate from './main/menu.js';
+require('update-electron-app')({
+  repo: 'laferrera/bridgeAndTunnel',
+  updateInterval: '1 hour'
+})
 import 'regenerator-runtime/runtime'
 import Engine from './main/engine.js';
 const engine = new Engine('bridgeAndtunnel@0.1.0');
 const store = new Store();
+let mainWindow;
+
 // const usbDetect = require('usb-detection');
 
-// Handle creating/removing shortcuts on Windows when installing/uninstalling.
 if (require('electron-squirrel-startup')) {
   app.quit();
 }
 
-let mainWindow = null;
 
 const createWindow = () => {
   mainWindow = new BrowserWindow({
