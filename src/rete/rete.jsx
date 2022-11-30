@@ -17,7 +17,7 @@ import { MIDIRecieveComponent } from "./MIDIRecieveComponent.jsx";
 import { OSCEmitterComponent } from "./OSCEmitterComponent.jsx";
 import { MonomeGridComponent } from "./MonomeGridComponent.jsx";
 
-export async function createEditor(container, emitter) {
+export async function createEditor(container, rendererEmitter) {
   let editor = new Rete.NodeEditor('bridgeAndtunnel@0.1.0', container);
   editor.use(ConnectionPlugin);
   editor.use(ConnectionPathPlugin, {
@@ -89,19 +89,22 @@ export async function createEditor(container, emitter) {
   editor.connect(mr1.outputs.get("velocityOut"), add.inputs.get("num2"));
   editor.connect(add.outputs.get("sum"), osc.inputs.get("num1"));
 
+  editor.use(HistoryPlugin);
+
   editor.on("process nodecreated noderemoved connectioncreated connectionremoved", async () => {
       // should this be ASYNC?
       await window.electronAPI.sendNodesToMain(editor.toJSON().nodes);
-      await window.electronAPI.initializeNodes(editor.toJSON().nodes);
+      // TODO, add history... 
+      await window.electronAPI.storeSession(editor.toJSON());
   });
 
 // emitter callbacks
 
-  emitter.on('updateEngine', async () => {
+  rendererEmitter.on('updateEngine', async () => {
       await window.electronAPI.initializeNodes(editor.toJSON().nodes);
   });
 
-  emitter.on('addInput',(node) => {
+  rendererEmitter.on('addInput',(node) => {
     let inputLength = Array.from(node.inputs).length;
     inputLength++;
     let inp = new Rete.Input('num' + inputLength, "Number", numSocket);
@@ -109,7 +112,7 @@ export async function createEditor(container, emitter) {
     node.update();
   });
 
-  emitter.on('removeInput', (node) => {
+  rendererEmitter.on('removeInput', (node) => {
     let inputLength = Array.from(node.inputs).length;
     if (inputLength > 1) {
       let inp = Array.from(node.inputs).pop()[1];
@@ -118,10 +121,17 @@ export async function createEditor(container, emitter) {
     }
   });
 
+  rendererEmitter.on('restoreSession', (session) => {
+    try {
+      editor.fromJSON(session);
+    } catch (error) {
+      console.error(error);
+    }
+  });
 
 
   editor.on('nodeselected', (node) => {
-    emitter.emit('nodeselect', node);
+    rendererEmitter.emit('nodeselect', node);
   });
     
   editor.on('zoom', ({ source }) => {
@@ -134,20 +144,18 @@ export async function createEditor(container, emitter) {
   AreaPlugin.zoomAt(editor, editor.nodes);
   // AreaPlugin.restrictZoom();
   // https://github.com/retejs/area-plugin/blob/master/src/restrictor.js
-  window.electronAPI.initializeNodes(editor.toJSON().nodes);
-
-
-  editor.use(HistoryPlugin);
+  
+  window.electronAPI.sendNodesToMain(editor.toJSON().nodes);
   return editor;
 }
 
-export function useRete(emitter) {
+export function useRete(rendererEmitter) {
   const [container, setReteContainer] = useState(null);
   const editorRef = useRef();
 
   useEffect(() => {
     if (container) {
-      createEditor(container, emitter).then((value) => {
+      createEditor(container, rendererEmitter).then((value) => {
         console.log("rete created");
         editorRef.current = value;
       });

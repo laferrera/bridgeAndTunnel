@@ -28,7 +28,13 @@ const createWindow = () => {
   mainWindow.loadURL(MAIN_WINDOW_WEBPACK_ENTRY);
   mainWindow.webContents.openDevTools();
   engine.setMainWindow(mainWindow);
+  // TODO, seems like we shouldn't have to set engine/mainwindow both ways...
   mainWindow.engine = engine;
+  mainWindow.webContents.once('dom-ready', () => { 
+    if (store.get('session')) {
+      mainWindow.webContents.send('restore-session', store.get('session'));
+    }
+  });
 };
 
 
@@ -51,6 +57,11 @@ app.on('activate', () => {
   }
 });
 
+const checkForPreviousSession = () => {
+  if (store.get('session')) {
+    mainWindow.webContents.send('restore-session', store.get('session'));
+  }
+}
 
 const checkUSB = () => {
   usbDetect.startMonitoring();
@@ -64,9 +75,10 @@ const checkUSB = () => {
 // code. You can also put them in separate files and import them here.
 
 app.whenReady().then(() => {
-  // createWindow();
+
   const menu = Menu.buildFromTemplate(menuTemplate);
   Menu.setApplicationMenu(menu);
+
 
   ipcMain.on('rete:sendNodesToMain', (event, nodes) => {
     // this used to be an async function, does it need to be

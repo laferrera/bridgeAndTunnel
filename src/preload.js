@@ -8,7 +8,7 @@ contextBridge.exposeInMainWorld('electronAPI', {
     addNode: (node) => ipcRenderer.send('rete:handleAddNode', node),
     sendNodesToMain: (json) => ipcRenderer.send('rete:sendNodesToMain', json),
     engineProcessJSON: (json) => ipcRenderer.send('rete:engineProcessJSON', json),
-    storeSession: (json) => ipcRenderer.send('store-session', session),
+    storeSession: (json) => ipcRenderer.send('store-session', json),
     // to Renderer from Main process
     handleRestoreSession: (callback) => ipcRenderer.on('restore-session',callback),
     handleEngineError: (callback) => ipcRenderer.on('engine-error', callback),
@@ -17,4 +17,5 @@ contextBridge.exposeInMainWorld('electronAPI', {
     handleSaveFile: (callback) => ipcRenderer.on('save-file', callback),
     handleLoadFile: (callback) => ipcRenderer.on('load-file', callback),
     handleNewSession: (callback) => ipcRenderer.on('new-session', callback),
+    handleRestoreSession: (callback) => ipcRenderer.on('restore-session', callback),
 })

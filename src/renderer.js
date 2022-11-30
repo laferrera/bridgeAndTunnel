@@ -72,6 +72,10 @@ window.electronAPI.handleNewSession((event, value) => {
   console.log('new session');
 });
 
+window.electronAPI.handleRestoreSession((event, session) => {
+  rendererEmitter.emit('restoreSession', session);
+});
+
 
 function App() {
   const [selectedNode, setSelectedNode] = useState(null);
