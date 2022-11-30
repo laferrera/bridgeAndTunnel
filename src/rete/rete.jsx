@@ -7,8 +7,6 @@ import ConnectionPlugin from 'rete-connection-plugin';
 import ConnectionPathPlugin from 'rete-connection-path-plugin';
 import AreaPlugin from "rete-area-plugin";
 import ContextMenuPlugin, {ReactMenu,} from 'rete-context-menu-plugin-react';
-// import ContextMenu from "efficy-rete-context-menu-plugin";
-// import ContextMenu from "rete-context-menu-plugin";
 import HistoryPlugin from 'rete-history-plugin';
 import KeyboardPlugin from "./plugins/keyboard-plugin.js";
 import MultiSelectPlugin from './plugins/multi-select-plugin.js';
@@ -28,7 +26,6 @@ export async function createEditor(container, emitter) {
     curve: ConnectionPathPlugin.curveBundle, // curve identifier
     options: { vertical: false, curvature: 0.0 }, // optional
   });
-  // editor.use(SelectionPlugin, { enabled: true })
   editor.use(ReactRenderPlugin, { createRoot });
   editor.use(ContextMenuPlugin, {
     Menu: ReactMenu, // required
@@ -58,13 +55,6 @@ export async function createEditor(container, emitter) {
     //     }
     //   }
     // }
-    // nodeItems: node => {
-    //   if (node.name === "Add") {
-    //     return {
-    //       'Only for Add nodes'() { console.log('Works for add node!') },
-    //     }
-    //   }
-    // } 
   });
 
   editor.use(AreaPlugin, {
@@ -90,8 +80,6 @@ export async function createEditor(container, emitter) {
   osc.position = [500, 300];
   add.position = [500, 100];
 
-  
-  mr1.data.testConfig = {key:"value"}
   editor.addNode(mr1);
   editor.addNode(mr2);
   editor.addNode(osc);
@@ -102,34 +90,24 @@ export async function createEditor(container, emitter) {
   editor.connect(add.outputs.get("sum"), osc.inputs.get("num1"));
 
   editor.on(
-    "process nodecreated noderemoved connectioncreated connectionremoved",
-    async () => {
+    "process nodecreated noderemoved connectioncreated connectionremoved", async () => {
       // should this be ASYNC?
       await window.electronAPI.initializeNodes(editor.toJSON().nodes);
-      // await window.electronAPI.engineProcessJSON(editor.toJSON());
-      // await engine.abort();
-      // await engine.process(editor.toJSON());
-    }
-  );
+  });
 
   editor.on("nodecreated noderemoved", async (node) => {
       window.electronAPI.addNode(editor.toJSON());
       emitter.emit('noderemoved', node);
-    }
-  );
+  });
 
-  editor.on("process nodecreated noderemoved connectioncreated connectionremoved",
-  // should this be ASYNC?
-    async () => {
+  editor.on("process nodecreated noderemoved connectioncreated connectionremoved", async () => {
+    // should this be ASYNC?
      await window.electronAPI.initializeNodes(editor.toJSON().nodes);
-    }
-  );
+  });
 
-  emitter.on('updateEngine',
-    async () => {
+  emitter.on('updateEngine', async () => {
       await window.electronAPI.initializeNodes(editor.toJSON().nodes);
-    }
-  );
+  });
 
   emitter.on('addInput',(node) => {
     let inputLength = Array.from(node.inputs).length;
@@ -137,8 +115,7 @@ export async function createEditor(container, emitter) {
     let inp = new Rete.Input('num' + inputLength, "Number", numSocket);
     node.addInput(inp);
     node.update();
-    }
-  );
+  });
 
   emitter.on('removeInput', (node) => {
     let inputLength = Array.from(node.inputs).length;
@@ -147,8 +124,7 @@ export async function createEditor(container, emitter) {
       node.removeInput(inp);
       node.update();
     }
-  }
-  );
+  });
 
 
 

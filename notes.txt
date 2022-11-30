@@ -4,8 +4,10 @@ TODO
     https://codesandbox.io/s/retejs-react-render-t899c?file=/src/rete.jsx:1619-1940    
 
     menu    
-        save
-        load https://gist.github.com/whoisryosuke/ab0ee89e878c48947fe7fd8eedb8431f
+        recents
+        save and save-as
+        
+        https://www.npmjs.com/package/rete-history-plugin
         preferences
             osc ip / port
             color theme
