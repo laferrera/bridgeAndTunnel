@@ -68,9 +68,9 @@ app.whenReady().then(() => {
   const menu = Menu.buildFromTemplate(menuTemplate);
   Menu.setApplicationMenu(menu);
 
-  ipcMain.on('rete:initializeNodes', (event, nodes) => {
+  ipcMain.on('rete:sendNodesToMain', (event, nodes) => {
     // this used to be an async function, does it need to be
-    engine.initialzeNodes(nodes);
+    engine.storeNodes(nodes);
   });
 
   ipcMain.on('rete:engineProcessJSON', (event, json) => {

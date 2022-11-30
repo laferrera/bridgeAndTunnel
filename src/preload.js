@@ -6,7 +6,7 @@ contextBridge.exposeInMainWorld('electronAPI', {
     // to Main process from Renderer
     updateNode: (node) => ipcRenderer.send('rete:handleUpdateNode', node),
     addNode: (node) => ipcRenderer.send('rete:handleAddNode', node),
-    initializeNodes: (json) => ipcRenderer.send('rete:initializeNodes', json),
+    sendNodesToMain: (json) => ipcRenderer.send('rete:sendNodesToMain', json),
     engineProcessJSON: (json) => ipcRenderer.send('rete:engineProcessJSON', json),
     storeSession: (json) => ipcRenderer.send('store-session', session),
     // to Renderer from Main process

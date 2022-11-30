@@ -89,21 +89,13 @@ export async function createEditor(container, emitter) {
   editor.connect(mr1.outputs.get("velocityOut"), add.inputs.get("num2"));
   editor.connect(add.outputs.get("sum"), osc.inputs.get("num1"));
 
-  editor.on(
-    "process nodecreated noderemoved connectioncreated connectionremoved", async () => {
+  editor.on("process nodecreated noderemoved connectioncreated connectionremoved", async () => {
       // should this be ASYNC?
+      await window.electronAPI.sendNodesToMain(editor.toJSON().nodes);
       await window.electronAPI.initializeNodes(editor.toJSON().nodes);
   });
 
-  editor.on("nodecreated noderemoved", async (node) => {
-      window.electronAPI.addNode(editor.toJSON());
-      emitter.emit('noderemoved', node);
-  });
-
-  editor.on("process nodecreated noderemoved connectioncreated connectionremoved", async () => {
-    // should this be ASYNC?
-     await window.electronAPI.initializeNodes(editor.toJSON().nodes);
-  });
+// emitter callbacks
 
   emitter.on('updateEngine', async () => {
       await window.electronAPI.initializeNodes(editor.toJSON().nodes);

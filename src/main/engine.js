@@ -77,21 +77,7 @@ class Engine extends EventEmitter{
     console.log(this.nodes);
   }
 
-  addNode(node){
-    this.nodes.push(node);
-    // console.log(node);
-  }
-
-  updateNode(node){
-    console.log(node);
-    // this.nodes.find(n => n.id == node.id).controls.get('preview').setValue(node.data.num);
-  }
-
-  removeNode(node){
-    this.nodes.splice(this.nodes.indexOf(node), 1);
-  }
-
-  initialzeNodes(nodes){
+  storeNodes(nodes){
     this.nodes = nodes;
   }
 
