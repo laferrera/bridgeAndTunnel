@@ -12,7 +12,10 @@ const getFileFromUser = () => {
       { name: 'Text Files', extensions: ['json'] }
     ]
   }).then(result => {
-    if (result.filePaths.length > 0) { openFile(result.filePaths[0]); }
+    if (result.filePaths.length > 0) { 
+      openFile(result.filePaths[0]); 
+      app.addRecentDocument(result.filePaths[0]);
+    }
   }).catch(err => {
     console.log(err);
   })
@@ -42,31 +45,35 @@ const saveFile = () => {
       // Creating and Writing to the sample.txt file
       fs.writeFile(file.filePath.toString(),
         JSON.stringify(BrowserWindow.fromId(1).engine.nodes), function (err) {
-        // 'This is a Sample File', function (err) {
           if (err) throw err;
           console.log('Saved!');
         });
+      app.addRecentDocument(file.filePath);
     }
   }).catch(err => {
     console.log(err)
   });
 }
 
-const newConfirmDialog = () => {
-  dialog.showMessageBox(mainWindow, {
-    message: "Are you sure? All unsaved changes will be lost.",
-    type: "warning",
-    buttons: ["Cancel", "New"],
-    defaultId: 0,
-    title: "New Session",
-    cancelId: 0,
-  }).then(result => {
-    if (result.response === 1) { 
-      BrowserWindow.fromId(1).webContents.send('new-session');
-    }
-  }).catch(err => {
-    console.log(err);
-  })
+const newSession = () => {
+  if (BrowserWindow.getAllWindows().length !== 0) {
+    dialog.showMessageBox(mainWindow, {
+      message: "Are you sure? All unsaved changes will be lost.",
+      type: "warning",
+      buttons: ["Cancel", "New"],
+      defaultId: 0,
+      title: "New Session",
+      cancelId: 0,
+    }).then(result => {
+      if (result.response === 1) { 
+        BrowserWindow.fromId(1).webContents.send('new-session');
+      }
+    }).catch(err => {
+      console.log(err);
+    })
+  } else {
+    app.createWindow();
+  }
 }
 
 const menuTemplate = [
@@ -88,7 +95,7 @@ const menuTemplate = [
       { label: 'New',
         accelerator: 'CommandOrControl+N',
         click: async () => {
-          newConfirmDialog();
+          newSession();
         }
       },
       { label: 'Save As',
@@ -105,9 +112,17 @@ const menuTemplate = [
         },
       },
       // { role: 'save' },
-      // { role: 'saveAs' },
-      // { role: 'open' },
-      // { role: 'openRecent' }
+
+      {
+        label: "Open Recent",
+        role: "recentdocuments",
+        submenu: [
+          {
+            label: "Clear Recent",
+            role: "clearrecentdocuments"
+          }
+        ]
+      }
     ]
   },
   // { role: 'editMenu' }
@@ -143,9 +158,6 @@ const menuTemplate = [
   {
     label: 'View',
     submenu: [
-      { role: 'reload' },
-      { role: 'forceReload' },
-      { role: 'toggleDevTools' },
       { type: 'separator' },
       { role: 'resetZoom' },
       { role: 'zoomIn' },

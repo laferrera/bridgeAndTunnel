@@ -18,7 +18,7 @@ if (require('electron-squirrel-startup')) {
 }
 
 
-const createWindow = () => {
+app.createWindow = () => {
   mainWindow = new BrowserWindow({
     width: 800,
     height: 600,
@@ -42,7 +42,7 @@ const createWindow = () => {
 };
 
 
-app.on('ready', createWindow);
+app.on('ready', app.createWindow);
 
 // Quit when all windows are closed, except on macOS. There, it's common
 // for applications and their menu bar to stay active until the user quits
@@ -57,7 +57,7 @@ app.on('activate', () => {
   // On OS X it's common to re-create a window in the app when the
   // dock icon is clicked and there are no other windows open.
   if (BrowserWindow.getAllWindows().length === 0) {
-    createWindow();
+    app.createWindow();
   }
 });
 

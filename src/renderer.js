@@ -50,7 +50,7 @@ function ReteEditor() {
 }
 
 window.electronAPI.handleEngineError((event, message, data) => {
-  // maybe just one alert?
+  // TODO
   // https://stackoverflow.com/questions/4866986/detect-if-an-alert-or-confirm-is-displayed-on-a-page
   window.alert("Engine Error! " + message);
   console.log(data);
