@@ -157,19 +157,20 @@ export async function createEditor(container, rendererEmitter) {
   return editor;
 }
 
-export function useRete(rendererEmitter) {
+export function useRete(rendererEmitter, [setEditorRefCurrent]) {
   const [container, setReteContainer] = useState(null);
-  const editorRef = useRef(null);
+  // const editorRef = useRef(null);
 
   useEffect(() => {
     if (container) {
       createEditor(container, rendererEmitter).then((value) => {
         console.log("rete created");
-        editorRef.current = value;
+        setEditorRefCurrent(value);
+        // editorRef.current = value;
       });
     }
   }, [container]);
 
 
-  return [setReteContainer, editorRef];
+  return [setReteContainer];
 }

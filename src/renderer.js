@@ -29,7 +29,7 @@
 
 console.log('👋 This message is being logged by "renderer.js", included via webpack');
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { createRoot } from "react-dom/client";
 import 'regenerator-runtime/runtime'
 import { useRete } from "./rete/rete.jsx";
@@ -69,14 +69,16 @@ window.electronAPI.handleRestoreSession((event, session) => {
 let renderEditor;
 function ReteEditor(props) {
   const [setEditor] = props.setEditor;
-  const [setContainer, editorRef] = useRete(rendererEmitter);
+  const editorRef = useRef(null);
+  const [editorRefCurrent, setEditorRefCurrent] = useState(editorRef.current);
+  const [setContainer] = useRete(rendererEmitter, [setEditorRefCurrent]);
 
   useEffect(() => {
-    if (editorRef.current !== null){
+    if (editorRefCurrent !== null){
       console.log('setting editor');
       setEditor(editorRef.current);
     }
-  }, [editorRef])
+  }, [editorRefCurrent])
 
   return (
     <div
@@ -90,6 +92,7 @@ function ReteEditor(props) {
 function App() {
   const [selectedNode, setSelectedNode] = useState(null);
   const [editor, setEditor] = useState(null);
+  console.log('editor 0 ', editor);
 
   useEffect(() => {
       console.log('editor', editor);
@@ -106,7 +109,7 @@ function App() {
         console.log('midi event', event);
         console.log('midi value', value);
       })
-  }, []);
+  }, [editor]);
 
   return (
     <div className="app">
