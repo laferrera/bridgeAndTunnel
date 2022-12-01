@@ -18,9 +18,6 @@ import { MIDIRecieveComponent } from "./MIDIRecieveComponent.jsx";
 import { OSCEmitterComponent } from "./OSCEmitterComponent.jsx";
 import { MonomeGridComponent } from "./MonomeGridComponent.jsx";
 
-
-import Panel from "./renderer/panel/panel.jsx";
-
 export async function createEditor(container, rendererEmitter) {
   let editor = new Rete.NodeEditor('bridgeAndtunnel@0.1.0', container);
   editor.use(ConnectionPlugin);
