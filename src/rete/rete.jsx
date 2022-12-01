@@ -154,6 +154,7 @@ export async function createEditor(container, rendererEmitter) {
   // https://github.com/retejs/area-plugin/blob/master/src/restrictor.js
   
   window.electronAPI.sendNodesToMain(editor.toJSON().nodes);
+  console.log(editor)
   return editor;
 }
 

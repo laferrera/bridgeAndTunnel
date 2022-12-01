@@ -35,6 +35,7 @@ TODO
   add midi inputs / outputs
   window load time...
   OSC Buffer issue....
+  go through TODOS
 
   open recents
 
