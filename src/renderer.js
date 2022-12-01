@@ -85,9 +85,11 @@ function App() {
     rendererEmitter.on('nodeselect', (node) => {
       setSelectedNode(node);
     });
+
     rendererEmitter.on('noderemoved', (node) => {
       setSelectedNode(null);
     });
+    
     window.electronAPI.handleMidiMessage((event, value) => {
       console.log('midi event', event);
       console.log('midi value', value);

@@ -10,12 +10,16 @@ import ContextMenuPlugin, {ReactMenu,} from 'rete-context-menu-plugin-react';
 import HistoryPlugin from 'rete-history-plugin';
 import KeyboardPlugin from "./plugins/keyboard-plugin.js";
 import MultiSelectPlugin from './plugins/multi-select-plugin.js';
+import DataChangeAction from "./plugins/data-change-action.js";
 
 import { numSocket } from "./numSocket.js";
 import { AddComponent } from "./AddComponent.jsx";
 import { MIDIRecieveComponent } from "./MIDIRecieveComponent.jsx";
 import { OSCEmitterComponent } from "./OSCEmitterComponent.jsx";
 import { MonomeGridComponent } from "./MonomeGridComponent.jsx";
+
+
+import Panel from "./renderer/panel/panel.jsx";
 
 export async function createEditor(container, rendererEmitter) {
   let editor = new Rete.NodeEditor('bridgeAndtunnel@0.1.0', container);
@@ -100,7 +104,8 @@ export async function createEditor(container, rendererEmitter) {
 
 // emitter callbacks
 
-  rendererEmitter.on('updateEngine', async () => {
+  rendererEmitter.on('NodeConfigHistory', async (prev, next, node) => {
+    editor.trigger('addhistory', new DataChangeAction(prev, next, node));
     await window.electronAPI.sendNodesToMain(editor.toJSON().nodes);
   });
 
@@ -136,6 +141,12 @@ export async function createEditor(container, rendererEmitter) {
     
   editor.on('zoom', ({ source }) => {
     return source !== 'dblclick';
+  });
+
+  editor.on('undo redo', () => {
+    if (editor.selected.list.length) {
+      rendererEmitter.emit('nodeselect', editor.selected.list[0]);
+    }
   });
 
   editor.view.resize();

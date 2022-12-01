@@ -15,7 +15,7 @@ export default function Panel(props) {
   const uiConfig = uiConfigs[props.node.data.configType];
   const state = {};
   const components = [];
-  const didMount = React.useRef(false);
+  const didMount = React.useRef(null);
   for (const setting of Object.keys(nodeConfig)) {
     const resultArr = useState(nodeConfig[setting].value);
     state[setting] = {
@@ -38,6 +38,8 @@ export default function Panel(props) {
       return;
     }
     let alertEngine = false;
+    const prevConfig = JSON.parse(JSON.stringify(nodeConfig));
+
     Object.keys(state).forEach((key, index) => {
       if (state[key].val !== props.node.data.config[key].value) {
         alertEngine = true;
@@ -45,26 +47,19 @@ export default function Panel(props) {
       }
     });
     if (alertEngine) {
-      props.emitter.emit("updateEngine");
+      props.emitter.emit("NodeConfigHistory", prevConfig, nodeConfig, props.node);
     }
     return () => {
       didMount.current = false;
     }
-  }, [state]);    
-
-
-  
-
-
+  }, [state, nodeConfig]);    
 
 
 
   return (
-    <div>
-      <div className="Sidebar">
-        <h1 className="SidebarH1">Sidebar</h1>
+    <div className="Sidebar">
+      <h1 className="SidebarH1">Sidebar</h1>
         {components}
-      </div>
     </div>
   );
 }
