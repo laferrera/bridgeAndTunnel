@@ -6,7 +6,7 @@ import ReactRenderPlugin from "rete-react-render-plugin";
 import ConnectionPlugin from 'rete-connection-plugin';
 import ConnectionPathPlugin from 'rete-connection-path-plugin';
 import AreaPlugin from "rete-area-plugin";
-import ContextMenuPlugin, {ReactMenu,} from 'rete-context-menu-plugin-react';
+import ContextMenuPlugin, { ReactMenu, } from 'rete-context-menu-plugin-react';
 import HistoryPlugin from 'rete-history-plugin';
 import KeyboardPlugin from "./plugins/keyboard-plugin.js";
 import MultiSelectPlugin from './plugins/multi-select-plugin.js';
@@ -18,7 +18,7 @@ import { MIDIRecieveComponent } from "./MIDIRecieveComponent.jsx";
 import { OSCEmitterComponent } from "./OSCEmitterComponent.jsx";
 import { MonomeGridComponent } from "./MonomeGridComponent.jsx";
 
-export async function createEditor(container, rendererEmitter) {
+export async function ReteEditor(container, rendererEmitter) {
   let editor = new Rete.NodeEditor('bridgeAndtunnel@0.1.0', container);
   editor.use(ConnectionPlugin);
   editor.use(ConnectionPathPlugin, {
@@ -93,20 +93,20 @@ export async function createEditor(container, rendererEmitter) {
   editor.use(HistoryPlugin);
 
   editor.on("process nodecreated noderemoved connectioncreated connectionremoved", async () => {
-      // should this be ASYNC?
-      await window.electronAPI.sendNodesToMain(editor.toJSON().nodes);
-      // TODO, add history... 
-      await window.electronAPI.storeSession(editor.toJSON());
+    // should this be ASYNC?
+    await window.electronAPI.sendNodesToMain(editor.toJSON().nodes);
+    // TODO, add history... 
+    await window.electronAPI.storeSession(editor.toJSON());
   });
 
-// emitter callbacks
+  // emitter callbacks
 
   rendererEmitter.on('NodeConfigHistory', async (prev, next, node) => {
     editor.trigger('addhistory', new DataChangeAction(prev, next, node));
     await window.electronAPI.sendNodesToMain(editor.toJSON().nodes);
   });
 
-  rendererEmitter.on('addInput',(node) => {
+  rendererEmitter.on('addInput', (node) => {
     let inputLength = Array.from(node.inputs).length;
     inputLength++;
     let inp = new Rete.Input('num' + inputLength, "Number", numSocket);
@@ -135,7 +135,7 @@ export async function createEditor(container, rendererEmitter) {
   editor.on('nodeselected', (node) => {
     rendererEmitter.emit('nodeselect', node);
   });
-    
+
   editor.on('zoom', ({ source }) => {
     return source !== 'dblclick';
   });
@@ -152,24 +152,10 @@ export async function createEditor(container, rendererEmitter) {
   AreaPlugin.zoomAt(editor, editor.nodes);
   // AreaPlugin.restrictZoom();
   // https://github.com/retejs/area-plugin/blob/master/src/restrictor.js
-  
+
   window.electronAPI.sendNodesToMain(editor.toJSON().nodes);
+  
+  console.log(editor);
   return editor;
-}
 
-export function useRete(rendererEmitter) {
-  const [container, setReteContainer] = useState(null);
-  const editorRef = useRef(null);
-
-  useEffect(() => {
-    if (container) {
-      createEditor(container, rendererEmitter).then((value) => {
-        console.log("rete created");
-        editorRef.current = value;
-      });
-    }
-  }, [container]);
-
-
-  return [setReteContainer, editorRef];
 }

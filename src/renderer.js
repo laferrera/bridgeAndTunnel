@@ -39,15 +39,6 @@ import './index.css';
 const EventEmitter = require("events");
 const rendererEmitter = new EventEmitter();
 
-function ReteEditor() {
-  const [setContainer] = useRete(rendererEmitter);
-  return (
-    <div
-      ref={(ref) => ref && setContainer(ref)}
-    />
-  );
-}
-
 window.electronAPI.handleEngineError((event, message, data) => {
   // TODO
   // https://stackoverflow.com/questions/4866986/detect-if-an-alert-or-confirm-is-displayed-on-a-page
@@ -75,28 +66,47 @@ window.electronAPI.handleRestoreSession((event, session) => {
   rendererEmitter.emit('restoreSession', session);
 });
 
+let renderEditor;
+function ReteEditor(props) {
+  const [setEditor] = props.setEditor;
+  const [setContainer, editorRef] = useRete(rendererEmitter);
+
+  useEffect(() => {
+    if (editorRef.current !== null){
+      console.log('setting editor');
+      setEditor(editorRef.current);
+    }
+  }, [editorRef])
+
+  return (
+    <div
+      ref={(ref) => ref && setContainer(ref)}
+    />
+  );
+}
+
+
 
 function App() {
   const [selectedNode, setSelectedNode] = useState(null);
-  const [reteVisible, setReteVisible] = useState(true);
+  const [editor, setEditor] = useState(null);
 
   useEffect(() => {
-    rendererEmitter.on('nodeselect', (node) => {
-      setSelectedNode(node);
-    });
+      console.log('editor', editor);
+      rendererEmitter.on('nodeselect', (node) => {
+        setSelectedNode(node);
+        console.log('selected node', node);
+      });
 
-    rendererEmitter.on('noderemoved', (node) => {
-      setSelectedNode(null);
-    });
-    
-    window.electronAPI.handleMidiMessage((event, value) => {
-      console.log('midi event', event);
-      console.log('midi value', value);
-    })
+      rendererEmitter.on('noderemoved', (node) => {
+        setSelectedNode(null);
+      });
 
-
+      window.electronAPI.handleMidiMessage((event, value) => {
+        console.log('midi event', event);
+        console.log('midi value', value);
+      })
   }, []);
-
 
   return (
     <div className="app">
@@ -105,7 +115,7 @@ function App() {
         {selectedNode && <Panel key={selectedNode.id} node={ selectedNode } emitter={rendererEmitter}/>}
       </div>
       <div className="rete">
-        {reteVisible && <ReteEditor />}
+        <ReteEditor setEditor={[setEditor]} />
       </div>
     </div>
   );
