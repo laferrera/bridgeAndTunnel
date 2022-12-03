@@ -32,7 +32,8 @@ console.log('👋 This message is being logged by "renderer.js", included via we
 import React, { useState, useEffect, useRef } from "react";
 import { createRoot } from "react-dom/client";
 import 'regenerator-runtime/runtime'
-import { useRete } from "./rete/rete.jsx";
+import { useRete, createEditor } from "./rete/rete.jsx";
+import addStarterNodes from "./rete/addStarterNodes.js";
 import Panel from "./renderer/panel/panel.jsx";
 import './index.css';
 
@@ -66,36 +67,66 @@ window.electronAPI.handleRestoreSession((event, session) => {
   rendererEmitter.emit('restoreSession', session);
 });
 
-let renderEditor;
-function ReteEditor(props) {
-  const [setEditor] = props.setEditor;
-  const editorRef = useRef(null);
-  const [editorRefCurrent, setEditorRefCurrent] = useState(editorRef.current);
-  const [setContainer] = useRete(rendererEmitter, [setEditorRefCurrent]);
 
-  useEffect(() => {
-    if (editorRefCurrent !== null){
-      console.log('setting editor');
-      setEditor(editorRef.current);
-    }
-  }, [editorRefCurrent])
+// function ReteEditor(props) {
+//   const [setEditor] = props.setEditor;
+//   const editorRef = useRef(null);
+//   const [editorRefCurrent, setEditorRefCurrent] = useState(editorRef.current);
+//   const [setContainer] = useRete(rendererEmitter);
 
-  return (
-    <div
-      ref={(ref) => ref && setContainer(ref)}
-    />
-  );
-}
+//   useEffect(() => {
+//     if (editorRefCurrent !== null){
+//       console.log('setting editor');
+//       setEditor(editorRef.current);
+//       addStarterNodes(editor);
+//     }
+//   }, [editorRefCurrent])
+
+//   return (
+//     <div
+//       ref={(ref) => ref && setContainer(ref)}
+//     />
+//   );
+// }
+// const editorRef = useRef(null);
+// const thisEditor = (<div ref={(ref) => ref && createEditor(ref, rendererEmitter, editorRef)} />);
+
+// function ReteEditor(props) {
+//   const [container] = useState(null);
+//   const editorRef = useRef(null);
+//   // const thisEditor = (<div ref={(ref) => ref && createEditor(ref, rendererEmitter)} />);
+//   // const myDiv = (<div ref={editorRef} />);
+//   // const myEditor2 = createEditor(myDiv, rendererEmitter)
+
+//   useEffect(() => {
+//     console.log()
+//     // if (container) {
+//       // editorRef.current = createEditor(container, rendererEmitter)
+//       // props.setEditor(editorRef.current);
+//       // addStarterNodes(editorRef.current);
+//     // }
+//   }, [container]);
+
+//   // return ({ myDiv })
+//   // return (<div ref={editorRef} />);
+//   return (thisEditor);
+//   // return <div
+//     // ref={(ref) => ref && createEditor(ref, rendererEmitter)}
+//   // />
+// }
 
 
 
 function App() {
   const [selectedNode, setSelectedNode] = useState(null);
-  const [editor, setEditor] = useState(null);
-  console.log('editor 0 ', editor);
-
+  // const [editorRef, setEditorRef] = useState(useRef(null));
+  const editorRef = useRef(null);
+  let thisEditor = <div />;
+  // let thisEditor = (<div ref={(ref) => ref && createEditor(ref, rendererEmitter, editorRef)} />);
   useEffect(() => {
-      console.log('editor', editor);
+    thisEditor = (<div ref={(ref) => ref && createEditor(ref, rendererEmitter, editorRef)} />);
+    // console.log('editor', thisEditor);
+    console.log('editorRef', editorRef.current)
       rendererEmitter.on('nodeselect', (node) => {
         setSelectedNode(node);
         console.log('selected node', node);
@@ -109,7 +140,7 @@ function App() {
         console.log('midi event', event);
         console.log('midi value', value);
       })
-  }, [editor]);
+  }, []);
 
   return (
     <div className="app">
@@ -118,7 +149,9 @@ function App() {
         {selectedNode && <Panel key={selectedNode.id} node={ selectedNode } emitter={rendererEmitter}/>}
       </div>
       <div className="rete">
-        <ReteEditor setEditor={[setEditor]} />
+        {/* <ReteEditor setEditor={[setEditor]} /> */}
+        {thisEditor}
+        {/* <div ref={(ref) => ref && createEditor(ref, rendererEmitter, editorRef)} /> */}
       </div>
     </div>
   );

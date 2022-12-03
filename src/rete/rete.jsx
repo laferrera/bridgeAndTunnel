@@ -1,5 +1,5 @@
 // looking here https://codesandbox.io/s/retejs-react-render-t899c?file=/src/rete.jsx:3766-3794
-import { useState, useEffect, useCallback, useRef, useContext } from "react";
+import React, { useState, useEffect, useCallback, useRef, useContext } from "react";
 import Rete from "rete";
 import { createRoot } from "react-dom/client";
 import ReactRenderPlugin from "rete-react-render-plugin";
@@ -18,7 +18,7 @@ import { MIDIRecieveComponent } from "./MIDIRecieveComponent.jsx";
 import { OSCEmitterComponent } from "./OSCEmitterComponent.jsx";
 import { MonomeGridComponent } from "./MonomeGridComponent.jsx";
 
-export async function createEditor(container, rendererEmitter) {
+export function createEditor(container, rendererEmitter, editorRef) {
   let editor = new Rete.NodeEditor('bridgeAndtunnel@0.1.0', container);
   editor.use(ConnectionPlugin);
   editor.use(ConnectionPathPlugin, {
@@ -70,25 +70,6 @@ export async function createEditor(container, rendererEmitter) {
   components.map((c) => {
     editor.register(c);
   });
-
-  var mr1 = await new MIDIRecieveComponent().createNode({ num: 2 });
-  var mr2 = await new MIDIRecieveComponent().createNode({ num: 3 });
-  var osc = await new OSCEmitterComponent().createNode({ num: 3 });
-  var add = await components[1].createNode();
-
-  mr1.position = [80, 200];
-  mr2.position = [80, 400];
-  osc.position = [500, 300];
-  add.position = [500, 100];
-
-  editor.addNode(mr1);
-  editor.addNode(mr2);
-  editor.addNode(osc);
-  editor.addNode(add);
-
-  editor.connect(mr1.outputs.get("noteOut"), add.inputs.get("num1"));
-  editor.connect(mr1.outputs.get("velocityOut"), add.inputs.get("num2"));
-  editor.connect(add.outputs.get("sum"), osc.inputs.get("num1"));
 
   editor.use(HistoryPlugin);
 
@@ -154,23 +135,30 @@ export async function createEditor(container, rendererEmitter) {
   // https://github.com/retejs/area-plugin/blob/master/src/restrictor.js
   
   window.electronAPI.sendNodesToMain(editor.toJSON().nodes);
+  console.log("rete editor created");
+
+  editorRef.current = editor;
   return editor;
 }
 
-export function useRete(rendererEmitter, [setEditorRefCurrent]) {
+export function useRete(rendererEmitter) {
   const [container, setReteContainer] = useState(null);
-  // const editorRef = useRef(null);
+  const editorRef = useRef(null);
 
   useEffect(() => {
     if (container) {
-      createEditor(container, rendererEmitter).then((value) => {
-        console.log("rete created");
-        setEditorRefCurrent(value);
-        // editorRef.current = value;
-      });
+      // setEditorRefCurrent(createEditor(container, rendererEmitter));
+      // createEditor(container, rendererEmitter).then((value) => {
+        // console.log("rete created");
+        // setEditorRefCurrent(value);
+      editorRef.current = createEditor(container, rendererEmitter)
+      // });
     }
   }, [container]);
 
+  return <div
+    ref={(ref) => ref && createEditor(ref, rendererEmitter)}
+  />
 
-  return [setReteContainer];
+  // return [setReteContainer];
 }
