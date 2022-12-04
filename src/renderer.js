@@ -87,26 +87,23 @@ function App() {
       setSelectedNode(node);
     });
 
+    editor.on('undo redo', () => {
+      if (editor.selected.list.length) {
+        // TODO, rerender panel here... 
+        setSelectedNode(editor.selected.list[0]);
+      }
+    });
 
-      // rendererEmitter.on('nodeselect', (node) => {
-      //   setSelectedNode(node);
-      //   console.log('selected node', node);
-      // });
-
-      // rendererEmitter.on('noderemoved', (node) => {
-      //   setSelectedNode(null);
-      // });
-
-      window.electronAPI.handleMidiMessage((event, value) => {
-        console.log('midi event', event);
-        console.log('midi value', value);
-      })
+    window.electronAPI.handleMidiMessage((event, value) => {
+      console.log('midi event', event);
+      console.log('midi value', value);
+    })
   }, []);
 
   return (
     <div className="app">
       <div className="panel">
-        {selectedNode && <Panel key={selectedNode.id} node={ selectedNode } emitter={rendererEmitter}/>}
+        {selectedNode && <Panel key={selectedNode.id} node={selectedNode} editor={editor} emitter={rendererEmitter}/>}
       </div>
       <div className="rete">
         {editorComponent}

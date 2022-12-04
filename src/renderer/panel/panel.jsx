@@ -3,6 +3,7 @@ import "./peStyles.css";
 import SelectDemo from "./select.jsx";
 import Button from "./button.jsx";
 import { uiConfigs } from '../nodeConfigs';
+import DataChangeAction from "../../rete/plugins/data-change-action.js";
 
 import * as Label from "@radix-ui/react-label";
 import * as Switch from "@radix-ui/react-switch";
@@ -47,7 +48,7 @@ export default function Panel(props) {
       }
     });
     if (alertEngine) {
-      props.emitter.emit("NodeConfigHistory", prevConfig, nodeConfig, props.node);
+      props.editor.trigger('addhistory', new DataChangeAction(prevConfig, nodeConfig, props.node));
     }
     return () => {
       didMount.current = false;

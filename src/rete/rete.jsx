@@ -82,11 +82,6 @@ export function createEditor(container, rendererEmitter, editorRef) {
 
 // emitter callbacks
 
-  rendererEmitter.on('NodeConfigHistory', async (prev, next, node) => {
-    editor.trigger('addhistory', new DataChangeAction(prev, next, node));
-    await window.electronAPI.sendNodesToMain(editor.toJSON().nodes);
-  });
-
   rendererEmitter.on('addInput',(node) => {
     let inputLength = Array.from(node.inputs).length;
     inputLength++;
@@ -109,11 +104,11 @@ export function createEditor(container, rendererEmitter, editorRef) {
     return source !== 'dblclick';
   });
 
-  editor.on('undo redo', () => {
-    if (editor.selected.list.length) {
-      rendererEmitter.emit('nodeselect', editor.selected.list[0]);
-    }
-  });
+  // editor.on('undo redo', () => {
+  //   if (editor.selected.list.length) {
+  //     rendererEmitter.emit('nodeselect', editor.selected.list[0]);
+  //   }
+  // });
 
   editor.view.resize();
   AreaPlugin.zoomAt(editor);
