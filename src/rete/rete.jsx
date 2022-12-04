@@ -104,18 +104,6 @@ export function createEditor(container, rendererEmitter, editorRef) {
     }
   });
 
-  rendererEmitter.on('restoreSession', (session) => {
-    try {
-      editor.fromJSON(session);
-    } catch (error) {
-      console.error(error);
-    }
-  });
-
-
-  editor.on('nodeselected', (node) => {
-    rendererEmitter.emit('nodeselect', node);
-  });
     
   editor.on('zoom', ({ source }) => {
     return source !== 'dblclick';
@@ -139,26 +127,4 @@ export function createEditor(container, rendererEmitter, editorRef) {
 
   editorRef.current = editor;
   return editor;
-}
-
-export function useRete(rendererEmitter) {
-  const [container, setReteContainer] = useState(null);
-  const editorRef = useRef(null);
-
-  useEffect(() => {
-    if (container) {
-      // setEditorRefCurrent(createEditor(container, rendererEmitter));
-      // createEditor(container, rendererEmitter).then((value) => {
-        // console.log("rete created");
-        // setEditorRefCurrent(value);
-      editorRef.current = createEditor(container, rendererEmitter)
-      // });
-    }
-  }, [container]);
-
-  return <div
-    ref={(ref) => ref && createEditor(ref, rendererEmitter)}
-  />
-
-  // return [setReteContainer];
 }

@@ -64,77 +64,38 @@ window.electronAPI.handleNewSession((event, value) => {
 });
 
 window.electronAPI.handleRestoreSession((event, session) => {
-  rendererEmitter.emit('restoreSession', session);
+  try {
+    editor.fromJSON(session);
+  } catch (error) {
+    console.error(error);
+  }
 });
 
 
-// function ReteEditor(props) {
-//   const [setEditor] = props.setEditor;
-//   const editorRef = useRef(null);
-//   const [editorRefCurrent, setEditorRefCurrent] = useState(editorRef.current);
-//   const [setContainer] = useRete(rendererEmitter);
-
-//   useEffect(() => {
-//     if (editorRefCurrent !== null){
-//       console.log('setting editor');
-//       setEditor(editorRef.current);
-//       addStarterNodes(editor);
-//     }
-//   }, [editorRefCurrent])
-
-//   return (
-//     <div
-//       ref={(ref) => ref && setContainer(ref)}
-//     />
-//   );
-// }
-// const editorRef = useRef(null);
-// const thisEditor = (<div ref={(ref) => ref && createEditor(ref, rendererEmitter, editorRef)} />);
-
-// function ReteEditor(props) {
-//   const [container] = useState(null);
-//   const editorRef = useRef(null);
-//   // const thisEditor = (<div ref={(ref) => ref && createEditor(ref, rendererEmitter)} />);
-//   // const myDiv = (<div ref={editorRef} />);
-//   // const myEditor2 = createEditor(myDiv, rendererEmitter)
-
-//   useEffect(() => {
-//     console.log()
-//     // if (container) {
-//       // editorRef.current = createEditor(container, rendererEmitter)
-//       // props.setEditor(editorRef.current);
-//       // addStarterNodes(editorRef.current);
-//     // }
-//   }, [container]);
-
-//   // return ({ myDiv })
-//   // return (<div ref={editorRef} />);
-//   return (thisEditor);
-//   // return <div
-//     // ref={(ref) => ref && createEditor(ref, rendererEmitter)}
-//   // />
-// }
-
-
+let editorRef;
+let editor;
+const editorComponent = (<div ref={(ref) => ref && createEditor(ref, rendererEmitter, editorRef)} />);
 
 function App() {
   const [selectedNode, setSelectedNode] = useState(null);
-  // const [editorRef, setEditorRef] = useState(useRef(null));
-  const editorRef = useRef(null);
-  let thisEditor = <div />;
-  // let thisEditor = (<div ref={(ref) => ref && createEditor(ref, rendererEmitter, editorRef)} />);
+  editorRef = useRef(null);
   useEffect(() => {
-    thisEditor = (<div ref={(ref) => ref && createEditor(ref, rendererEmitter, editorRef)} />);
-    // console.log('editor', thisEditor);
-    console.log('editorRef', editorRef.current)
-      rendererEmitter.on('nodeselect', (node) => {
-        setSelectedNode(node);
-        console.log('selected node', node);
-      });
 
-      rendererEmitter.on('noderemoved', (node) => {
-        setSelectedNode(null);
-      });
+    editor = editorRef.current;
+    addStarterNodes(editor);
+    editor.on('nodeselected', (node) => {
+      setSelectedNode(node);
+    });
+
+
+      // rendererEmitter.on('nodeselect', (node) => {
+      //   setSelectedNode(node);
+      //   console.log('selected node', node);
+      // });
+
+      // rendererEmitter.on('noderemoved', (node) => {
+      //   setSelectedNode(null);
+      // });
 
       window.electronAPI.handleMidiMessage((event, value) => {
         console.log('midi event', event);
@@ -144,14 +105,11 @@ function App() {
 
   return (
     <div className="app">
-      {/* <button onClick={() => setVisible(false)}>Destroy</button> */}
       <div className="panel">
         {selectedNode && <Panel key={selectedNode.id} node={ selectedNode } emitter={rendererEmitter}/>}
       </div>
       <div className="rete">
-        {/* <ReteEditor setEditor={[setEditor]} /> */}
-        {thisEditor}
-        {/* <div ref={(ref) => ref && createEditor(ref, rendererEmitter, editorRef)} /> */}
+        {editorComponent}
       </div>
     </div>
   );
