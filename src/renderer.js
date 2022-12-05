@@ -66,6 +66,7 @@ window.electronAPI.handleNewSession((event, value) => {
 window.electronAPI.handleRestoreSession((event, session) => {
   try {
     editor.fromJSON(session);
+    editor.zoomToNodes();
   } catch (error) {
     console.error(error);
   }
@@ -78,11 +79,15 @@ const editorComponent = (<div ref={(ref) => ref && createEditor(ref, rendererEmi
 
 function App() {
   const [selectedNode, setSelectedNode] = useState(null);
+  const [pannelState, setPanelState] = useState(Date.now());
   editorRef = useRef(null);
   useEffect(() => {
 
     editor = editorRef.current;
-    addStarterNodes(editor);
+    if(editor.nodes.length === 0){
+      addStarterNodes(editor);
+    };
+
     editor.on('nodeselected', (node) => {
       setSelectedNode(node);
     });
@@ -90,6 +95,7 @@ function App() {
     editor.on('undo redo', () => {
       if (editor.selected.list.length) {
         // TODO, rerender panel here... 
+        setPanelState(Date.now());
         setSelectedNode(editor.selected.list[0]);
       }
     });
@@ -103,7 +109,7 @@ function App() {
   return (
     <div className="app">
       <div className="panel">
-        {selectedNode && <Panel key={selectedNode.id} node={selectedNode} editor={editor} emitter={rendererEmitter}/>}
+        {selectedNode && <Panel key={pannelState} node={selectedNode} editor={editor} emitter={rendererEmitter}/>}
       </div>
       <div className="rete">
         {editorComponent}

@@ -22,6 +22,7 @@ editor.addNode(add);
 editor.connect(mr1.outputs.get("noteOut"), add.inputs.get("num1"));
 editor.connect(mr1.outputs.get("velocityOut"), add.inputs.get("num2"));
 editor.connect(add.outputs.get("sum"), osc.inputs.get("num1"));
+editor.zoomToNodes();
 }
 
 export default addStarterNodes;

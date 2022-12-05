@@ -1,5 +1,5 @@
 // looking here https://codesandbox.io/s/retejs-react-render-t899c?file=/src/rete.jsx:3766-3794
-import React, { useState, useEffect, useCallback, useRef, useContext } from "react";
+// import React, { useState, useEffect, useCallback, useRef, useContext } from "react";
 import Rete from "rete";
 import { createRoot } from "react-dom/client";
 import ReactRenderPlugin from "rete-react-render-plugin";
@@ -10,7 +10,7 @@ import ContextMenuPlugin, {ReactMenu,} from 'rete-context-menu-plugin-react';
 import HistoryPlugin from 'rete-history-plugin';
 import KeyboardPlugin from "./plugins/keyboard-plugin.js";
 import MultiSelectPlugin from './plugins/multi-select-plugin.js';
-import DataChangeAction from "./plugins/data-change-action.js";
+// import DataChangeAction from "./plugins/data-change-action.js";
 
 import { numSocket } from "./numSocket.js";
 import { AddComponent } from "./AddComponent.jsx";
@@ -82,6 +82,10 @@ export function createEditor(container, rendererEmitter, editorRef) {
 
 // emitter callbacks
 
+  editor.zoomToNodes = () => {
+    AreaPlugin.zoomAt(editor, editor.nodes);
+  }
+
   rendererEmitter.on('addInput',(node) => {
     let inputLength = Array.from(node.inputs).length;
     inputLength++;
@@ -104,14 +108,9 @@ export function createEditor(container, rendererEmitter, editorRef) {
     return source !== 'dblclick';
   });
 
-  // editor.on('undo redo', () => {
-  //   if (editor.selected.list.length) {
-  //     rendererEmitter.emit('nodeselect', editor.selected.list[0]);
-  //   }
-  // });
 
   editor.view.resize();
-  AreaPlugin.zoomAt(editor);
+  // AreaPlugin.zoomAt(editor);
   editor.trigger("process");
   AreaPlugin.zoomAt(editor, editor.nodes);
   // AreaPlugin.restrictZoom();
