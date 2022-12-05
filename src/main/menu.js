@@ -50,7 +50,7 @@ const saveFile = () => {
       console.log(file.filePath.toString());
       // Creating and Writing to the sample.txt file
       fs.writeFile(file.filePath.toString(),
-        JSON.stringify(BrowserWindow.fromId(1).engine.nodes), function (err) {
+        JSON.stringify(BrowserWindow.getFocusedWindow().engine.nodes), function (err) {
           if (err) throw err;
           console.log('Saved!');
         });
@@ -62,7 +62,7 @@ const saveFile = () => {
 }
 
 const newSession = () => {
-  if (BrowserWindow.getAllWindows().length !== 0) {
+  if (BrowserWindow.getFocusedWindow()) {
     dialog.showMessageBox(mainWindow, {
       message: "Are you sure? All unsaved changes will be lost.",
       type: "warning",
@@ -72,7 +72,7 @@ const newSession = () => {
       cancelId: 0,
     }).then(result => {
       if (result.response === 1) { 
-        BrowserWindow.fromId(1).webContents.send('new-session');
+        BrowserWindow.getFocusedWindow().webContents.send('new-session');
       }
     }).catch(err => {
       console.log(err);
