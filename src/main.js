@@ -59,6 +59,8 @@ app.on('activate', () => {
   }
 });
 
+
+
 const checkUSB = () => {
   usbDetect.startMonitoring();
   usbDetect.on('add', function (device) { console.log('add', device); });
@@ -66,6 +68,13 @@ const checkUSB = () => {
 // Allow the process to exit
 //usbDetect.stopMonitoring()
 }
+
+
+async function getRendererInitialData() {
+  let data = { session: store.get('session')}; 
+  return data;
+}
+
 
 // In this file you can include the rest of your app's specific main process
 // code. You can also put them in separate files and import them here.
@@ -77,16 +86,11 @@ app.whenReady().then(() => {
 
   // TODO, the editor should request instead of the main process sending
   // the editor isn't setup in time
-
-
-  mainWindow.webContents.once('web-contents-created', () => {
-    console.log('web contents created');
-    if (store.get('session')) {
-      mainWindow.webContents.send('restore-session', store.get('session'));
-    }
-  });
-
+  
   mainWindow.engine.updateMIDIInputPorts();
+  ipcMain.handle('get-initial-data', getRendererInitialData)
+
+  
 
   ipcMain.on('rete:sendNodesToMain', (event, nodes) => {
     // this used to be an async function, does it need to be

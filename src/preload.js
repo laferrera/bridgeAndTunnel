@@ -9,6 +9,7 @@ contextBridge.exposeInMainWorld('electronAPI', {
     sendNodesToMain: (json) => ipcRenderer.send('rete:sendNodesToMain', json),
     engineProcessJSON: (json) => ipcRenderer.send('rete:engineProcessJSON', json),
     storeSession: (json) => ipcRenderer.send('store-session', json),
+    getInitialData: () => ipcRenderer.invoke('get-initial-data'),
 
     // to Renderer from Main process
     handleRestoreSession: (callback) => ipcRenderer.on('restore-session',callback),

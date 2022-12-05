@@ -67,29 +67,30 @@ window.electronAPI.handleNewSession((event, value) => {
   console.log('new session');
 });
 
-window.electronAPI.handleRestoreSession((event, session) => {
-  try {
-    editor.fromJSON(session);
-    editor.zoomToNodes();
-  } catch (error) {
-    console.error(error);
-  }
-});
-
 let editorRef;
 let editor;
+let initialData;
 const editorComponent = (<div ref={(ref) => ref && createEditor(ref, rendererEmitter, editorRef)} />);
 
 function App() {
   const [selectedNode, setSelectedNode] = useState(null);
   const [pannelState, setPanelState] = useState(Date.now());
   editorRef = useRef(null);
+
   useEffect(() => {
     editor = editorRef.current;
-
-    if(editor.nodes.length === 0){
+    
+    if(initialData.session){
+      try {
+        editor.fromJSON(initialData.session);
+        editor.zoomToNodes();
+      } catch (error) {
+        console.error(error);
+        addStarterNodes(editor);
+      }
+    } else {
       addStarterNodes(editor);
-    };
+    }
 
     editor.on('nodeselected', (node) => {
       setPanelState(Date.now());
@@ -123,5 +124,9 @@ function App() {
 }
 
 
-const rootElement = document.getElementById("root");
-createRoot(rootElement).render(<App />);
+window.electronAPI.getInitialData().then(data => {
+  initialData = data;
+  console.log('initial data.sessions', initialData.session);
+  const rootElement = document.getElementById("root");
+  createRoot(rootElement).render(<App />);
+})

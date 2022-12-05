@@ -1,6 +1,7 @@
 function install(editor) {
   editor.view.container.focus();
   let commanded = false
+  let shifted = false
 
   editor.on('keydown', e => {
     // console.log('keydown', e.code)
@@ -9,6 +10,10 @@ function install(editor) {
       case 'MetaRight':
         commanded = true;
         break;
+      case 'ShiftLeft':
+      case 'ShiftRight':
+        shifted = true;
+        break;        
       case 'KeyI': 
         console.log(editor.nodes);
         console.log("-------")
@@ -33,6 +38,9 @@ function install(editor) {
         if (commanded) {
           editor.trigger('undo');
         }
+        if(commanded && shifted){
+          editor.trigger('redo');
+        }
       case 'Escape':
         editor.trigger('hidecontextmenu');
         break;
@@ -51,6 +59,10 @@ function install(editor) {
       case 'MetaRight':
         commanded = false;
         break;
+      case 'ShiftLeft':
+      case 'ShiftRight':
+        shifted = false;
+        break;        
       default: break;
     }
   });

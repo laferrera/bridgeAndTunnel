@@ -4,8 +4,11 @@
 TODO
   
   open recent doesn't work
+  do we need to do a tray icon?
+    https://moinism.medium.com/how-to-keep-an-electron-app-running-in-the-background-f6a7c0e1ee4f
   browserwindow from id... what about not first window... 
   save instead of save_as
+  why doesn't redo work?
   undo/redo from menu
   mainwindow problems from menu
   preferences - 
