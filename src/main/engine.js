@@ -80,15 +80,17 @@ class Engine extends EventEmitter{
     this.nodes = nodes;
   }
 
-  updateMIDIInputPorts(){
-    let inputPortsJSON = {};
-    console.log('number of midi inputs: ', this.midiInput.getPortCount());
+  getMIDIInputPorts(){
+    let inputPorts = [];
     for (var i = 0; i < this.midiInput.getPortCount(); i++) {
       console.log('midi input: ', this.midiInput.getPortName(i));
-      inputPortsJSON[i] = [this.midiInput.getPortName(i), this.midiInput.getPortName(i)];
+      inputPorts.push([this.midiInput.getPortName(i), this.midiInput.getPortName(i)]);
     }
+    return inputPorts;
+  }
 
-    this.mainWindow.webContents.send('midi-device-update', inputPortsJSON);
+  updateMIDIInputPorts(){
+    this.mainWindow.webContents.send('midi-device-update', this.getMIDIInputPorts());
   }
 
   decodeMIDIMessage(message){

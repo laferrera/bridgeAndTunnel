@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import "./peStyles.css";
 import SelectDemo from "./select.jsx";
 import Button from "./button.jsx";
-import { uiConfigs } from '../nodeConfigs';
+// import { uiConfigs } from '../nodeConfigs';
 import DataChangeAction from "../../rete/plugins/data-change-action.js";
 
 import * as Label from "@radix-ui/react-label";
@@ -12,8 +12,10 @@ import * as RadioGroup from "@radix-ui/react-radio-group";
 import * as HoverCard from "@radix-ui/react-hover-card";
 
 export default function Panel(props) {
+  const configType = props.node.data.configType;
   let nodeConfig = props.node.data.config;
-  const uiConfig = uiConfigs[props.node.data.configType];
+  const uiConfig = props.uiConfigs[configType];
+  
   const state = {};
   const components = [];
   const didMount = React.useRef(null);

@@ -72,6 +72,8 @@ const checkUSB = () => {
 
 async function getRendererInitialData() {
   let data = { session: store.get('session')}; 
+  data.config = {};
+  data.config.midiInputs = engine.getMIDIInputPorts();
   return data;
 }
 

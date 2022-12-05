@@ -27,13 +27,12 @@
  */
 
 
-console.log('👋 This message is being logged by "renderer.js", included via webpack');
-
 import React, { useState, useEffect, useRef } from "react";
 import { createRoot } from "react-dom/client";
 import 'regenerator-runtime/runtime'
 import { useRete, createEditor } from "./rete/rete.jsx";
 import addStarterNodes from "./rete/addStarterNodes.js";
+import { uiConfigs } from './renderer/nodeConfigs';
 import Panel from "./renderer/panel/panel.jsx";
 import './index.css';
 
@@ -52,7 +51,8 @@ window.electronAPI.handleMidiMessage((event, value) => {
 });
 
 window.electronAPI.handleMidiDeviceUpdate((event, value) => {
-  console.log('midi device update', value);
+  config.midiInputs = value;
+  buildConfig();
 });
 
 window.electronAPI.handleSaveFile((event, value) => {
@@ -67,9 +67,14 @@ window.electronAPI.handleNewSession((event, value) => {
   console.log('new session');
 });
 
+const buildConfig = () => {
+  uiConfigs.midiReceiveConfig.midiInput.options = config.midiInputs;
+}
+
 let editorRef;
 let editor;
 let initialData;
+let config = {};
 const editorComponent = (<div ref={(ref) => ref && createEditor(ref, rendererEmitter, editorRef)} />);
 
 function App() {
@@ -79,7 +84,9 @@ function App() {
 
   useEffect(() => {
     editor = editorRef.current;
+    console.log('editor', editor)
     
+    // build nodes
     if(initialData.session){
       try {
         editor.fromJSON(initialData.session);
@@ -92,6 +99,7 @@ function App() {
       addStarterNodes(editor);
     }
 
+    // set up listeners
     editor.on('nodeselected', (node) => {
       setPanelState(Date.now());
       setSelectedNode(node);
@@ -99,7 +107,6 @@ function App() {
 
     editor.on('undo redo', () => {
       if (editor.selected.list.length) {
-        // TODO, rerender panel here... 
         setPanelState(Date.now());
         setSelectedNode(editor.selected.list[0]);
       }
@@ -114,7 +121,7 @@ function App() {
   return (
     <div className="app">
       <div className="panel">
-        {selectedNode && <Panel key={pannelState} node={selectedNode} editor={editor} emitter={rendererEmitter}/>}
+        {selectedNode && <Panel key={pannelState} node={selectedNode} editor={editor} emitter={rendererEmitter} uiConfigs={uiConfigs}/>}
       </div>
       <div className="rete">
         {editorComponent}
@@ -126,7 +133,8 @@ function App() {
 
 window.electronAPI.getInitialData().then(data => {
   initialData = data;
-  console.log('initial data.sessions', initialData.session);
+  config = data.config;
+  buildConfig();
   const rootElement = document.getElementById("root");
   createRoot(rootElement).render(<App />);
 })
