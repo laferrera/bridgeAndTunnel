@@ -10,6 +10,8 @@ TODO
   save instead of save_as
   why doesn't redo work?
   undo/redo from menu
+  drag node outside of box... 
+    'nodetranslated' or 'nodedraged' event, move to bounds? 
   mainwindow problems from menu
   preferences - 
     osc ip / color theme

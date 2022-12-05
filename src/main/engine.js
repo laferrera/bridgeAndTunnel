@@ -81,7 +81,7 @@ class Engine extends EventEmitter{
   }
 
   getMIDIInputPorts(){
-    let inputPorts = [];
+    let inputPorts = ["None", "none"];
     for (var i = 0; i < this.midiInput.getPortCount(); i++) {
       console.log('midi input: ', this.midiInput.getPortName(i));
       inputPorts.push([this.midiInput.getPortName(i), this.midiInput.getPortName(i)]);
