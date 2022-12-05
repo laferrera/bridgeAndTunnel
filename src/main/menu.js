@@ -23,8 +23,13 @@ const getFileFromUser = () => {
 
 const openFile = (file) => {
   const content = fs.readFileSync(file).toString();
-  // webContents.getFocusedWebContents()[0].send('load-file', file, content);
-  BrowserWindow.fromId(1).webContents.send('load-file', file, content);
+  if (BrowserWindow.getFocusedWindow()) {
+    BrowserWindow.getFocusedWindow().send('load-file', file, content);
+  } else {
+    //TODO, hows the timing on this...
+    app.createWindow();
+    BrowserWindow.getFocusedWindow().send('load-file', file, content);
+  }
 }
 
 const saveFile = () => {
