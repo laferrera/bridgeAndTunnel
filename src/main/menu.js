@@ -1,7 +1,7 @@
 // const mainProcess = require('../main');
 const path = require('path');
 const fs = require('fs');
-const { app, dialog, BrowserWindow } = require('electron')
+const { app, dialog, BrowserWindow, webContents } = require('electron')
 const isMac = process.platform === 'darwin'
 const mainWindow = BrowserWindow.fromId(1);
 
@@ -23,6 +23,7 @@ const getFileFromUser = () => {
 
 const openFile = (file) => {
   const content = fs.readFileSync(file).toString();
+  // webContents.getFocusedWebContents()[0].send('load-file', file, content);
   BrowserWindow.fromId(1).webContents.send('load-file', file, content);
 }
 

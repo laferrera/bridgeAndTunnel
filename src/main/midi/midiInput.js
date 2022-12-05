@@ -32,12 +32,8 @@ module.exports = {
         });
 
         console.log('midi started.');
-        console.log('number of midi inputs: ', input.getPortCount());
-        for(var i = 0; i < input.getPortCount(); i++){
-            console.log('midi input: ', input.getPortName(i));
-        }
 
-
+        return input;
         // Open the first available input port.
         // input.openPort(0);
 

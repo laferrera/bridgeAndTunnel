@@ -3,7 +3,11 @@
 
 TODO
   
+  open recent doesn't work
+  browserwindow from id... what about not first window... 
   save instead of save_as
+  undo/redo from menu
+  mainwindow problems from menu
   preferences - 
     osc ip / color theme
   kill all button https://codepen.io/hatead1/pen/mdEVRdJ
@@ -68,8 +72,7 @@ osc settings
 
 midi settings
     type
-        note #
-        note name
+        note # 
         cc
         input 
             virtual port
@@ -81,4 +84,5 @@ midi settings
         1-16
     mpe
         ......
+    
     

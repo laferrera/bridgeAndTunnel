@@ -7,6 +7,7 @@ require('update-electron-app')({
 })
 import 'regenerator-runtime/runtime'
 import Engine from './main/engine.js';
+import {generalSettings} from './generalSettings.js';
 const engine = new Engine('bridgeAndtunnel@0.1.0');
 const store = new Store();
 let mainWindow;
@@ -22,6 +23,8 @@ app.createWindow = () => {
   mainWindow = new BrowserWindow({
     width: 800,
     height: 600,
+    // TODO, background
+    backgroundColor: '#ff00ff',
     // frame: false,
     // titleBarStyle: 'hidden',
     webPreferences: {
@@ -34,11 +37,6 @@ app.createWindow = () => {
   engine.setMainWindow(mainWindow);
   // TODO, seems like we shouldn't have to set engine/mainwindow both ways...
   mainWindow.engine = engine;
-  mainWindow.webContents.once('dom-ready', () => { 
-    if (store.get('session')) {
-      mainWindow.webContents.send('restore-session', store.get('session'));
-    }
-  });
 };
 
 
@@ -61,12 +59,6 @@ app.on('activate', () => {
   }
 });
 
-const checkForPreviousSession = () => {
-  if (store.get('session')) {
-    mainWindow.webContents.send('restore-session', store.get('session'));
-  }
-}
-
 const checkUSB = () => {
   usbDetect.startMonitoring();
   usbDetect.on('add', function (device) { console.log('add', device); });
@@ -83,6 +75,18 @@ app.whenReady().then(() => {
   const menu = Menu.buildFromTemplate(menuTemplate);
   Menu.setApplicationMenu(menu);
 
+  // TODO, the editor should request instead of the main process sending
+  // the editor isn't setup in time
+
+
+  mainWindow.webContents.once('web-contents-created', () => {
+    console.log('web contents created');
+    if (store.get('session')) {
+      mainWindow.webContents.send('restore-session', store.get('session'));
+    }
+  });
+
+  mainWindow.engine.updateMIDIInputPorts();
 
   ipcMain.on('rete:sendNodesToMain', (event, nodes) => {
     // this used to be an async function, does it need to be

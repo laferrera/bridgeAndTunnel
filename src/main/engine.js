@@ -1,5 +1,6 @@
 const EventEmitter = require("events");
 const midiInput = require('./midi/midiInput.js');
+const midiOutput = require('./midi/midiOutput.js');
 const monomeGrid = require('monome-grid');
 const OscEmitter = require('osc-emitter');
 const OscReciever = require('osc-receiver');
@@ -18,7 +19,8 @@ class Engine extends EventEmitter{
     super();
     this.name = name;
     this.nodes = {};
-    this.midi = midiInput.init(this);
+    this.midiInput = midiInput.init(this);
+    this.midiOutput = midiOutput.init(this);
     this.OSCEmitter = new OscEmitter();
     this.OSCEmitter.add('127.0.0.1', tempOSCPort);
     this.OscReciever = new OscReciever();
@@ -31,7 +33,6 @@ class Engine extends EventEmitter{
     });
     this.setupMonomeGrid();
     this.monomeGridLed = []
-
 
     let components = [new MIDIRecieveComponent(), new AddComponent(), new OSCEmitterComponent(), new MonomeGridComponent()];
     components.map((c) => {
@@ -79,6 +80,17 @@ class Engine extends EventEmitter{
     this.nodes = nodes;
   }
 
+  updateMIDIInputPorts(){
+    let inputPortsJSON = {};
+    console.log('number of midi inputs: ', this.midiInput.getPortCount());
+    for (var i = 0; i < this.midiInput.getPortCount(); i++) {
+      console.log('midi input: ', this.midiInput.getPortName(i));
+      inputPortsJSON[i] = [this.midiInput.getPortName(i), this.midiInput.getPortName(i)];
+    }
+
+    this.mainWindow.webContents.send('midi-device-update', inputPortsJSON);
+  }
+
   decodeMIDIMessage(message){
     this.decode.write(Buffer.from(message));
   }
@@ -118,6 +130,7 @@ class Engine extends EventEmitter{
   // }
 
   distributeMonomeGridPress(x, y, state){
+    this.updateMIDIInputPorts();
     console.log('grid press: ', x, y, state);
     this.monomeGridLed[y][x] = state * 15;
     this.monomeGrid.refresh(this.monomeGridLed);

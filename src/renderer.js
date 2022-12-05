@@ -51,6 +51,10 @@ window.electronAPI.handleMidiMessage((event, value) => {
   console.log('midi message', value);
 });
 
+window.electronAPI.handleMidiDeviceUpdate((event, value) => {
+  console.log('midi device update', value);
+});
+
 window.electronAPI.handleSaveFile((event, value) => {
   console.log('save file', value);
 });
@@ -72,7 +76,6 @@ window.electronAPI.handleRestoreSession((event, session) => {
   }
 });
 
-
 let editorRef;
 let editor;
 const editorComponent = (<div ref={(ref) => ref && createEditor(ref, rendererEmitter, editorRef)} />);
@@ -82,13 +85,14 @@ function App() {
   const [pannelState, setPanelState] = useState(Date.now());
   editorRef = useRef(null);
   useEffect(() => {
-
     editor = editorRef.current;
+
     if(editor.nodes.length === 0){
       addStarterNodes(editor);
     };
 
     editor.on('nodeselected', (node) => {
+      setPanelState(Date.now());
       setSelectedNode(node);
     });
 
@@ -117,6 +121,7 @@ function App() {
     </div>
   );
 }
+
 
 const rootElement = document.getElementById("root");
 createRoot(rootElement).render(<App />);
