@@ -81,7 +81,7 @@ class Engine extends EventEmitter{
   }
 
   getMIDIInputPorts(){
-    let inputPorts = ["None", "none"];
+    let inputPorts = [["None", "none"]];
     for (var i = 0; i < this.midiInput.getPortCount(); i++) {
       console.log('midi input: ', this.midiInput.getPortName(i));
       inputPorts.push([this.midiInput.getPortName(i), this.midiInput.getPortName(i)]);
@@ -89,8 +89,18 @@ class Engine extends EventEmitter{
     return inputPorts;
   }
 
-  updateMIDIInputPorts(){
-    this.mainWindow.webContents.send('midi-device-update', this.getMIDIInputPorts());
+  getMIDIOutputPorts() {
+    let outputPorts = [["None", "none"]];
+    for (var i = 0; i < this.midiOutput.getPortCount(); i++) {
+      console.log('midi input: ', this.midiOutput.getPortName(i));
+      outputPorts.push([this.midiOutput.getPortName(i), this.midiOutput.getPortName(i)]);
+    }
+    return outputPorts;
+  }
+
+  updateMIDIPorts(){
+    let midiPorts = { midiInputs: this.getMIDIInputPorts(), midiOutputs: this.getMIDIOutputPorts() };
+    this.mainWindow.webContents.send('midi-device-update', midiPorts);
   }
 
   decodeMIDIMessage(message){
@@ -132,7 +142,7 @@ class Engine extends EventEmitter{
   // }
 
   distributeMonomeGridPress(x, y, state){
-    this.updateMIDIInputPorts();
+    this.updateMIDIPorts();
     console.log('grid press: ', x, y, state);
     this.monomeGridLed[y][x] = state * 15;
     this.monomeGrid.refresh(this.monomeGridLed);

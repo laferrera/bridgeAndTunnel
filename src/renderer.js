@@ -51,7 +51,8 @@ window.electronAPI.handleMidiMessage((event, value) => {
 });
 
 window.electronAPI.handleMidiDeviceUpdate((event, value) => {
-  config.midiInputs = value;
+  config.midiInputs = value.midiInputs;
+  config.midiOutputs = value.midiOutputs;
   buildConfig();
 });
 

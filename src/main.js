@@ -89,7 +89,8 @@ app.whenReady().then(() => {
   // TODO, the editor should request instead of the main process sending
   // the editor isn't setup in time
   
-  mainWindow.engine.updateMIDIInputPorts();
+  mainWindow.engine.updateMIDIPorts();
+  
   ipcMain.handle('get-initial-data', getRendererInitialData)
 
   
