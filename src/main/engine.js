@@ -4,6 +4,7 @@ const midiOutput = require('./midi/midiOutput.js');
 const monomeGrid = require('monome-grid');
 const OscEmitter = require('osc-emitter');
 const OscReciever = require('osc-receiver');
+const abletonlink = require('abletonlink');
 const { DecodeStream } = require('@lachenmayer/midi-messages')
 import { emitterEmitter } from "../rete/emitterEmitter.js";
 const tempOSCPort = 10201;
@@ -24,6 +25,7 @@ class Engine extends EventEmitter{
     this.OSCEmitter = new OscEmitter();
     this.OSCEmitter.add('127.0.0.1', tempOSCPort);
     this.OscReciever = new OscReciever();
+    this.link = new abletonlink();
     this.decode = new DecodeStream();
     this.decode.on('data', message => { this.distributeMIDIMessage(message) });
     this.on('midi-message', (message) => { this.decodeMIDIMessage(message); });

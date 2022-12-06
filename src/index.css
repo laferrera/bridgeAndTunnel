@@ -3,13 +3,29 @@
   src: url(04B_03__.ttf);
 }
 
+@font-face {
+  font-family: 'PPSupplySans-Regular';
+  src: url(PPSupplySans-Regular.otf);
+}
+
 body {
-  font-family: '04b';
   /* font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, */
     /* Arial, sans-serif; */
   margin: auto;
   background-color: #333;
 }
+
+body,
+.editor,
+.node .title,
+.node .input-title,
+.node .output-title,
+.node select,
+.node input {
+  font-family: 'PPSupplySans-Regular';
+  /* font-family: '04b'; */
+}
+
 
 html,
 body {
@@ -58,7 +74,6 @@ input {
 
 .node {
   all: unset;
-  font-family: '04b';
   background: #999;
   /* border: 1px solid black; */
   border-radius: 10px;
@@ -92,7 +107,6 @@ input {
 }
 
 .node .title{
-  font-family: '04b';
   font-size: 14px;
   background:rgba(200,200,200,0.5);
   text-align: center;
@@ -101,7 +115,6 @@ input {
 
 .node .input-title,
 .node .output-title {
-  font-family: '04b';
   margin:0;
 }
 
@@ -109,7 +122,6 @@ input {
 .node input {
   border:0px;
   font-size:100%;
-  font-family: '04b';
 }
 
 .node select,
