@@ -21,7 +21,7 @@ class Engine extends EventEmitter{
     this.name = name;
     this.nodes = {};
     this.midiInputs = []
-    this.midiInputs.push(midiInput.init(this));
+    this.midiInputs.push(midiInput.init(this, 'Bridge & Tunnel'));
     this.midiOutputs = []
     this.midiOutputs.push(midiOutput.init(this));
     this.OSCEmitter = new OscEmitter();

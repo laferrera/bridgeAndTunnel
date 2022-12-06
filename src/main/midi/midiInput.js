@@ -6,14 +6,18 @@ module.exports = {
     },
     // init: function (window) {
         // mainWindow = window;
-    init: function (engine) {
+    init: function (engine, portName) {
         this.engine = engine;
 
 
         // Set up a new input.
         const input = new midi.Input();
 
-        input.openVirtualPort('Bridge & Tunnel');
+        if (portName === 'Bridge & Tunnel') {
+            input.openVirtualPort('Bridge & Tunnel');
+        } else {
+            input.openPort(portName);
+        }
         // Count the available input ports.
         // input.getPortCount();
 
