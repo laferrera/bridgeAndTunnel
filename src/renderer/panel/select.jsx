@@ -13,7 +13,7 @@ export default function SelectDemo(props) {
   return (
     <div className="SelectMenuWrapper">
       <Label.Root
-        htmlFor="sampleSelectMenu"
+        htmlFor={props.setting.label}
         className="Label"
         key={props.setting.label}
       >
@@ -24,7 +24,7 @@ export default function SelectDemo(props) {
         onValueChange={props.state[props.settingKey].fn}
         key={props.settingKey}
       >
-        <Select.Trigger className="SelectTrigger" id="sampleSelectMenu">
+        <Select.Trigger className="SelectTrigger" id={props.setting.label}>
           <Select.Value aria-label={props.value}>
             {props.value}
           </Select.Value>
