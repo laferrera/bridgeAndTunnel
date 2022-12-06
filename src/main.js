@@ -1,4 +1,5 @@
 const { app, BrowserWindow, dialog, ipcMain, Menu } = require('electron');
+const fs = require('fs');
 const Store = require('electron-store');
 import menuTemplate from './main/menu.js';
 require('update-electron-app')({
@@ -59,6 +60,23 @@ app.on('activate', () => {
   }
 });
 
+app.on('open-file', (event, file) => {
+  event.preventDefault();
+  const content = fs.readFileSync(file).toString();
+  if (BrowserWindow.getFocusedWindow()) {
+    BrowserWindow.getFocusedWindow().send('load-file', file, content);
+  } else {
+    //TODO, hows the timing on this...
+    app.createWindow();
+    BrowserWindow.getFocusedWindow().send('load-file', file, content);
+  }
+});
+
+app.on('before-quit', event => {
+  // TODO, kill ableton link somehow
+  console.log("we haven't quitted just yet...")
+  
+});
 
 
 const checkUSB = () => {

@@ -25,7 +25,7 @@ class Engine extends EventEmitter{
     this.OSCEmitter = new OscEmitter();
     this.OSCEmitter.add('127.0.0.1', tempOSCPort);
     this.OscReciever = new OscReciever();
-    this.link = new abletonlink();
+    // this.link = new abletonlink.Audio();
     this.decode = new DecodeStream();
     this.decode.on('data', message => { this.distributeMIDIMessage(message) });
     this.on('midi-message', (message) => { this.decodeMIDIMessage(message); });
@@ -94,7 +94,7 @@ class Engine extends EventEmitter{
   getMIDIOutputPorts() {
     let outputPorts = [["None", "none"]];
     for (var i = 0; i < this.midiOutput.getPortCount(); i++) {
-      console.log('midi input: ', this.midiOutput.getPortName(i));
+      console.log('midi output: ', this.midiOutput.getPortName(i));
       outputPorts.push([this.midiOutput.getPortName(i), this.midiOutput.getPortName(i)]);
     }
     return outputPorts;
