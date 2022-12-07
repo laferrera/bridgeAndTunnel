@@ -1,6 +1,7 @@
 const EventEmitter = require("events");
-const midiInput = require('./midi/midiInput.js');
-const midiOutput = require('./midi/midiOutput.js');
+const midi = require('midi');
+const midiInputStream = require('./midi/midiInputStream.js');
+const midiOutputStream = require('./midi/midiOutputStream.js');
 const monomeGrid = require('monome-grid');
 const OscEmitter = require('osc-emitter');
 const OscReciever = require('osc-receiver');
@@ -20,16 +21,18 @@ class Engine extends EventEmitter{
     super();
     this.name = name;
     this.nodes = {};
-    this.midiInputs = []
-    this.midiInputs.push(midiInput.init(this, 'Bridge & Tunnel'));
-    this.midiOutputs = []
-    this.midiOutputs.push(midiOutput.init(this));
+    this.midiInputStreams = []
+    this.midiInputStreams.push(midiInputStream.init(this, 'Bridge & Tunnel'));
+    this.midiInput = new midi.Input();
+    this.midiOutputStreams = []
+    this.midiOutputStreams.push(midiOutputStream.init(this, 'Bridge & Tunnel'));
+    this.midiOutput = new midi.Output();
     this.OSCEmitter = new OscEmitter();
     this.OSCEmitter.add('127.0.0.1', tempOSCPort);
     this.OscReciever = new OscReciever();
     // this.link = new abletonlink.Audio();
-    this.decode = new DecodeStream();
-    this.decode.on('data', message => { this.distributeMIDIMessage(message) });
+    // this.decode = new DecodeStream();
+    // this.decode.on('data', message => { this.distributeMIDIMessage(message) });
     this.on('midi-message', (message) => { this.decodeMIDIMessage(message); });
     this.reteEngine = new Rete.Engine(name);
     this.reteEngine.on('error', ({ message, data }) => {
@@ -85,20 +88,20 @@ class Engine extends EventEmitter{
   }
 
   getMIDIInputPorts(){
-    let inputPorts = [["None", "none"]];
-    for (var i = 0; i < this.midiInputs[0].getPortCount(); i++) {
-      const portName = this.midiInputs[0].getPortName(i);
-      console.log('midi input: ', portName);
+    // let inputPorts = [['Bridge & Tunnel', 'Bridge & Tunnel']];
+    let inputPorts = [];
+    for (var i = 0; i < this.midiInput.getPortCount(); i++) {
+      const portName = this.midiInput.getPortName(i);
       inputPorts.push([portName, portName]);
     }
     return inputPorts;
   }
 
   getMIDIOutputPorts() {
-    let outputPorts = [["None", "none"]];
-    for (var i = 0; i < this.midiOutputs[0].getPortCount(); i++) {
-      const portName = this.midiOutputs[0].getPortName(i);
-      console.log('midi output: ', portName);
+    // let outputPorts = [['Bridge & Tunnel', 'Bridge & Tunnel']];
+    let outputPorts = [];
+    for (var i = 0; i < this.midiOutput.getPortCount(); i++) {
+      const portName = this.midiOutput.getPortName(i);
       outputPorts.push([portName, portName]);
     }
     return outputPorts;
@@ -106,6 +109,7 @@ class Engine extends EventEmitter{
 
   updateMIDIPorts(){
     let midiPorts = { midiInputs: this.getMIDIInputPorts(), midiOutputs: this.getMIDIOutputPorts() };
+    console.log(midiPorts);
     this.mainWindow.webContents.send('midi-device-update', midiPorts);
   }
 
@@ -113,8 +117,8 @@ class Engine extends EventEmitter{
     this.decode.write(Buffer.from(message));
   }
 
-  distributeMIDIMessage(message){
-    console.log('midi message: ', message);
+  distributeMIDIMessage(message, portName){
+    console.log('midi message: ', message, portName);
     let channel = message.channel;
     let midiReceivers = Object.values(this.nodes).filter(n => (n.name == "MIDI Receive" && n.data.config.channel.value == channel));
     midiReceivers.forEach(mr => {
