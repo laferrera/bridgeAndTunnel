@@ -1,53 +1,59 @@
 const EventEmitter = require("events");
-const midi = require('midi');
-const midiInputStream = require('./midi/midiInputStream.js');
-const midiOutputStream = require('./midi/midiOutputStream.js');
-const monomeGrid = require('monome-grid');
-const OscEmitter = require('osc-emitter');
-const OscReciever = require('osc-receiver');
-const abletonlink = require('abletonlink');
-const { DecodeStream } = require('@lachenmayer/midi-messages')
+const midi = require("midi");
+const midiInputStream = require("./midi/midiInputStream.js");
+const midiOutputStream = require("./midi/midiOutputStream.js");
+const monomeGrid = require("monome-grid");
+const OscEmitter = require("osc-emitter");
+const OscReciever = require("osc-receiver");
+const abletonlink = require("abletonlink");
+const { DecodeStream } = require("@lachenmayer/midi-messages");
 import { emitterEmitter } from "../rete/emitterEmitter.js";
 const tempOSCPort = 10201;
 
 import Rete from "rete";
 import { reteComponents } from "../rete/index.js";
-class Engine extends EventEmitter{
+class Engine extends EventEmitter {
   constructor(name) {
     super();
     this.name = name;
     this.nodes = {};
-    this.midiInputStreams = []
-    this.midiInputStreams.push(midiInputStream.init(this, 'Bridge & Tunnel'));
+    this.midiInputStreams = [];
+    this.midiInputStreams.push(midiInputStream.init(this, "Bridge & Tunnel"));
     this.midiInput = new midi.Input();
-    this.midiOutputStreams = []
-    this.midiOutputStreams.push(midiOutputStream.init(this, 'Bridge & Tunnel'));
+    this.midiOutputStreams = [];
+    this.midiOutputStreams.push(midiOutputStream.init(this, "Bridge & Tunnel"));
     this.midiOutput = new midi.Output();
     this.OSCEmitter = new OscEmitter();
-    this.OSCEmitter.add('127.0.0.1', tempOSCPort);
+    this.OSCEmitter.add("127.0.0.1", tempOSCPort);
     this.OscReciever = new OscReciever();
     // this.link = new abletonlink.Audio();
     // this.decode = new DecodeStream();
     // this.decode.on('data', message => { this.distributeMIDIMessage(message) });
-    this.on('midi-message', (message) => { this.decodeMIDIMessage(message); });
+    this.on("midi-message", (message) => {
+      this.decodeMIDIMessage(message);
+    });
     this.reteEngine = new Rete.Engine(name);
-    this.reteEngine.on('error', ({ message, data }) => {
+    this.reteEngine.on("error", ({ message, data }) => {
       this.alertErrorToRenderer(message, data);
     });
     this.setupMonomeGrid();
-    this.monomeGridLed = []
+    this.monomeGridLed = [];
 
     reteComponents.map((c) => {
       this.reteEngine.register(c);
     });
-    
-    emitterEmitter.on('osc-message', (node) => { this.emitOSC(node); });
+
+    emitterEmitter.on("osc-message", (node) => {
+      this.emitOSC(node);
+    });
   }
 
-  setupMonomeGrid(){
-    monomeGrid().then(grid => {
+  setupMonomeGrid() {
+    monomeGrid().then((grid) => {
       this.monomeGrid = grid;
-      this.monomeGrid.key((x, y, s) => { this.distributeMonomeGridPress(x, y, s); });
+      this.monomeGrid.key((x, y, s) => {
+        this.distributeMonomeGridPress(x, y, s);
+      });
       // todo, find grid x and y size
       for (let y = 0; y < 8; y++) {
         this.monomeGridLed[y] = Array.from(new Float32Array(16));
@@ -56,34 +62,34 @@ class Engine extends EventEmitter{
     });
   }
 
-  processJSON(json){
+  processJSON(json) {
     this.reteEngine.process(json);
   }
 
-  process(nodeIds){
-    let data = {id: this.name, nodes: this.nodes};
-    nodeIds.forEach(id => {
+  process(nodeIds) {
+    let data = { id: this.name, nodes: this.nodes };
+    nodeIds.forEach((id) => {
       this.reteEngine.process(data, id);
     });
   }
 
-  setMainWindow(mainWindow){
+  setMainWindow(mainWindow) {
     this.mainWindow = mainWindow;
   }
 
-  alertErrorToRenderer(message, data){
-    this.mainWindow.webContents.send('engine-error', message, data);
+  alertErrorToRenderer(message, data) {
+    this.mainWindow.webContents.send("engine-error", message, data);
   }
 
   display() {
     console.log(this.nodes);
   }
 
-  storeNodes(nodes){
+  storeNodes(nodes) {
     this.nodes = nodes;
   }
 
-  getMIDIInputPorts(){
+  getMIDIInputPorts() {
     // let inputPorts = [['Bridge & Tunnel', 'Bridge & Tunnel']];
     let inputPorts = [];
     for (var i = 0; i < this.midiInput.getPortCount(); i++) {
@@ -103,42 +109,55 @@ class Engine extends EventEmitter{
     return outputPorts;
   }
 
-  updateMIDIPorts(){
-    let midiPorts = { midiInputs: this.getMIDIInputPorts(), midiOutputs: this.getMIDIOutputPorts() };
+  updateMIDIPorts() {
+    let midiPorts = {
+      midiInputs: this.getMIDIInputPorts(),
+      midiOutputs: this.getMIDIOutputPorts(),
+    };
     console.log(midiPorts);
-    this.mainWindow.webContents.send('midi-device-update', midiPorts);
+    this.mainWindow.webContents.send("midi-device-update", midiPorts);
   }
 
-  decodeMIDIMessage(message){
+  decodeMIDIMessage(message) {
     this.decode.write(Buffer.from(message));
   }
 
-  distributeIncomingMIDIMessage(message, portName){
-    console.log('midi message: ', message, portName);
+  distributeIncomingMIDIMessage(message, portName) {
+    console.log("midi message: ", message, portName);
     let channel = message.channel;
-    let midiReceivers = Object.values(this.nodes).filter(n => (n.name == "MIDI Receive" && n.data.config.channel.value == channel && n.data.config.portName.value == portName));
-    midiReceivers.forEach(mr => {
+    let midiReceivers = Object.values(this.nodes).filter(
+      (n) =>
+        n.name == "MIDI Receive" &&
+        n.data.config.channel.value == channel &&
+        n.data.config.portName.value == portName
+    );
+    midiReceivers.forEach((mr) => {
       mr.data.noteOut = message.note;
       mr.data.velocityOut = message.velocity;
-    })
-    this.process(midiReceivers.map(mr => mr.id));
+    });
+    this.process(midiReceivers.map((mr) => mr.id));
   }
 
-  distributeOutgoingMIDIMessage(message, portName){
-    console.log('midi message: ', message, portName);
+  distributeOutgoingMIDIMessage(message, portName) {
+    console.log("midi message: ", message, portName);
     let channel = message.channel;
-    let midiSenders = Object.values(this.nodes).filter(n => (n.name == "MIDI Send" && n.data.config.channel.value == channel && n.data.config.portName.value == portName));
-    midiSenders.forEach(ms => {
+    let midiSenders = Object.values(this.nodes).filter(
+      (n) =>
+        n.name == "MIDI Send" &&
+        n.data.config.channel.value == channel &&
+        n.data.config.portName.value == portName
+    );
+    midiSenders.forEach((ms) => {
       ms.data.noteOut = message.note;
       ms.data.velocityOut = message.velocity;
-    })
-    this.process(midiSenders.map(ms => ms.id));
+    });
+    this.process(midiSenders.map((ms) => ms.id));
   }
 
-  emitOSC(node){  
+  emitOSC(node) {
     const address = node.data.config.address.value;
     const args = node.data.oscValues;
-    console.log('emit osc: ', node.id,' address: ', address, args);
+    console.log("emit osc: ", node.id, " address: ", address, args);
     this.OSCEmitter.emit(address, args);
   }
 
@@ -158,20 +177,19 @@ class Engine extends EventEmitter{
   //   }
   // }
 
-  distributeMonomeGridPress(x, y, state){
+  distributeMonomeGridPress(x, y, state) {
     this.updateMIDIPorts();
-    console.log('grid press: ', x, y, state);
+    console.log("grid press: ", x, y, state);
     this.monomeGridLed[y][x] = state * 15;
     this.monomeGrid.refresh(this.monomeGridLed);
-    let grids = Object.values(this.nodes).filter(n => (n.name == "Grid"));
-    grids.forEach(mg => {
+    let grids = Object.values(this.nodes).filter((n) => n.name == "Grid");
+    grids.forEach((mg) => {
       mg.data.x = x;
       mg.data.y = y;
       mg.data.state = state;
-    })
-    this.process(grids.map(mg => mg.id));
+    });
+    this.process(grids.map((mg) => mg.id));
   }
-
 }
 
-export default Engine
+export default Engine;
