@@ -89,9 +89,12 @@ const checkUSB = () => {
 
 
 async function getRendererInitialData() {
+  //TODO, this is a bit of a mess, should be a class
+  // move some of this to the engine?
   let data = { session: store.get('session')}; 
   data.config = {};
   data.config.midiInputs = engine.getMIDIInputPorts();
+  data.config.midiOutputs = engine.getMIDIOutputPorts();
   return data;
 }
 

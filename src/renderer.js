@@ -92,7 +92,6 @@ function App() {
     if(initialData.session){
       try {
         editor.fromJSON(initialData.session);
-        editor.zoomToNodes();
       } catch (error) {
         console.error(error);
         addStarterNodes(editor);
@@ -100,6 +99,9 @@ function App() {
     } else {
       addStarterNodes(editor);
     }
+    //TODO, timeout for this?
+    editor.zoomToNodes();
+
 
     // set up listeners
     editor.on('nodeselected', (node) => {
@@ -135,6 +137,7 @@ function App() {
 
 window.electronAPI.getInitialData().then(data => {
   initialData = data;
+  console.log(data);
   config = data.config;
   buildConfig();
   const rootElement = document.getElementById("root");

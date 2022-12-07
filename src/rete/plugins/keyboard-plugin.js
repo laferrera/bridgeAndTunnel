@@ -35,6 +35,10 @@ function install(editor) {
         editor.trigger('contextmenu', { e: event, view: editor.view });
         break;
       case 'KeyZ':
+        if(!commanded){
+          editor.zoomToNodes();
+        }
+
         if (commanded) {
           editor.trigger('undo');
         }

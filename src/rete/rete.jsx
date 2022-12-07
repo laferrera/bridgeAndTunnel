@@ -79,6 +79,7 @@ export function createEditor(container, rendererEmitter, editorRef) {
 // emitter callbacks
 
   editor.zoomToNodes = () => {
+    console.log('zoomin')
     AreaPlugin.zoomAt(editor, editor.nodes);
   }
 
