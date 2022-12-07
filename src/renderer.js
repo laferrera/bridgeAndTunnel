@@ -70,6 +70,7 @@ window.electronAPI.handleNewSession((event, value) => {
 
 const buildConfig = () => {
   uiConfigs.midiReceiveConfig.portName.options = config.midiInputs;
+  uiConfigs.midiSendConfig.portName.options = config.midiOutputs;
 }
 
 let editorRef;

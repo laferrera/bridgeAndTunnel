@@ -14,10 +14,7 @@ import MultiSelectPlugin from './plugins/multi-select-plugin.js';
 
 import { numSocket } from "./numSocket.js";
 import { AddComponent } from "./AddComponent.jsx";
-import { MIDIRecieveComponent } from "./MIDIRecieveComponent.jsx";
-import { MIDISendComponent } from "./MIDISendComponent.jsx";
-import { OSCEmitterComponent } from "./OSCEmitterComponent.jsx";
-import { MonomeGridComponent } from "./MonomeGridComponent.jsx";
+import { reteComponents } from "./index.js";
 
 export function createEditor(container, rendererEmitter, editorRef) {
   let editor = new Rete.NodeEditor('bridgeAndtunnel@0.1.0', container);
@@ -66,9 +63,7 @@ export function createEditor(container, rendererEmitter, editorRef) {
   editor.use(KeyboardPlugin);
   editor.use(MultiSelectPlugin);
 
-
-  let components = [new MIDIRecieveComponent(), new MIDISendComponent(), new AddComponent(), new OSCEmitterComponent(), new MonomeGridComponent()];
-  components.map((c) => {
+  reteComponents.map((c) => {
     editor.register(c);
   });
 
