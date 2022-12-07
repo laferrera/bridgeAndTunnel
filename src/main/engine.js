@@ -40,6 +40,7 @@ class Engine extends EventEmitter{
     reteComponents.map((c) => {
       this.reteEngine.register(c);
     });
+    
     emitterEmitter.on('osc-message', (node) => { this.emitOSC(node); });
   }
 

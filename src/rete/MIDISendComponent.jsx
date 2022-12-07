@@ -26,7 +26,8 @@ export class MIDISendComponent extends Rete.Component {
 
   worker(node, inputs, outputs) {
     node.data.noteIn = inputs['noteIn'];
-    node.data.velocityIn = input['velocityIn'];
+    node.data.velocityIn = inputs['velocityIn'];
+    emitterEmitter.emit("send-midi-message", node);
   }
 
 }
