@@ -43,8 +43,12 @@ class Engine extends EventEmitter {
       this.reteEngine.register(c);
     });
 
-    emitterEmitter.on("osc-message", (node) => {
+    emitterEmitter.on("send-osc-message", (node) => {
       this.emitOSC(node);
+    });
+
+    emitterEmitter.on("send-midi-message", (node) => {
+      this.emitMIDI(node);
     });
   }
 
@@ -138,20 +142,41 @@ class Engine extends EventEmitter {
     this.process(midiReceivers.map((mr) => mr.id));
   }
 
-  distributeOutgoingMIDIMessage(message, portName) {
-    console.log("midi message: ", message, portName);
-    let channel = message.channel;
-    let midiSenders = Object.values(this.nodes).filter(
-      (n) =>
-        n.name == "MIDI Send" &&
-        n.data.config.channel.value == channel &&
-        n.data.config.portName.value == portName
+  // distributeOutgoingMIDIMessage(message, portName) {
+  //   console.log("midi message: ", message, portName);
+  //   let channel = message.channel;
+  //   let midiSenders = Object.values(this.nodes).filter(
+  //     (n) =>
+  //       n.name == "MIDI Send" &&
+  //       n.data.config.channel.value == channel &&
+  //       n.data.config.portName.value == portName
+  //   );
+  //   midiSenders.forEach((ms) => {
+  //     ms.data.noteOut = message.note;
+  //     ms.data.velocityOut = message.velocity;
+  //   });
+  //   this.process(midiSenders.map((ms) => ms.id));
+  // }
+
+  emitMIDI(node) {
+    const portName = node.data.config.portName.value;
+    const channel = node.data.config.channel.value;
+    const note = node.data.noteIn;
+    const velocity = node.data.velocityIn;
+    console.log(
+      "emit midi: ",
+      "node.id :",
+      node.id,
+      " port: ",
+      portName,
+      "channel: ",
+      channel,
+      "note: ",
+      note,
+      "velocity: ",
+      velocity
     );
-    midiSenders.forEach((ms) => {
-      ms.data.noteOut = message.note;
-      ms.data.velocityOut = message.velocity;
-    });
-    this.process(midiSenders.map((ms) => ms.id));
+    this.midiOutput.sendMessage([0x90 + channel - 1, note, velocity]);
   }
 
   emitOSC(node) {

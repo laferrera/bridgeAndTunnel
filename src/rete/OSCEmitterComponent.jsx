@@ -28,7 +28,7 @@ export class OSCEmitterComponent extends Rete.Component {
         node.data.oscValues.push(input[0]);
       }
     });
-    emitterEmitter.emit("osc-message", node);
+    emitterEmitter.emit("send-osc-message", node);
   }
 
 }

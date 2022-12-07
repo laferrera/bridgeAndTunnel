@@ -62,7 +62,7 @@ export default function Panel(props) {
 
   return (
     <div className="Sidebar">
-      <h1 className="SidebarH1">Sidebar</h1>
+      <h2 className="SidebarH2">{props.node.name}</h2>
         {components}
     </div>
   );

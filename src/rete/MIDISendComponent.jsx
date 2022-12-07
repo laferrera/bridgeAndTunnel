@@ -3,6 +3,7 @@ import { btNode } from "./btNode.jsx";
 import { numSocket } from "./numSocket.js";
 import { midiSendConfig } from "../renderer/nodeConfigs/midiSendConfig.js";
 import { configBuilder } from "./utils.js";
+import { emitterEmitter } from "./emitterEmitter.js";
 
 export class MIDISendComponent extends Rete.Component {
   constructor() {
@@ -25,8 +26,8 @@ export class MIDISendComponent extends Rete.Component {
   }
 
   worker(node, inputs, outputs) {
-    node.data.noteIn = inputs['noteIn'];
-    node.data.velocityIn = inputs['velocityIn'];
+    node.data.noteIn = inputs['noteIn'][0];
+    node.data.velocityIn = inputs['velocityIn'][0];
     emitterEmitter.emit("send-midi-message", node);
   }
 
