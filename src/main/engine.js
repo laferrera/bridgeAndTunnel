@@ -113,7 +113,7 @@ class Engine extends EventEmitter{
     this.decode.write(Buffer.from(message));
   }
 
-  distributeMIDIMessage(message, portName){
+  distributeIncomingMIDIMessage(message, portName){
     console.log('midi message: ', message, portName);
     let channel = message.channel;
     let midiReceivers = Object.values(this.nodes).filter(n => (n.name == "MIDI Receive" && n.data.config.channel.value == channel && n.data.config.portName.value == portName));
@@ -122,6 +122,17 @@ class Engine extends EventEmitter{
       mr.data.velocityOut = message.velocity;
     })
     this.process(midiReceivers.map(mr => mr.id));
+  }
+
+  distributeOutgoingMIDIMessage(message, portName){
+    console.log('midi message: ', message, portName);
+    let channel = message.channel;
+    let midiSenders = Object.values(this.nodes).filter(n => (n.name == "MIDI Send" && n.data.config.channel.value == channel && n.data.config.portName.value == portName));
+    midiSenders.forEach(ms => {
+      ms.data.noteOut = message.note;
+      ms.data.velocityOut = message.velocity;
+    })
+    this.process(midiSenders.map(ms => ms.id));
   }
 
   emitOSC(node){  

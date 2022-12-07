@@ -114,8 +114,6 @@ app.whenReady().then(() => {
   
   ipcMain.handle('get-initial-data', getRendererInitialData)
 
-  
-
   ipcMain.on('rete:sendNodesToMain', (event, nodes) => {
     // this used to be an async function, does it need to be
     engine.storeNodes(nodes);

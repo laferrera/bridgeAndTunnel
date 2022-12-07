@@ -25,6 +25,7 @@ export default function Panel(props) {
       val: resultArr[0],
       fn: resultArr[1]
     };
+    
     if (uiConfig.hasOwnProperty(setting)){
       if (uiConfig[setting].ui === "select") {
         components.push(<SelectDemo key={setting} state={state} settingKey={setting} setting={uiConfig[setting]} />);
