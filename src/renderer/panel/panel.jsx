@@ -42,7 +42,6 @@ export default function Panel(props) {
     }
     let alertEngine = false;
     const prevConfig = JSON.parse(JSON.stringify(nodeConfig));
-
     Object.keys(state).forEach((key, index) => {
       if (state[key].val !== props.node.data.config[key].value) {
         alertEngine = true;
@@ -50,6 +49,7 @@ export default function Panel(props) {
       }
     });
     if (alertEngine) {
+      window.electronAPI.sendNodesToMain(props.editor.toJSON().nodes);
       props.editor.trigger('addhistory', new DataChangeAction(prevConfig, nodeConfig, props.node));
     }
     return () => {

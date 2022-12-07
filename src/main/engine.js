@@ -120,7 +120,7 @@ class Engine extends EventEmitter{
   distributeMIDIMessage(message, portName){
     console.log('midi message: ', message, portName);
     let channel = message.channel;
-    let midiReceivers = Object.values(this.nodes).filter(n => (n.name == "MIDI Receive" && n.data.config.channel.value == channel));
+    let midiReceivers = Object.values(this.nodes).filter(n => (n.name == "MIDI Receive" && n.data.config.channel.value == channel && n.data.config.portName.value == portName));
     midiReceivers.forEach(mr => {
       mr.data.noteOut = message.note;
       mr.data.velocityOut = message.velocity;
