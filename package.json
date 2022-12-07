@@ -10,7 +10,7 @@
     "package": "electron-forge package",
     "make": "electron-forge make",
     "publish": "electron-forge publish",
-    "lint": "echo \"No linting configured\""
+    "lint": "electron-forge lint"
   },
   "keywords": [],
   "author": {
@@ -34,6 +34,8 @@
     "css-loader": "^6.0.0",
     "electron": "21.3.0",
     "electron-rebuild": "^3.2.9",
+    "eslint": "^8.29.0",
+    "eslint-plugin-react": "^7.31.11",
     "mocha": "^10.1.0",
     "node-loader": "^2.0.0",
     "rete-cli": "^0.6.1",

@@ -13,6 +13,7 @@ const tempOSCPort = 10201;
 import Rete from "rete";
 import { AddComponent } from "../rete/AddComponent.jsx";
 import { MIDIRecieveComponent } from "../rete/MIDIRecieveComponent.jsx";
+import { MIDISendComponent } from "../rete/MIDISendComponent.jsx";
 import { OSCEmitterComponent } from "../rete/OSCEmitterComponent.jsx";
 import { MonomeGridComponent } from "../rete/MonomeGridComponent.jsx";
 
@@ -41,7 +42,7 @@ class Engine extends EventEmitter{
     this.setupMonomeGrid();
     this.monomeGridLed = []
 
-    let components = [new MIDIRecieveComponent(), new AddComponent(), new OSCEmitterComponent(), new MonomeGridComponent()];
+    let components = [new MIDIRecieveComponent(), new MIDISendComponent(),   new AddComponent(), new OSCEmitterComponent(), new MonomeGridComponent()];
     components.map((c) => {
       this.reteEngine.register(c);
     });
