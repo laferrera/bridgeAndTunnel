@@ -32,7 +32,7 @@ module.exports = {
             // information interpreting the messages.
             // console.log(`m: ${message} d: ${deltaTime}`);
             // mainWindow.webContents.send('midi-message', message);
-            engine.emit('midi-message', message);
+            engine.emit('engine:distribute-midi-message', message);
         });
 
         console.log('midi started.');

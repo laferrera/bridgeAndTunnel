@@ -29,9 +29,6 @@ class Engine extends EventEmitter {
     // this.link = new abletonlink.Audio();
     // this.decode = new DecodeStream();
     // this.decode.on('data', message => { this.distributeMIDIMessage(message) });
-    this.on("midi-message", (message) => {
-      this.decodeMIDIMessage(message);
-    });
     this.reteEngine = new Rete.Engine(name);
     this.reteEngine.on("error", ({ message, data }) => {
       this.alertErrorToRenderer(message, data);
@@ -47,8 +44,12 @@ class Engine extends EventEmitter {
       this.emitOSC(node);
     });
 
-    emitterEmitter.on("send-midi-message", (node) => {
+    emitterEmitter.on("engine:emit-midi-message", (node) => {
       this.emitMIDI(node);
+    });
+
+    this.on("engine:distribute-midi-message", (message) => {
+      this.decodeMIDIMessage(message);
     });
   }
 
@@ -163,12 +164,12 @@ class Engine extends EventEmitter {
     this.midiOutputStreams
       .filter((m) => m.portName == portName)[0]
       .encoder.noteOn(1, 64, 100);
-      // .encoder.write({
-      //   type: "NoteOn",
-      //   channel: channel,
-      //   note: note,
-      //   velocity: velocity,
-      // });
+    // .encoder.write({
+    //   type: "NoteOn",
+    //   channel: channel,
+    //   note: note,
+    //   velocity: velocity,
+    // });
   }
 
   emitOSC(node) {
