@@ -13,23 +13,23 @@ export class MIDIRecieverComponent extends Rete.Component {
 
   builder(node) {
     // we dont have any inputs for Recieve
-    let noteOut = new Rete.Output('noteOut', 'Note', numSocket);
-    let velocityOut = new Rete.Output('velocityOut', 'Velocity', numSocket);
-    node.data.configType = Object.keys({ midiReceiverConfig }).pop()
+    let noteOut = new Rete.Output("noteOut", "Note", numSocket);
+    let velocityOut = new Rete.Output("velocityOut", "Velocity", numSocket);
+    node.data.configType = Object.keys({ midiReceiverConfig }).pop();
     node.data.config = configBuilder(midiReceiverConfig);
 
     // let ctrl = new MIDIReceiveControl(this.editor, 'config', node);
-    return node
-      // .addControl(ctrl)
-      .addOutput(noteOut)
-      .addOutput(velocityOut);
-
+    return (
+      node
+        // .addControl(ctrl)
+        .addOutput(noteOut)
+        .addOutput(velocityOut)
+    );
   }
 
   worker(node, inputs, outputs) {
     // we dont have any inputs for Recieve
-    outputs['noteOut'] = node.data.noteOut;
-    outputs['velocityOut'] = node.data.velocityOut;
+    outputs["noteOut"] = node.data.noteOut;
+    outputs["velocityOut"] = node.data.velocityOut;
   }
-
 }

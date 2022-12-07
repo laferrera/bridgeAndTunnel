@@ -2,13 +2,12 @@ const { EncodeStream } = require('@lachenmayer/midi-messages')
 const midi = require('midi');
 
 module.exports = {
-    debug: function () {
-        console.log('debugging.');
-    },
+
     init: function (engine, portName) {
         // this.engine = engine;
         this.output = new midi.Output();
         this.encoder = new EncodeStream();
+        this.portName = portName;
 
         if (portName === 'Bridge & Tunnel') {
             this.output.openVirtualPort('Bridge & Tunnel');
@@ -17,6 +16,7 @@ module.exports = {
         }
         
         this.encoder.on('data', message => {
+            console.log('sending message from encoder: ', message)
             this.output.sendMessage(message);
         });
 

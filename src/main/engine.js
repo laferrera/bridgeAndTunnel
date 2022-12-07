@@ -142,7 +142,6 @@ class Engine extends EventEmitter {
     this.process(midiReceivers.map((mr) => mr.id));
   }
 
-
   emitMIDI(node) {
     const portName = node.data.config.portName.value;
     const channel = node.data.config.channel.value;
@@ -161,7 +160,15 @@ class Engine extends EventEmitter {
       "velocity: ",
       velocity
     );
-    this.midiOutput.sendMessage([0x90 + channel - 1, note, velocity]);
+    this.midiOutputStreams
+      .filter((m) => m.portName == portName)[0]
+      .encoder.noteOn(1, 64, 100);
+      // .encoder.write({
+      //   type: "NoteOn",
+      //   channel: channel,
+      //   note: note,
+      //   velocity: velocity,
+      // });
   }
 
   emitOSC(node) {
@@ -188,7 +195,7 @@ class Engine extends EventEmitter {
   // }
 
   distributeMonomeGridPress(x, y, state) {
-    this.updateMIDIPorts();
+    // this.updateMIDIPorts();
     console.log("grid press: ", x, y, state);
     this.monomeGridLed[y][x] = state * 15;
     this.monomeGrid.refresh(this.monomeGridLed);
