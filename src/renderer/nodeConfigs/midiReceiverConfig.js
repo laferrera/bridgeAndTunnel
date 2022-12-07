@@ -1,4 +1,4 @@
-const midiReceiveConfig = {
+const midiReceiverConfig = {
     channel: { value: 1, name: "Channel", type: "integer", ui: "select", label: "Channel", options: [["1",1],["2",2], ["3",3],["4",4], ["5",5], ["6",6],["7",7],["8",8],["9",9],["10",10],["11",11],["12",12],["13",13],["14",14],["15",15],["16",16]] },
     selectDemoValue: { value: "Germany", name: "Countries", type: "String", ui: "select", label: "Select Country", options: [["Germany", "Germany"], ["USA","USA"], ["Morocco","Morocco"]]},
     portName: { value: 'Bridge & Tunnel', name: "MIDI Input", type: "String", ui: "select", label: "MIDI Input", options: [["None", "none"]] },
@@ -7,5 +7,5 @@ const midiReceiveConfig = {
     radioGroupDemoValue: { value: "default", name: "Radio Group Demo Value", type: "string", ui: "radio", label: "Radio Group", options: ["default", "option1", "option2"] }
 }  
 
-export { midiReceiveConfig };
+export { midiReceiverConfig };
 

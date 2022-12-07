@@ -5,9 +5,9 @@
 // }
 
 import { oscEmitterConfig } from "./oscEmitterConfig.js";
-import { midiReceiveConfig } from "./midiRecieveConfig.js";
-import { midiSendConfig } from "./midiSendConfig.js";
+import { midiReceiverConfig } from "./midiReceiverConfig.js";
+import { midiEmitterConfig } from "./midiEmitterConfig.js";
 
-const uiConfigs = { oscEmitterConfig, midiReceiveConfig, midiSendConfig };
+const uiConfigs = { oscEmitterConfig, midiReceiverConfig, midiEmitterConfig };
 
 export { uiConfigs };

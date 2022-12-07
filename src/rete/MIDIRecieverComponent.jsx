@@ -1,13 +1,13 @@
 import Rete from "rete";
 import { btNode } from "./btNode.jsx";
 import { numSocket } from "./numSocket.js";
-import { midiReceiveConfig } from "../renderer/nodeConfigs/midiRecieveConfig.js";
+import { midiReceiverConfig } from "../renderer/nodeConfigs/midiReceiverConfig.js";
 import { configBuilder } from "./utils.js";
 import { NumControl } from "./NumControl.jsx";
 
-export class MIDIRecieveComponent extends Rete.Component {
+export class MIDIRecieverComponent extends Rete.Component {
   constructor() {
-    super("MIDI Receive");
+    super("MIDI Receiver");
     this.data.component = btNode;
   }
 
@@ -15,8 +15,8 @@ export class MIDIRecieveComponent extends Rete.Component {
     // we dont have any inputs for Recieve
     let noteOut = new Rete.Output('noteOut', 'Note', numSocket);
     let velocityOut = new Rete.Output('velocityOut', 'Velocity', numSocket);
-    node.data.configType = Object.keys({ midiReceiveConfig }).pop()
-    node.data.config = configBuilder(midiReceiveConfig);
+    node.data.configType = Object.keys({ midiReceiverConfig }).pop()
+    node.data.config = configBuilder(midiReceiverConfig);
 
     // let ctrl = new MIDIReceiveControl(this.editor, 'config', node);
     return node

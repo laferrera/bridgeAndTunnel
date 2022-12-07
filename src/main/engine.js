@@ -142,21 +142,6 @@ class Engine extends EventEmitter {
     this.process(midiReceivers.map((mr) => mr.id));
   }
 
-  // distributeOutgoingMIDIMessage(message, portName) {
-  //   console.log("midi message: ", message, portName);
-  //   let channel = message.channel;
-  //   let midiSenders = Object.values(this.nodes).filter(
-  //     (n) =>
-  //       n.name == "MIDI Send" &&
-  //       n.data.config.channel.value == channel &&
-  //       n.data.config.portName.value == portName
-  //   );
-  //   midiSenders.forEach((ms) => {
-  //     ms.data.noteOut = message.note;
-  //     ms.data.velocityOut = message.velocity;
-  //   });
-  //   this.process(midiSenders.map((ms) => ms.id));
-  // }
 
   emitMIDI(node) {
     const portName = node.data.config.portName.value;

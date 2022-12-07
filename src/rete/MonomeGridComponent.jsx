@@ -2,7 +2,7 @@ import Rete from "rete";
 import { btNode } from "./btNode.jsx";
 import { NumControl } from "./NumControl.jsx";
 import { numSocket } from "./numSocket.js";
-import { midiReceiveConfig } from "../renderer/nodeConfigs/midiRecieveConfig.js";
+import { midiReceiverConfig } from "../renderer/nodeConfigs/midiReceiverConfig.js";
 import { configBuilder, checkInputsAndSetData } from "./utils.js";
 export class MonomeGridComponent extends Rete.Component {
   constructor() {
@@ -21,8 +21,8 @@ export class MonomeGridComponent extends Rete.Component {
     // inp1.addControl(new NumControl(this.editor, "num1", node));
     // inp2.addControl(new NumControl(this.editor, "num2", node));
 
-    node.data.configType = Object.keys({ midiReceiveConfig }).pop()
-    node.data.config = configBuilder(midiReceiveConfig);
+    node.data.configType = Object.keys({ midiReceiverConfig }).pop()
+    node.data.config = configBuilder(midiReceiverConfig);
     node.data.x = 0;
     node.data.y = 0;
     node.data.state = 0;

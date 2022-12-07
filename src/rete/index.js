@@ -5,11 +5,17 @@
 // }
 
 import { AddComponent } from "./AddComponent.jsx";
-import { MIDIRecieveComponent } from "./MIDIRecieveComponent.jsx";
-import { MIDISendComponent } from "./MIDISendComponent.jsx";
+import { MIDIRecieverComponent } from "./MIDIRecieverComponent.jsx";
+import { MIDIEmitterComponent } from "./MIDIEmitterComponent.jsx";
 import { OSCEmitterComponent } from "./OSCEmitterComponent.jsx";
 import { MonomeGridComponent } from "./MonomeGridComponent.jsx";
 
-const reteComponents = [new MIDIRecieveComponent(), new MIDISendComponent(), new AddComponent(), new OSCEmitterComponent(), new MonomeGridComponent()];
+const reteComponents = [
+  new MIDIRecieverComponent(),
+  new MIDIEmitterComponent(),
+  new AddComponent(),
+  new OSCEmitterComponent(),
+  new MonomeGridComponent(),
+];
 
 export { reteComponents };
