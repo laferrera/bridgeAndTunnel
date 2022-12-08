@@ -106,9 +106,9 @@ function App() {
     });
 
     editor.on("nodedragged", (node) => {
+      editor.containNodesToEditorView(node);
       console.log("nodedragged", node.position);
       console.log("editor", editor.view.area.transform);
-      // editor.zoomToNodes();
     });
 
     window.electronAPI.handleMidiMessage((event, value) => {
