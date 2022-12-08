@@ -113,13 +113,15 @@ class Engine extends EventEmitter {
     return outputPorts;
   }
 
-  updateMIDIPorts() {
-    let midiPorts = {
+  getMIDIPorts() {
+    return {
       midiInputs: this.getMIDIInputPorts(),
       midiOutputs: this.getMIDIOutputPorts(),
     };
-    console.log(midiPorts);
-    this.mainWindow.webContents.send("midi-device-update", midiPorts);
+  }
+
+  updateMIDIPorts() {
+    this.mainWindow.webContents.send("midi-device-update", this.getMIDIPorts());
   }
 
   decodeMIDIMessage(message) {
@@ -127,7 +129,6 @@ class Engine extends EventEmitter {
   }
 
   distributeIncomingMIDIMessage(message, portName) {
-
     console.log("midi message: ", message, portName);
     let channel = message.channel;
     let midiReceivers = Object.values(this.nodes).filter(
@@ -172,7 +173,7 @@ class Engine extends EventEmitter {
     this.midiOutputStreams
       .filter((m) => m.portName == portName)[0]
       .output.sendMessage(message.toMidiArray());
-      // .encoder.noteOn(1, 64, 100);
+    // .encoder.noteOn(1, 64, 100);
     // .encoder.write({
     //   type: "NoteOn",
     //   channel: channel,

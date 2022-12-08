@@ -77,14 +77,14 @@ const saveAsFile = () => {
 };
 
 const saveFile = () => {
-          fs.writeFile(
-            app.filePath.toString(),
-            JSON.stringify(BrowserWindow.getFocusedWindow().engine.nodes),
-            function (err) {
-              if (err) throw err;
-              console.log("Saved!");
-            }
-          );
+  fs.writeFile(
+    app.filePath.toString(),
+    JSON.stringify(BrowserWindow.getFocusedWindow().engine.nodes),
+    function (err) {
+      if (err) throw err;
+      console.log("Saved!");
+    }
+  );
 };
 
 const newSession = () => {
