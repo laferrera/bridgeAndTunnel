@@ -8,20 +8,19 @@ module.exports = {
   },
   // init: function (window) {
   // mainWindow = window;
-  init: function (engine, portName) {
+  init: function (engine, portName, portIndex) {
     // Set up a new input.
     this.input = new midi.Input();
     this.decoder = new DecodeStream();
+    this.portName = portName;
 
     if (portName === "Bridge & Tunnel") {
       this.input.openVirtualPort("Bridge & Tunnel");
     } else {
-      this.input.openPort(portName);
+      this.input.openPort(portIndex);
     }
 
     this.input.on("message", (deltaTime, message) => {
-      // engine.emit('midi-message', message);
-      // this.decoder.write(Buffer.from(message));
       const parsedMessage = new MidiMessage(message, deltaTime);
       engine.distributeIncomingMIDIMessage(parsedMessage, portName);
     });
@@ -29,8 +28,6 @@ module.exports = {
     this.decoder.on("data", (message) => {
       engine.distributeIncomingMIDIMessage(message, portName);
     });
-
-    console.log("midi started.");
 
     return this;
   },

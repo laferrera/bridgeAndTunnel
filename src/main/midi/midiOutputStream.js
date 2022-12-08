@@ -3,7 +3,7 @@ const midi = require('midi');
 
 module.exports = {
 
-    init: function (engine, portName) {
+    init: function (engine, portName, portIndex) {
         // this.engine = engine;
         this.output = new midi.Output();
         this.encoder = new EncodeStream();
@@ -12,7 +12,7 @@ module.exports = {
         if (portName === 'Bridge & Tunnel') {
             this.output.openVirtualPort('Bridge & Tunnel');
         } else {
-            this.output.openPort(portName);
+            this.output.openPort(portIndex);
         }
         
         this.encoder.on('data', message => {

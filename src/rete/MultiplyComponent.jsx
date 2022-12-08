@@ -31,7 +31,7 @@ export class MultiplyComponent extends Rete.Component {
     let n2 = inputs["num2"].length ? inputs["num2"][0] : 0;
     let product = n1 * n2;
     if (Number.isNaN(product)) {
-      sum = 0;
+      product = 0;
     }
     outputs["product"] = product;
     console.log("product", product);

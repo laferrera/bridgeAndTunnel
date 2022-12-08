@@ -1,5 +1,5 @@
 const EventEmitter = require("events");
-const midi = require("midi");
+// const midi = require("midi");
 const midiInputStream = require("./midi/midiInputStream.js");
 const midiOutputStream = require("./midi/midiOutputStream.js");
 import { MidiMessage } from "midi-message-parser";
@@ -94,9 +94,12 @@ class Engine extends EventEmitter {
   getMIDIInputPorts() {
     // let inputPorts = [['Bridge & Tunnel', 'Bridge & Tunnel']];
     let inputPorts = [];
-    for (var i = 0; i < this.midiInputs[0].input.getPortCount(); i++) {
-      const portName = this.midiInputs[0].input.getPortName(i);
-      inputPorts.push([portName, portName]);
+    for (let i = 0; i < this.midiInputStreams[0].input.getPortCount(); i++) {
+      const portName = this.midiInputStreams[0].input.getPortName(i);
+      if ( this.midiInputStreams.filter((m) => m.portName === portName).length === 0 ) {
+        this.midiInputStreams.push(midiInputStream.init(this, portName, i));
+        inputPorts.push([portName, portName]);
+      }
     }
     return inputPorts;
   }
@@ -104,14 +107,20 @@ class Engine extends EventEmitter {
   getMIDIOutputPorts() {
     // let outputPorts = [['Bridge & Tunnel', 'Bridge & Tunnel']];
     let outputPorts = [];
-    for (var i = 0; i < this.midiOutputs[0].output.getPortCount(); i++) {
-      const portName = this.midiOutputs[0].output.getPortName(i);
-      outputPorts.push([portName, portName]);
+    for (var i = 0; i < this.midiOutputStreams[0].output.getPortCount(); i++) {
+      const portName = this.midiOutputStreams[0].output.getPortName(i);
+      if (this.midiOutputStreams.filter((m) => m.portName === portName).length == 0  ) {
+        this.midiOutputStreams.push(midiOutputStream.init(this, portName, i));
+        outputPorts.push([portName, portName]);
+      }
     }
     return outputPorts;
   }
 
   getMIDIPorts() {
+    this.getMIDIInputPorts();
+    this.getMIDIOutputPorts();
+    this.midiInputStreams.map((m) => {[m.name, m.name]});
     return {
       midiInputs: this.getMIDIInputPorts(),
       midiOutputs: this.getMIDIOutputPorts(),
