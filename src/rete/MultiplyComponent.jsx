@@ -13,7 +13,7 @@ export class MultiplyComponent extends Rete.Component {
   builder(node) {
     var inp1 = new Rete.Input("num1", "Input 1", numSocket);
     var inp2 = new Rete.Input("num2", "Input 2", numSocket);
-    var out = new Rete.Output("Product", "Product", numSocket);
+    var out = new Rete.Output("product", "Product", numSocket);
 
     node.data.configType = Object.keys({ mathConfig }).pop();
     node.data.config = configBuilder(mathConfig);

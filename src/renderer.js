@@ -107,8 +107,8 @@ function App() {
 
     editor.on("nodedragged", (node) => {
       editor.containNodesToEditorView(node);
-      console.log("nodedragged", node.position);
-      console.log("editor", editor.view.area.transform);
+      // console.log("nodedragged", node.position);
+      // console.log("editor", editor.view.area.transform);
     });
 
     window.electronAPI.handleMidiMessage((event, value) => {

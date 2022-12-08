@@ -18,8 +18,8 @@ export class AddComponent extends Rete.Component {
     // inp1.addControl(new NumControl(this.editor, "num1", node));
     // inp2.addControl(new NumControl(this.editor, "num2", node));
 
-    node.data.configType = Object.keys({ midiReceiverConfig }).pop()
-    node.data.config = configBuilder(midiReceiverConfig);
+    node.data.configType = Object.keys({ mathConfig }).pop();
+    node.data.config = configBuilder(mathConfig);
     return node
       .addInput(inp1)
       .addInput(inp2)

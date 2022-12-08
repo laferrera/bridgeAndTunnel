@@ -6,6 +6,7 @@
 
 import { AddComponent } from "./AddComponent.jsx";
 import { MultiplyComponent } from "./MultiplyComponent.jsx";
+import { ConstantComponent } from "./ConstantComponent.jsx";
 import { MIDIRecieverComponent } from "./MIDIRecieverComponent.jsx";
 import { MIDIEmitterComponent } from "./MIDIEmitterComponent.jsx";
 import { OSCEmitterComponent } from "./OSCEmitterComponent.jsx";
@@ -18,6 +19,7 @@ const reteComponents = [
   new MonomeGridComponent(),
   new AddComponent(),
   new MultiplyComponent(),
+  new ConstantComponent(),
 ];
 
 export { reteComponents };

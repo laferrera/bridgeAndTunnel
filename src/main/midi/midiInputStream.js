@@ -10,9 +10,10 @@ module.exports = {
   // mainWindow = window;
   init: function (engine, portName, portIndex) {
     // Set up a new input.
+    this.portName = portName;
     this.input = new midi.Input();
     this.decoder = new DecodeStream();
-    this.portName = portName;
+
 
     if (portName === "Bridge & Tunnel") {
       this.input.openVirtualPort("Bridge & Tunnel");

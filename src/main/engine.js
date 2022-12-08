@@ -18,9 +18,9 @@ class Engine extends EventEmitter {
     this.name = name;
     this.nodes = {};
     this.midiInputStreams = [];
-    this.midiInputStreams.push(midiInputStream.init(this, "Bridge & Tunnel"));
+    this.midiInputStreams.push(new midiInputStream.init(this, "Bridge & Tunnel"));
     this.midiOutputStreams = [];
-    this.midiOutputStreams.push(midiOutputStream.init(this, "Bridge & Tunnel"));
+    this.midiOutputStreams.push(new midiOutputStream.init(this, "Bridge & Tunnel"));
     this.OSCEmitter = new OscEmitter();
     this.OSCEmitter.add("127.0.0.1", tempOSCPort);
     this.OscReciever = new OscReciever();
@@ -93,34 +93,31 @@ class Engine extends EventEmitter {
 
   getMIDIInputPorts() {
     // let inputPorts = [['Bridge & Tunnel', 'Bridge & Tunnel']];
-    let inputPorts = [];
     for (let i = 0; i < this.midiInputStreams[0].input.getPortCount(); i++) {
       const portName = this.midiInputStreams[0].input.getPortName(i);
       if ( this.midiInputStreams.filter((m) => m.portName === portName).length === 0 ) {
-        this.midiInputStreams.push(midiInputStream.init(this, portName, i));
-        inputPorts.push([portName, portName]);
+        const inPort = new midiInputStream.init(this, portName, i);
+        this.midiInputStreams.push(inPort);
+        // inputPorts.push([portName, portName]);
       }
     }
-    return inputPorts;
+    return this.midiInputStreams.map((m) => [m.portName, m.portName]);
   }
 
   getMIDIOutputPorts() {
     // let outputPorts = [['Bridge & Tunnel', 'Bridge & Tunnel']];
-    let outputPorts = [];
     for (var i = 0; i < this.midiOutputStreams[0].output.getPortCount(); i++) {
       const portName = this.midiOutputStreams[0].output.getPortName(i);
-      if (this.midiOutputStreams.filter((m) => m.portName === portName).length == 0  ) {
-        this.midiOutputStreams.push(midiOutputStream.init(this, portName, i));
-        outputPorts.push([portName, portName]);
+      if (this.midiOutputStreams.filter((m) => m.portName === portName).length === 0  ) {
+        const outPort = new midiOutputStream.init(this, portName, i);
+        this.midiOutputStreams.push(outPort);
+        // outputPorts.push([portName, portName]);
       }
     }
-    return outputPorts;
+    return this.midiOutputStreams.map((m) => [m.portName, m.portName]);
   }
 
   getMIDIPorts() {
-    this.getMIDIInputPorts();
-    this.getMIDIOutputPorts();
-    this.midiInputStreams.map((m) => {[m.name, m.name]});
     return {
       midiInputs: this.getMIDIInputPorts(),
       midiOutputs: this.getMIDIOutputPorts(),
@@ -173,7 +170,7 @@ class Engine extends EventEmitter {
       "noteon",
       note, // note number
       velocity, // velocity
-      channel, // channel
+      channel - 1, // channel
       0 // timestamp
     );
 

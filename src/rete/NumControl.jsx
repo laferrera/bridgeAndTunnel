@@ -36,6 +36,6 @@ export class NumControl extends Rete.Control {
   setValue(val) {
     this.props.value = val;
     this.putData(this.key, val);
-    // this.update();
+    this.update();
   }
 }
