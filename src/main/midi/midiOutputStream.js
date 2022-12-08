@@ -20,7 +20,6 @@ module.exports = {
             this.output.sendMessage(message);
         });
 
-
         return this;
     }
 }

@@ -55,7 +55,7 @@ body,
   position: absolute;
   display: flex;
   flex-direction: column;
-  background: rgba(255, 255, 255, 0.03);
+  background: #333;
   width: 200px;
   position: absolute;
   left: 0;
@@ -202,8 +202,8 @@ body,
   margin-top: 28px;
 }
 
-.SidebarH1 {
-  font-size: 28px;
+.SidebarH2 {
+  font-size: 18px;
   margin: 15px 15px 0 15px;
   letter-spacing: 0;
 }

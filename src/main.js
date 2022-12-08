@@ -104,8 +104,8 @@ async function getRendererInitialData() {
 
 app.whenReady().then(() => {
 
-  const menu = Menu.buildFromTemplate(menuTemplate);
-  Menu.setApplicationMenu(menu);
+  app.menu = Menu.buildFromTemplate(menuTemplate);
+  Menu.setApplicationMenu(app.menu);
 
   // TODO, the editor should request instead of the main process sending
   // the editor isn't setup in time
@@ -120,6 +120,7 @@ app.whenReady().then(() => {
   });
 
   ipcMain.on('rete:engineProcessJSON', (event, json) => {
+    console.log("cur file path", app.filePath);
     engine.processJSON(json);
   })
 

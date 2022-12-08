@@ -6282,6 +6282,11 @@
     "braces" "^3.0.2"
     "picomatch" "^2.3.1"
 
+"midi-message-parser@^2.0.1":
+  "integrity" "sha512-g8UooCS1Ic1f9YL4vdvm/Q5NZlvVg2haoGyitca+zLRrPL46/qrD9xzRJBHawZpW7IW0dSpwVHRE2UaTTITVQA=="
+  "resolved" "https://registry.npmjs.org/midi-message-parser/-/midi-message-parser-2.0.1.tgz"
+  "version" "2.0.1"
+
 "midi@^2.0.0":
   "integrity" "sha512-HyCLWa+ET8Aqfu/NxdNkxfCx0EfCJrcZgKuhrY4c9UgkfxRt3ChM7RP1oC5vJf7ALXyuAG47jqr5yUlvSodTPQ=="
   "resolved" "https://registry.npmjs.org/midi/-/midi-2.0.0.tgz"

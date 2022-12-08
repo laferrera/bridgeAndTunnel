@@ -61,6 +61,7 @@
     "electron-squirrel-startup": "^1.0.0",
     "electron-store": "^8.1.0",
     "midi": "^2.0.0",
+    "midi-message-parser": "^2.0.1",
     "monome-grid": "^1.0.2",
     "osc-emitter": "^1.0.4",
     "osc-receiver": "^1.1.3",

@@ -7,7 +7,7 @@ import { emitterEmitter } from "./emitterEmitter.js";
 
 export class MIDIEmitterComponent extends Rete.Component {
   constructor() {
-    super("MIDI Send");
+    super("MIDI Emitter");
     this.data.component = btNode;
   }
 
@@ -26,7 +26,7 @@ export class MIDIEmitterComponent extends Rete.Component {
   }
 
   worker(node, inputs, outputs) {
-    console.log("working");
+    console.log("her....");
     node.data.noteIn = inputs['noteIn'][0];
     node.data.velocityIn = inputs['velocityIn'][0];
     emitterEmitter.emit("engine:emit-midi-message", node);

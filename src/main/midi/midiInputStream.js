@@ -1,4 +1,5 @@
 const { DecodeStream } = require("@lachenmayer/midi-messages");
+const { MidiMessage } = require("midi-message-parser");
 const midi = require("midi");
 
 module.exports = {
@@ -20,7 +21,9 @@ module.exports = {
 
     this.input.on("message", (deltaTime, message) => {
       // engine.emit('midi-message', message);
-      this.decoder.write(Buffer.from(message));
+      // this.decoder.write(Buffer.from(message));
+      const parsedMessage = new MidiMessage(message, deltaTime);
+      engine.distributeIncomingMIDIMessage(parsedMessage, portName);
     });
 
     this.decoder.on("data", (message) => {

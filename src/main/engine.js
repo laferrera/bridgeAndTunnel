@@ -2,11 +2,11 @@ const EventEmitter = require("events");
 const midi = require("midi");
 const midiInputStream = require("./midi/midiInputStream.js");
 const midiOutputStream = require("./midi/midiOutputStream.js");
+import { MidiMessage } from "midi-message-parser";
 const monomeGrid = require("monome-grid");
 const OscEmitter = require("osc-emitter");
 const OscReciever = require("osc-receiver");
 const abletonlink = require("abletonlink");
-const { DecodeStream } = require("@lachenmayer/midi-messages");
 import { emitterEmitter } from "../rete/emitterEmitter.js";
 const tempOSCPort = 10201;
 
@@ -27,8 +27,6 @@ class Engine extends EventEmitter {
     this.OSCEmitter.add("127.0.0.1", tempOSCPort);
     this.OscReciever = new OscReciever();
     // this.link = new abletonlink.Audio();
-    // this.decode = new DecodeStream();
-    // this.decode.on('data', message => { this.distributeMIDIMessage(message) });
     this.reteEngine = new Rete.Engine(name);
     this.reteEngine.on("error", ({ message, data }) => {
       this.alertErrorToRenderer(message, data);
@@ -48,9 +46,10 @@ class Engine extends EventEmitter {
       this.emitMIDI(node);
     });
 
-    this.on("engine:distribute-midi-message", (message) => {
-      this.decodeMIDIMessage(message);
-    });
+    // this.on("engine:distribute-midi-message", (message) => {
+    //   // this.decodeMIDIMessage(message);
+    //   this.distributeIncomingMIDIMessage(message);
+    // });
   }
 
   setupMonomeGrid() {
@@ -128,6 +127,7 @@ class Engine extends EventEmitter {
   }
 
   distributeIncomingMIDIMessage(message, portName) {
+
     console.log("midi message: ", message, portName);
     let channel = message.channel;
     let midiReceivers = Object.values(this.nodes).filter(
@@ -161,9 +161,18 @@ class Engine extends EventEmitter {
       "velocity: ",
       velocity
     );
+    const message = new MidiMessage(
+      "noteon",
+      note, // note number
+      velocity, // velocity
+      channel, // channel
+      0 // timestamp
+    );
+
     this.midiOutputStreams
       .filter((m) => m.portName == portName)[0]
-      .encoder.noteOn(1, 64, 100);
+      .output.sendMessage(message.toMidiArray());
+      // .encoder.noteOn(1, 64, 100);
     // .encoder.write({
     //   type: "NoteOn",
     //   channel: channel,
