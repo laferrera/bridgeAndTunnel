@@ -26,7 +26,6 @@ export class MIDIEmitterComponent extends Rete.Component {
   }
 
   worker(node, inputs, outputs) {
-    console.log("her....");
     node.data.noteIn = inputs['noteIn'][0];
     node.data.velocityIn = inputs['velocityIn'][0];
     emitterEmitter.emit("engine:emit-midi-message", node);
