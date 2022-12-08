@@ -105,6 +105,12 @@ function App() {
       }
     });
 
+    editor.on("nodedragged", (node) => {
+      console.log("nodedragged", node.position);
+      console.log("editor", editor.view.area.transform);
+      // editor.zoomToNodes();
+    });
+
     window.electronAPI.handleMidiMessage((event, value) => {
       console.log("midi event", event);
       console.log("midi value", value);
