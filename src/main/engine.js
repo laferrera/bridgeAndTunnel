@@ -19,10 +19,8 @@ class Engine extends EventEmitter {
     this.nodes = {};
     this.midiInputStreams = [];
     this.midiInputStreams.push(midiInputStream.init(this, "Bridge & Tunnel"));
-    this.midiInput = new midi.Input();
     this.midiOutputStreams = [];
     this.midiOutputStreams.push(midiOutputStream.init(this, "Bridge & Tunnel"));
-    this.midiOutput = new midi.Output();
     this.OSCEmitter = new OscEmitter();
     this.OSCEmitter.add("127.0.0.1", tempOSCPort);
     this.OscReciever = new OscReciever();
@@ -96,8 +94,8 @@ class Engine extends EventEmitter {
   getMIDIInputPorts() {
     // let inputPorts = [['Bridge & Tunnel', 'Bridge & Tunnel']];
     let inputPorts = [];
-    for (var i = 0; i < this.midiInput.getPortCount(); i++) {
-      const portName = this.midiInput.getPortName(i);
+    for (var i = 0; i < this.midiInputs[0].input.getPortCount(); i++) {
+      const portName = this.midiInputs[0].input.getPortName(i);
       inputPorts.push([portName, portName]);
     }
     return inputPorts;
@@ -106,8 +104,8 @@ class Engine extends EventEmitter {
   getMIDIOutputPorts() {
     // let outputPorts = [['Bridge & Tunnel', 'Bridge & Tunnel']];
     let outputPorts = [];
-    for (var i = 0; i < this.midiOutput.getPortCount(); i++) {
-      const portName = this.midiOutput.getPortName(i);
+    for (var i = 0; i < this.midiOutputs[0].output.getPortCount(); i++) {
+      const portName = this.midiOutputs[0].output.getPortName(i);
       outputPorts.push([portName, portName]);
     }
     return outputPorts;
