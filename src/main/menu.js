@@ -181,8 +181,22 @@ const menuTemplate = [
   {
     label: "Edit",
     submenu: [
-      { role: "undo" },
-      { role: "redo" },
+      {
+        label: "Undo",
+        id: "undoMenuItem",
+        accelerator: "CommandOrControl+Z",
+        click: async () => {
+          app.emit("undo");
+        },
+      },
+      {
+        label: "Redo",
+        id: "redoMenuItem",
+        accelerator: "Shift+CommandOrControl+Z",
+        click: async () => {
+          app.emit("redo");
+        },
+      },
       { type: "separator" },
       { role: "cut" },
       { role: "copy" },

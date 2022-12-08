@@ -13,16 +13,15 @@ contextBridge.exposeInMainWorld("electronAPI", {
   getMidiDevices: () => ipcRenderer.invoke("get-midi-devices"),
 
   // to Renderer from Main process
-  handleRestoreSession: (callback) =>
-    ipcRenderer.on("restore-session", callback),
+  handleRestoreSession: (callback) => ipcRenderer.on("restore-session", callback),
   handleEngineError: (callback) => ipcRenderer.on("engine-error", callback),
   handleNodeEvent: (callback) => ipcRenderer.on("node-event", callback),
   handleMidiMessage: (callback) => ipcRenderer.on("midi-message", callback),
   handleSaveFile: (callback) => ipcRenderer.on("save-file", callback),
   handleLoadFile: (callback) => ipcRenderer.on("load-file", callback),
+  handleUndo: (callback) => ipcRenderer.on("undo", callback),
+  handleRedo: (callback) => ipcRenderer.on("redo", callback),
   handleNewSession: (callback) => ipcRenderer.on("new-session", callback),
-  handleRestoreSession: (callback) =>
-    ipcRenderer.on("restore-session", callback),
-  handleMidiDeviceUpdate: (callback) =>
-    ipcRenderer.on("midi-device-update", callback),
+  handleRestoreSession: (callback) => ipcRenderer.on("restore-session", callback),
+  handleMidiDeviceUpdate: (callback) => ipcRenderer.on("midi-device-update", callback),
 });

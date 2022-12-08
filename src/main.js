@@ -70,6 +70,19 @@ app.on("open-file", (event, file) => {
   }
 });
 
+app.on("undo", () => {
+  if (BrowserWindow.getFocusedWindow()) {
+    BrowserWindow.getFocusedWindow().send("undo");
+  }
+});
+
+app.on("redo", () => {
+  if (BrowserWindow.getFocusedWindow()) {
+    BrowserWindow.getFocusedWindow().send("redo");
+  }
+});
+
+
 app.on("before-quit", (event) => {
   // TODO, kill ableton link somehow
   console.log("we haven't quitted just yet...");

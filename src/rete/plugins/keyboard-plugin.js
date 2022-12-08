@@ -39,12 +39,13 @@ function install(editor) {
           editor.zoomToNodes();
         }
 
-        if (commanded) {
-          editor.trigger('undo');
-        }
-        if(commanded && shifted){
-          editor.trigger('redo');
-        }
+        // now this is handled by the menu
+        // if (commanded) {
+        //   editor.trigger('undo');
+        // }
+        // if(commanded && shifted){
+        //   editor.trigger('redo');
+        // }
       case 'Escape':
         editor.trigger('hidecontextmenu');
         break;
