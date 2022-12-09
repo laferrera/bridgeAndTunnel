@@ -20,10 +20,10 @@ function install(editor) {
         console.log(editor.toJSON());
         break;
       case 'Backspace':
-        editor.selected.each(n => 
-          editor.removeNode(n)
-        );
-        editor.selected.list = []
+        if (!document.activeElement.tagName !== "INPUT") {
+          editor.selected.each((n) => editor.removeNode(n));
+          editor.selected.list = [];
+        }
         break;
       case 'Space':
         let rect = editor.view.container.getBoundingClientRect();

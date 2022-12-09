@@ -103,6 +103,8 @@ function App() {
         setPanelState(Date.now());
         setSelectedNode(editor.selected.list[0]);
       }
+      //TODO why doesn't undo/redo update the engine?
+      window.electronAPI.sendNodesToMain(editor.toJSON().nodes);
     });
 
     editor.on("nodedragged", (node) => {

@@ -25,7 +25,7 @@ export default function PanelPiano(props) {
           // don't do anything....
         }}
         activeNotes={props.state[props.settingKey].val}
-        width={200}
+        width={180}
         // keyboardShortcuts={keyboardShortcuts}
       />
   );

@@ -62,16 +62,23 @@ export default function Panel(props) {
   }
 
   useEffect(() => {
-    if (!didMount.current) {
-      didMount.current = true;
-      return;
-    }
+    // if (!didMount.current) {
+    //   console.log("mounting?");
+    //   didMount.current = true;
+    //   return;
+    // }
     let alertEngine = false;
     const prevConfig = JSON.parse(JSON.stringify(nodeConfig));
     Object.keys(state).forEach((key, index) => {
       if (state[key].val !== props.node.data.config[key].value) {
-        alertEngine = true;
+        // alertEngine = true;
         nodeConfig[key].value = state[key].val;
+        // TODO just update the engine and history here?
+        window.electronAPI.sendNodesToMain(props.editor.toJSON().nodes);
+        props.editor.trigger(
+          "addhistory",
+          new DataChangeAction(prevConfig, nodeConfig, props.node)
+        );
       }
     });
     if (alertEngine) {

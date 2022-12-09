@@ -23,14 +23,14 @@ export class QuantizerComponent extends Rete.Component {
   worker(node, inputs, outputs) {
     let inp = inputs["input"].length ? inputs["input"][0] : 0;
     let shift = inputs["shift"].length ? inputs["shift"][0] : 0;
-    let scale = [0, 2, 3, 5, 7, 8, 10];
-    if (scale.length === 0) {
-      scale = [0];
-    }
+    // let scale = [0, 2, 3, 5, 7, 8, 10];
+    let scale = node.data.config.scale.value;
+    console.log('scale', scale)
+    if (!scale) { scale = [0];}
 
-    const base = Math.floor((shift + inp) / scale.length);
+    const baseOctave = Math.floor((shift + inp) / scale.length);
     const scaleIndex = Math.abs((shift + inp) % scale.length);
-    const note = parseInt(base * 12 + scale[scaleIndex]);
+    const note = parseInt(baseOctave * 12 + scale[scaleIndex]);
 
     outputs["output"] = note;
   }
