@@ -1,3 +1,4 @@
+// import createSelectedNodeUpdater from "./utils/createSelectedNodeUpdater";
 var __assign =
   (this && this.__assign) ||
   function () {
@@ -114,13 +115,7 @@ function install(editor, params) {
   }
   // #endregion
   var handleMouseDown = function (e) {
-    if (!cfg.enabled) {
-      return;
-    }
-    if (e.button !== MOUSE_LEFT_BUTTON) {
-      return;
-    }
-    if (!e.ctrlKey) {
+    if (!cfg.enabled || e.button !== MOUSE_LEFT_BUTTON || !e.shiftKey) {
       return;
     }
     e.preventDefault();
@@ -135,8 +130,12 @@ function install(editor, params) {
     selection[1] = { x: e.offsetX, y: e.offsetY };
   };
   var handleMouseUp = function (e) {
-    //e.preventDefault()
-    //e.stopPropagation()
+    // e.preventDefault()
+    // e.stopPropagation()
+    if (!cfg.enabled || !e.shiftKey) {
+      return;
+    }
+
     var selectedNodes = getNodesFromSelectionArea();
     pressing = false;
     canvas.style.pointerEvents = "auto";
@@ -146,29 +145,16 @@ function install(editor, params) {
     cleanSelectionArea(selectionArea);
     selection[0] = { x: 0, y: 0 };
     selection[1] = { x: 0, y: 0 };
-    if (!cfg.enabled) {
-      return;
-    }
-    if (!e.ctrlKey) {
-      return;
-    }
+
     selectedNodes.forEach(function (node) {
       editor.selectNode(node, accumulate);
     });
   };
   var handleMouseMove = function (e) {
-    if (!cfg.enabled) {
+    if (!cfg.enabled || !e.shiftKey || !pressing) {
       return;
     }
-    if (!e.ctrlKey) {
-      return;
-    }
-    if (!pressing) {
-      return;
-    }
-    if (editor.selected.list.length > 0) {
-      return;
-    }
+    
     e.preventDefault();
     e.stopPropagation();
     selection[1] = { x: e.offsetX, y: e.offsetY };
@@ -200,12 +186,13 @@ function install(editor, params) {
     editor.view.container.removeEventListener("mouseout", handleMouseUp);
     editor.view.container.removeEventListener("mousemove", handleMouseMove);
   });
+
   editor.on("multiselection", function (enabled) {
     cfg.enabled = enabled;
   });
   editor.on("keydown", function (e) {
     var _a, _b;
-    if (e.ctrlKey) {
+    if (e.shiftKey) {
       accumulate = true;
     }
   });
@@ -220,7 +207,5 @@ function install(editor, params) {
   });
   // #endregion
 }
-exports.default = {
-  name: "rete-selection-plugin",
-  install: install,
-};
+
+export default { install };

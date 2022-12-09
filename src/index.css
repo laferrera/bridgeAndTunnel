@@ -177,10 +177,12 @@ input {
 .context-menu {
   left: 0;
   top: 0;
-  position: absolute;
+  /* position: relative; */
+  /* position: absolute; */
   padding: 0px;
   margin-top: 0px;
   border-radius: 0;
+  margin-left: 10px;;
 }
 
 .context-menu .item {

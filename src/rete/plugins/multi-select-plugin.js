@@ -1,8 +1,18 @@
 import createSelectedNodeUpdater from './utils/createSelectedNodeUpdater';
 function install(editor) {
+    var accumulate = false;
   editor.bind('nodedeselect');
   editor.bind('nodedeselected');
-  editor.on('click', () => {
+
+  editor.on("nodetranslated", ({ node }) => {
+    translated = true;
+  });
+
+  editor.on('click', (e) => {
+    if (e.e.shiftKey || editor.selected.list.length === 0) {
+      return;
+    }
+;
     const updateNodes = createSelectedNodeUpdater(editor);
     editor.selected.each(node => {
       if (editor.trigger('nodedeselect', node)) {
