@@ -1,4 +1,3 @@
-// import createSelectedNodeUpdater from "./utils/createSelectedNodeUpdater";
 var __assign =
   (this && this.__assign) ||
   function () {
@@ -14,14 +13,14 @@ var __assign =
       };
     return __assign.apply(this, arguments);
   };
-Object.defineProperty(exports, "__esModule", { value: true });
+// Object.defineProperty(exports, "__esModule", { value: true });
 var MOUSE_LEFT_BUTTON = 0;
 function drawSelectionArea(area, position, size) {
   area.style.left = "".concat(position.x, "px");
   area.style.top = "".concat(position.y, "px");
   area.style.width = "".concat(size.width, "px");
   area.style.height = "".concat(size.height, "px");
-  area.style.opacity = "0.2";
+  area.style.opacity = "1";
 }
 function cleanSelectionArea(area) {
   area.style.left = "0px";
@@ -108,9 +107,8 @@ function install(editor, params) {
     if (className) {
       (_a = selectionMode.classList).add.apply(_a, className.split(" "));
     } else {
-      selectionArea.style.backgroundColor = "#E3F2FD";
-      selectionArea.style.border = "solid 1px #42A5F5";
-      selectionArea.style.borderRadius = "4px";
+      selectionArea.style.backgroundColor = "rgba(255,255,255,0.2)";
+      selectionArea.style.border = "solid 1px #ffffff";
     }
   }
   // #endregion

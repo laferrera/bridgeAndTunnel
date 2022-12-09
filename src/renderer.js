@@ -73,13 +73,19 @@ function App() {
     // build nodes
     if (initialData.session) {
       try {
-        editor.fromJSON(initialData.session);
+        editor.fromJSON(initialData.session).then(() => {
+          editor.zoomToNodes()
+          });
       } catch (error) {
         console.error(error);
-        addStarterNodes(editor);
+        addStarterNodes(editor).then(() => {
+          editor.zoomToNodes();
+        });
       }
     } else {
-      addStarterNodes(editor);
+      addStarterNodes(editor).then(() => {
+        editor.zoomToNodes();
+      });
     }
     //TODO, timeout for this?
     editor.zoomToNodes();

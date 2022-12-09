@@ -25,7 +25,6 @@ export function createEditor(container, rendererEmitter, editorRef) {
   editor.use(ConnectionPlugin);
   editor.use(ConnectionPathPlugin, {
     type: ConnectionPathPlugin.DEFAULT, // DEFAULT or LINEAR transformer
-    // transformer: () => ([x1, y1, x2, y2]) => [[x1, y1], [x2, y2]], // optional, custom transformer
     curve: ConnectionPathPlugin.curveBundle, // curve identifier
     options: { vertical: false, curvature: 0.0 }, // optional
   });

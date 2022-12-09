@@ -75,7 +75,7 @@ input {
 .node {
   all: unset;
   background: #999;
-  /* border: 1px solid black; */
+  border: 1px solid white;
   border-radius: 10px;
   cursor: pointer;
   display: inline-block;
@@ -93,7 +93,6 @@ input {
 
 .node:hover{
   background: cyan;
-  /* border: 1px solid black; */
   cursor: pointer;
 }
 
@@ -103,12 +102,11 @@ input {
 
 .node.selected {
   background: magenta;
-  /* border: 1px solid black; */
 }
 
 .node .title{
   font-size: 14px;
-  background:rgba(200,200,200,0.5);
+  background:rgba(0,0,0,0.5);
   text-align: center;
   padding: 2px;
 }
@@ -143,10 +141,10 @@ input {
 }
 
 .node .socket{
-    border-radius: 8px;
-    width: 16px;
-    height: 16px;
-    border: 2px solid white;
+    border-radius: 6px;
+    width: 12px;
+    height: 12px;
+    border: 1px solid white;
 }
 
 .node .socket.used {
@@ -155,18 +153,18 @@ input {
 
 .node .socket.output{
   background:#ccc;
-  margin-right: -8px;
+  margin-right: -6px;
 }
 
 .node .socket.input {
   background: #333;
-  margin-left: -8px;
+  margin-left: -6px;
 }
 
 .connection .main-path {
   fill: none;
   stroke: #eee;
-  stroke-width: 2px;
+  stroke-width: 1px;
   pointer-events: none;
 }
 
@@ -177,7 +175,6 @@ input {
 .context-menu {
   left: 0;
   top: 0;
-  /* position: relative; */
   /* position: absolute; */
   padding: 0px;
   margin-top: 0px;
