@@ -10,6 +10,7 @@ import ContextMenuPlugin, { ReactMenu } from "rete-context-menu-plugin-react";
 import HistoryPlugin from "rete-history-plugin";
 import KeyboardPlugin from "./plugins/keyboard-plugin.js";
 import MultiSelectPlugin from "./plugins/multi-select-plugin.js";
+import SelectionPlugin from "./plugins/drag-selection-plugin.js";
 // import DataChangeAction from "./plugins/data-change-action.js";
 
 import { numSocket } from "./numSocket.js";
@@ -69,6 +70,7 @@ export function createEditor(container, rendererEmitter, editorRef) {
   });
   editor.use(KeyboardPlugin);
   editor.use(MultiSelectPlugin);
+  editor.use(SelectionPlugin, { enabled: true });
 
   reteComponents.map((c) => {
     editor.register(c);
