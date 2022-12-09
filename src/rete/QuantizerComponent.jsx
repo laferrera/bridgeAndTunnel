@@ -2,7 +2,7 @@ import Rete from "rete";
 import { btNode } from "./btNode.jsx";
 import { NumControl } from "./NumControl.jsx";
 import { numSocket } from "./numSocket.js";
-import { mathConfig } from "../renderer/nodeConfigs/mathConfig.js";
+import { quantizerConfig } from "../renderer/nodeConfigs/quantizerConfig.js";
 import { configBuilder } from "./utils.js";
 export class QuantizerComponent extends Rete.Component {
   constructor() {
@@ -15,8 +15,8 @@ export class QuantizerComponent extends Rete.Component {
     var shift = new Rete.Input("shift", "Shift", numSocket);
     var out = new Rete.Output("output", "Output", numSocket);
 
-    node.data.configType = Object.keys({ mathConfig }).pop();
-    node.data.config = configBuilder(mathConfig);
+    node.data.configType = Object.keys({ quantizerConfig }).pop();
+    node.data.config = configBuilder(quantizerConfig);
     return node.addInput(inp).addInput(shift).addOutput(out);
   }
 

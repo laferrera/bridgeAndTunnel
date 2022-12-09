@@ -9,7 +9,7 @@ import {
 import * as Select from "@radix-ui/react-select";
 import * as Label from "@radix-ui/react-label";
 
-export default function SelectDemo(props) {
+export default function PanelSelect(props) {
   return (
     <div className="SelectMenuWrapper">
       <Label.Root

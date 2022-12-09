@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "./peStyles.css";
-import SelectDemo from "./select.jsx";
+import PanelSelect from "./select.jsx";
+import PanelPiano from "./piano.jsx";
 import Button from "./button.jsx";
 // import { uiConfigs } from '../nodeConfigs';
 import DataChangeAction from "../../rete/plugins/data-change-action.js";
@@ -15,7 +16,7 @@ export default function Panel(props) {
   const configType = props.node.data.configType;
   let nodeConfig = props.node.data.config;
   const uiConfig = props.uiConfigs[configType];
-  
+
   const state = {};
   const components = [];
   const didMount = React.useRef(null);
@@ -23,15 +24,39 @@ export default function Panel(props) {
     const resultArr = useState(nodeConfig[setting].value);
     state[setting] = {
       val: resultArr[0],
-      fn: resultArr[1]
+      fn: resultArr[1],
     };
-    
-    if (uiConfig.hasOwnProperty(setting)){
+
+    if (uiConfig.hasOwnProperty(setting)) {
       if (uiConfig[setting].ui === "select") {
-        components.push(<SelectDemo key={setting} state={state} settingKey={setting} setting={uiConfig[setting]} />);
+        components.push(
+          <PanelSelect
+            key={setting}
+            state={state}
+            settingKey={setting}
+            setting={uiConfig[setting]}
+          />
+        );
       }
-      if(uiConfig[setting].ui === "button"){
-        components.push(<Button key={setting} emitter={props.emitter} node={props.node} setting={uiConfig[setting]}/>);
+      if (uiConfig[setting].ui === "button") {
+        components.push(
+          <Button
+            key={setting}
+            emitter={props.emitter}
+            node={props.node}
+            setting={uiConfig[setting]}
+          />
+        );
+      }
+      if (uiConfig[setting].ui === "piano") { 
+        components.push(
+          <PanelPiano
+            key={setting}
+            state={state}
+            settingKey={setting}
+            setting={uiConfig[setting]}
+          />
+        );
       }
     }
   }
@@ -51,19 +76,20 @@ export default function Panel(props) {
     });
     if (alertEngine) {
       window.electronAPI.sendNodesToMain(props.editor.toJSON().nodes);
-      props.editor.trigger('addhistory', new DataChangeAction(prevConfig, nodeConfig, props.node));
+      props.editor.trigger(
+        "addhistory",
+        new DataChangeAction(prevConfig, nodeConfig, props.node)
+      );
     }
     return () => {
       didMount.current = false;
-    }
-  }, [state, nodeConfig]);    
-
-
+    };
+  }, [state, nodeConfig]);
 
   return (
     <div className="Sidebar">
       <h2 className="SidebarH2">{props.node.name}</h2>
-        {components}
+      {components}
     </div>
   );
 }
