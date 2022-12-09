@@ -30,7 +30,8 @@ class Engine extends EventEmitter {
       this.alertErrorToRenderer(message, data);
     });
     this.setupMonomeGrid();
-    this.monomeGridLed = [];
+    this.monomeGridLeds = [];
+    this.monomeGridStates = [];
 
     reteComponents.map((c) => {
       this.reteEngine.register(c);
@@ -58,9 +59,10 @@ class Engine extends EventEmitter {
       });
       // todo, find grid x and y size
       for (let y = 0; y < 8; y++) {
-        this.monomeGridLed[y] = Array.from(new Float32Array(16));
+        this.monomeGridLeds[y] = Array.from(new Float32Array(16));
+        this.monomeGridStates[y] = Array.from(new Float32Array(16));
       }
-      this.monomeGrid.refresh(this.monomeGridLed);
+      this.monomeGrid.refresh(this.monomeGridLeds);
     });
   }
 
@@ -212,8 +214,9 @@ class Engine extends EventEmitter {
   distributeMonomeGridPress(x, y, state) {
     // this.updateMIDIPorts();
     console.log("grid press: ", x, y, state);
-    this.monomeGridLed[y][x] = state * 15;
-    this.monomeGrid.refresh(this.monomeGridLed);
+    this.monomeGridLeds[y][x] = state * 15;
+    this.monomeGridStates[y][x] = state;
+    this.monomeGrid.refresh(this.monomeGridLeds);
     let grids = Object.values(this.nodes).filter((n) => n.name == "Grid");
     grids.forEach((mg) => {
       mg.data.x = x;

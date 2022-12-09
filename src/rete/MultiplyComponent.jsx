@@ -34,6 +34,5 @@ export class MultiplyComponent extends Rete.Component {
       product = 0;
     }
     outputs["product"] = product;
-    console.log("product", product);
   }
 }

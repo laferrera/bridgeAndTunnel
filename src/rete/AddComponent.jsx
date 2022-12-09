@@ -35,6 +35,5 @@ export class AddComponent extends Rete.Component {
       sum = 0;
     };
     outputs["sum"] = sum;   
-    console.log("sum", sum);
   }
 }
