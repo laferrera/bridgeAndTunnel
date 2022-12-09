@@ -87,8 +87,6 @@ function App() {
         editor.zoomToNodes();
       });
     }
-    //TODO, timeout for this?
-    editor.zoomToNodes();
 
     // set up listeners
     editor.on("nodeselected", (node) => {
