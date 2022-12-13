@@ -120,7 +120,8 @@ export function createEditor(container, rendererEmitter, editorRef) {
     }
   });
 
-  editor.on("zoom", ({ source }) => {
+  editor.on("zoom", ({ translate, zoom, source }) => {
+    console.log(zoom);
     return source !== "dblclick";
   });
 

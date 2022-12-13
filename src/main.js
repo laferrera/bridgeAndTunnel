@@ -13,7 +13,7 @@ const engine = new Engine("bridgeAndtunnel@0.1.0");
 const store = new Store();
 let mainWindow;
 
-// const usbDetect = require('usb-detection');
+const usbDetect = require("usb-detection");
 
 if (require("electron-squirrel-startup")) {
   app.quit();
@@ -82,22 +82,22 @@ app.on("redo", () => {
   }
 });
 
-
 app.on("before-quit", (event) => {
+    console.log("we haven't quitted just yet...");
+    usbDetect.stopMonitoring();
   // TODO, kill ableton link somehow
-  console.log("we haven't quitted just yet...");
+  // delete engine.link;
 });
 
 const checkUSB = () => {
   usbDetect.startMonitoring();
   usbDetect.on("add", function (device) {
     console.log("add", device);
+    BrowserWindow.getFocusedWindow().send("device-added");
   });
   usbDetect.on("remove", function (device) {
-    console.log("remove", device);
+    BrowserWindow.getFocusedWindow().send("device-removed");
   });
-  // Allow the process to exit
-  //usbDetect.stopMonitoring()
 };
 
 async function getRendererInitialData() {
@@ -143,13 +143,5 @@ app.whenReady().then(() => {
     store.set("session", session);
   });
 
-  mainWindow.webContents.session.on("serial-port-added", (event, port) => {
-    console.log("serial-port-added FIRED WITH", port);
-    //Optionally update portList to add the new port
-  });
-
-  mainWindow.webContents.session.on("serial-port-removed", (event, port) => {
-    console.log("serial-port-removed FIRED WITH", port);
-    //Optionally update portList to remove the port
-  });
+  checkUSB();
 });

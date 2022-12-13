@@ -24,7 +24,7 @@ class Engine extends EventEmitter {
     this.OSCEmitter = new OscEmitter();
     this.OSCEmitter.add("127.0.0.1", tempOSCPort);
     this.OscReciever = new OscReciever();
-    // this.link = new abletonlink.Audio();
+    // this.link = new abletonlink;
     this.reteEngine = new Rete.Engine(name);
     this.reteEngine.on("error", ({ message, data }) => {
       this.alertErrorToRenderer(message, data);

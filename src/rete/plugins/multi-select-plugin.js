@@ -4,10 +4,6 @@ function install(editor) {
   editor.bind('nodedeselect');
   editor.bind('nodedeselected');
 
-  editor.on("nodetranslated", ({ node }) => {
-    translated = true;
-  });
-
   editor.on('click', (e) => {
     if (e.e.shiftKey || editor.selected.list.length === 0) {
       return;

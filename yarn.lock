@@ -7808,8 +7808,8 @@
   "resolved" "https://registry.npmjs.org/rete-react-render-plugin/-/rete-react-render-plugin-0.3.0.tgz"
   "version" "0.3.0"
 
-"rete@^1.4.9", "rete@github:laferrera/rete":
-  "resolved" "git+ssh://git@github.com/laferrera/rete.git#2f4a63cd4171208f4b6f51635d833a97f7cf0ddd"
+"rete@/Users/jasonlaferrera/personal/rete", "rete@^1.4.9":
+  "resolved" "file:../rete"
   "version" "1.5.0-rc1"
 
 "retry@^0.12.0":
