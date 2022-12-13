@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import "./peStyles.css";
 import PanelSelect from "./select.jsx";
 import PanelPiano from "./piano.jsx";
+import GeneralPurposeReplUI from "./repl.jsx";
 import Button from "./button.jsx";
 // import { uiConfigs } from '../nodeConfigs';
 import DataChangeAction from "../../rete/plugins/data-change-action.js";
@@ -58,6 +59,18 @@ export default function Panel(props) {
           />
         );
       }
+      if (uiConfig[setting].ui === "repl") {
+        components.push(
+          <GeneralPurposeReplUI
+            key={setting}
+            state={state}
+            settingKey={setting}
+            setting={uiConfig[setting]}
+          />
+        );
+      }
+
+
     }
   }
 

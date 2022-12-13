@@ -20,7 +20,7 @@ function install(editor) {
         console.log(editor.toJSON());
         break;
       case "Backspace":
-        if (!document.activeElement.tagName !== "INPUT") {
+        if (document.activeElement.tagName !== "INPUT") {
           editor.selected.each((n) => editor.removeNode(n));
           editor.selected.clear();
         }

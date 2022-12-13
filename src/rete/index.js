@@ -12,12 +12,14 @@ import { MIDIRecieverComponent } from "./MIDIRecieverComponent.jsx";
 import { MIDIEmitterComponent } from "./MIDIEmitterComponent.jsx";
 import { OSCEmitterComponent } from "./OSCEmitterComponent.jsx";
 import { MonomeGridComponent } from "./MonomeGridComponent.jsx";
+import { MonomeCrowComponent } from "./MonomeCrowComponent.jsx";
 
 const reteComponents = [
   new MIDIRecieverComponent(),
   new MIDIEmitterComponent(),
   new OSCEmitterComponent(),
   new MonomeGridComponent(),
+  new MonomeCrowComponent(),
   new AddComponent(),
   new MultiplyComponent(),
   new ConstantComponent(),

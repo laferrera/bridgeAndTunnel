@@ -9,6 +9,7 @@ import { midiReceiverConfig } from "./midiReceiverConfig.js";
 import { midiEmitterConfig } from "./midiEmitterConfig.js";
 import { mathConfig } from "./mathConfig.js";
 import { quantizerConfig } from "./quantizerConfig.js";
+import { monomCrowConfig } from "./monomCrowConfig.js";
 
 const uiConfigs = {
   oscEmitterConfig,
@@ -16,6 +17,7 @@ const uiConfigs = {
   midiEmitterConfig,
   mathConfig,
   quantizerConfig,
+  monomCrowConfig,
 };
 
 export { uiConfigs };
