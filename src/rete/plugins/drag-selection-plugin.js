@@ -17,15 +17,11 @@ var __assign =
 var MOUSE_LEFT_BUTTON = 0;
 function drawSelectionArea(area, position, size) {
   area.style.transform = `translate(${position.x}px, ${position.y}px)`;
-  // area.style.left = "".concat(position.x, "px");
-  // area.style.top = "".concat(position.y, "px");
   area.style.width = "".concat(size.width, "px");
   area.style.height = "".concat(size.height, "px");
   area.style.opacity = "1";
 }
 function cleanSelectionArea(area) {
-  // area.style.left = "0px";
-  // area.style.top = "0px";
   area.style.transform = "translate(0px, 0px)"
   area.style.width = "0px";
   area.style.height = "0px";
