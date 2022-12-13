@@ -16,15 +16,17 @@ var __assign =
 // Object.defineProperty(exports, "__esModule", { value: true });
 var MOUSE_LEFT_BUTTON = 0;
 function drawSelectionArea(area, position, size) {
-  area.style.left = "".concat(position.x, "px");
-  area.style.top = "".concat(position.y, "px");
+  area.style.transform = `translate(${position.x}px, ${position.y}px)`;
+  // area.style.left = "".concat(position.x, "px");
+  // area.style.top = "".concat(position.y, "px");
   area.style.width = "".concat(size.width, "px");
   area.style.height = "".concat(size.height, "px");
   area.style.opacity = "1";
 }
 function cleanSelectionArea(area) {
-  area.style.left = "0px";
-  area.style.top = "0px";
+  // area.style.left = "0px";
+  // area.style.top = "0px";
+  area.style.transform = "translate(0px, 0px)"
   area.style.width = "0px";
   area.style.height = "0px";
   area.style.opacity = "0";
@@ -123,9 +125,20 @@ function install(editor, params) {
     Array.from(canvas.querySelectorAll("path")).forEach(function (item) {
       item.style.pointerEvents = "none";
     });
+
+    console.log(e);
+
     cleanSelectionArea(selectionArea);
-    selection[0] = { x: e.offsetX, y: e.offsetY };
-    selection[1] = { x: e.offsetX, y: e.offsetY };
+        selection[0] = {
+          x: e.pageX - editor.view.container.offsetLeft,
+          y: e.pageY - editor.view.container.offsetTop,
+        };
+        selection[1] = {
+          x: e.pageX - editor.view.container.offsetLeft,
+          y: e.pageY - editor.view.container.offsetTop,
+        };
+    // selection[0] = { x: e.offsetX, y: e.offsetY };
+    // selection[1] = { x: e.offsetX, y: e.offsetY };
   };
   var handleMouseUp = function (e) {
     // e.preventDefault()
@@ -155,7 +168,11 @@ function install(editor, params) {
     
     e.preventDefault();
     e.stopPropagation();
-    selection[1] = { x: e.offsetX, y: e.offsetY };
+    selection[1] = {
+      x: e.pageX - editor.view.container.offsetLeft,
+      y: e.pageY - editor.view.container.offsetTop,
+    };
+    // selection[1] = { x: e.offsetX, y: e.offsetY };
     var size = {
       width: Math.abs(selection[1].x - selection[0].x),
       height: Math.abs(selection[1].y - selection[0].y),
@@ -171,12 +188,12 @@ function install(editor, params) {
   };
   // #endregion
   // #region
-  editor.view.container.style.position = "relative";
+  // editor.view.container.style.position = "relative";
   editor.view.container.appendChild(selectionArea);
-  editor.view.container.addEventListener("mousedown", handleMouseDown);
-  editor.view.container.addEventListener("mouseup", handleMouseUp);
-  editor.view.container.addEventListener("mouseout", handleMouseUp);
-  editor.view.container.addEventListener("mousemove", handleMouseMove);
+  window.addEventListener("mousedown", handleMouseDown);
+  window.addEventListener("mouseup", handleMouseUp);
+  // editor.view.container.addEventListener("mouseout", handleMouseUp);
+  window.addEventListener("mousemove", handleMouseMove);
   editor.on("destroy", function () {
     editor.view.container.removeChild(selectionArea);
     editor.view.container.removeEventListener("mousedown", handleMouseDown);
