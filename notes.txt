@@ -27,8 +27,7 @@ crow.writeLines(s);
 // and then maybe we need to do electron forge build step to copy over?
 // https://github.com/serialport/node-serialport/issues/2464#issuecomment-1334140064
 
-
-
+let newCrow; const hugAndMun = require('./index'); hugAndMun().then((crow) => { newCrow = crow; console.log("we set it?", newCrow)})
 
 
 

@@ -7,7 +7,8 @@ contextBridge.exposeInMainWorld("electronAPI", {
   updateNode: (node) => ipcRenderer.send("rete:handleUpdateNode", node),
   addNode: (node) => ipcRenderer.send("rete:handleAddNode", node),
   sendNodesToMain: (json) => ipcRenderer.send("rete:sendNodesToMain", json),
-  engineProcessJSON: (json) => ipcRenderer.send("rete:engineProcessJSON", json),
+  sendLinesToCrow: (json) => ipcRenderer.send("send-lines-to-crow", json),
+  engineProcessJSON: (json) => ipcRenderer.send("rete:engine-process-json", json),
   storeSession: (json) => ipcRenderer.send("store-session", json),
   getInitialData: () => ipcRenderer.invoke("get-initial-data"),
   getMidiDevices: () => ipcRenderer.invoke("get-midi-devices"),
@@ -24,4 +25,5 @@ contextBridge.exposeInMainWorld("electronAPI", {
   handleNewSession: (callback) => ipcRenderer.on("new-session", callback),
   handleRestoreSession: (callback) => ipcRenderer.on("restore-session", callback),
   handleMidiDeviceUpdate: (callback) => ipcRenderer.on("midi-device-update", callback),
+  handleReceiveLinesFromCrow: (callback) => ipcRenderer.on("receive-lines-from-crow", callback),
 });

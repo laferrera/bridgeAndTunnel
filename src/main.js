@@ -84,6 +84,7 @@ app.on("redo", () => {
 
 app.on("before-quit", (event) => {
     console.log("we haven't quitted just yet...");
+    // BrowserWindow.getFocusedWindow().close();
     usbDetect.stopMonitoring();
     if( engine.crow){
       engine.crow.disconnect();
@@ -143,7 +144,11 @@ app.whenReady().then(() => {
     engine.storeNodes(nodes);
   });
 
-  ipcMain.on("rete:engineProcessJSON", (event, json) => {
+  ipcMain.on("send-lines-to-crow", (event, cmd) => {
+    engine.sendLinesToCrow(cmd);
+  });
+
+  ipcMain.on("rete:engine-process-json", (event, json) => {
     console.log("cur file path", app.filePath);
     engine.processJSON(json);
   });

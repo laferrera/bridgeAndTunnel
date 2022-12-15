@@ -23,8 +23,13 @@ export default function GeneralPurposeReplUI(props) {
 
   const submitCode = (lineValue) => {
     const inputLine = { type: "input", value: lineValue };
+    window.electronAPI.sendLinesToCrow(lineValue);
     lines.push(inputLine);
     props.state[props.settingKey].fn(lines);
+
+    // do everything here?
+
+
     // console.log("input was: ", lineValue);
     // const inputLine = { type: "input", value: lineValue };
     // let outputLine = { type: "output", value: reverseString(lineValue) };

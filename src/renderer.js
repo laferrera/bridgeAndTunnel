@@ -48,6 +48,15 @@ window.electronAPI.handleRedo((event, value) => {
   editor.trigger("redo");
 });
 
+window.electronAPI.handleReceiveLinesFromCrow((event, data) => {
+  let crowNodes = editor.nodes.filter((n) => n.name == "Crow");
+  crowNodes.forEach((c) => {
+    const outputLine = { type: "output", value: data };
+    c.data.config.repl.value.push(outputLine);
+    rendererEmitter.emit("crowReplUpdate");
+  });
+});
+
 const buildConfig = () => {
   uiConfigs.midiReceiverConfig.portName.options = config.midiInputs;
   uiConfigs.midiEmitterConfig.portName.options = config.midiOutputs;
@@ -74,8 +83,8 @@ function App() {
     if (initialData.session) {
       try {
         editor.fromJSON(initialData.session).then(() => {
-          editor.zoomToNodes()
-          });
+          editor.zoomToNodes();
+        });
       } catch (error) {
         console.error(error);
         addStarterNodes(editor).then(() => {
@@ -99,6 +108,12 @@ function App() {
           buildConfig();
           setPanelState(Date.now());
         });
+      }
+    });
+
+    rendererEmitter.on("crowReplUpdate", () => {
+      if (editor.selected.list.length && editor.selected.list[0].name == "Crow") {
+        // setPanelState(Date.now());
       }
     });
 
@@ -131,7 +146,7 @@ function App() {
             key={pannelState}
             node={selectedNode}
             editor={editor}
-            emitter={rendererEmitter}
+            rendererEmitter={rendererEmitter}
             uiConfigs={uiConfigs}
           />
         )}
@@ -149,8 +164,6 @@ window.electronAPI.getInitialData().then((data) => {
   const rootElement = document.getElementById("root");
   createRoot(rootElement).render(<App />);
 });
-
-
 
 /**
  * This file will automatically be loaded by webpack and run in the "renderer" context.

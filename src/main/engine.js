@@ -19,9 +19,13 @@ class Engine extends EventEmitter {
     this.name = name;
     this.nodes = {};
     this.midiInputStreams = [];
-    this.midiInputStreams.push(new midiInputStream.init(this, "Bridge & Tunnel"));
+    this.midiInputStreams.push(
+      new midiInputStream.init(this, "Bridge & Tunnel")
+    );
     this.midiOutputStreams = [];
-    this.midiOutputStreams.push(new midiOutputStream.init(this, "Bridge & Tunnel"));
+    this.midiOutputStreams.push(
+      new midiOutputStream.init(this, "Bridge & Tunnel")
+    );
     this.OSCEmitter = new OscEmitter();
     this.OSCEmitter.add("127.0.0.1", tempOSCPort);
     this.OscReciever = new OscReciever();
@@ -33,7 +37,7 @@ class Engine extends EventEmitter {
     this.setupMonomeGrid();
     this.monomeGridLeds = [];
     this.monomeGridStates = [];
-    this.crow = null; 
+    this.crow = null;
 
     reteComponents.map((c) => {
       this.reteEngine.register(c);
@@ -70,10 +74,15 @@ class Engine extends EventEmitter {
 
   setupCrow() {
     // TODO, do this when USB connect / disconnect...
-    const callBack = (data) => {
-      this.handleCrowData(data);
-    };
-    this.crow = new hugAndMun.Crow();
+    if (!this.crow) {
+      const callBack = (data) => {
+        this.handleCrowOutput(data);
+      };
+      hugAndMun().then((crow) => {
+        this.crow = crow;
+        this.crow.setCallback(callBack)
+      })
+    }
   }
 
   processJSON(json) {
@@ -107,7 +116,10 @@ class Engine extends EventEmitter {
     // let inputPorts = [['Bridge & Tunnel', 'Bridge & Tunnel']];
     for (let i = 0; i < this.midiInputStreams[0].input.getPortCount(); i++) {
       const portName = this.midiInputStreams[0].input.getPortName(i);
-      if ( this.midiInputStreams.filter((m) => m.portName === portName).length === 0 ) {
+      if (
+        this.midiInputStreams.filter((m) => m.portName === portName).length ===
+        0
+      ) {
         const inPort = new midiInputStream.init(this, portName, i);
         this.midiInputStreams.push(inPort);
         // inputPorts.push([portName, portName]);
@@ -120,7 +132,10 @@ class Engine extends EventEmitter {
     // let outputPorts = [['Bridge & Tunnel', 'Bridge & Tunnel']];
     for (var i = 0; i < this.midiOutputStreams[0].output.getPortCount(); i++) {
       const portName = this.midiOutputStreams[0].output.getPortName(i);
-      if (this.midiOutputStreams.filter((m) => m.portName === portName).length === 0  ) {
+      if (
+        this.midiOutputStreams.filter((m) => m.portName === portName).length ===
+        0
+      ) {
         const outPort = new midiOutputStream.init(this, portName, i);
         this.midiOutputStreams.push(outPort);
         // outputPorts.push([portName, portName]);
@@ -236,8 +251,15 @@ class Engine extends EventEmitter {
     this.process(grids.map((mg) => mg.id));
   }
 
-  handleCrowData(data) {
-    console.log("crow data: ", data);
+  sendLinesToCrow(cmd) {
+    if(!this.crow) return;
+    console.log("send cmd to crow: ", cmd);
+    this.crow.writeLines(cmd);
+  }
+
+  handleCrowOutput(data) {
+    console.log("crow said: ", data);
+    this.mainWindow.webContents.send("receive-lines-from-crow", data);
   }
 
   distributeCrowData(data) {
@@ -248,9 +270,6 @@ class Engine extends EventEmitter {
     // TODO, how the fuck do we deal with this
     // this.process(crowNodes.map((c) => c.id));
   }
-
-
-
 }
 
 export default Engine;
