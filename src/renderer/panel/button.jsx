@@ -7,7 +7,10 @@ class Button extends React.Component {
   }
 
   handleClick() {
-    this.props.emitter.emit(this.props.setting.emitterCall, this.props.node);
+    this.props.rendererEmitter.emit(
+      this.props.setting.rendererEmitterCall,
+      this.props.node
+    );
   }
 
   render() {

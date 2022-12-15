@@ -5,8 +5,8 @@
   "description": "MIDI/OSC Wrangler",
   "main": ".webpack/main",
   "scripts": {
-    "install": "npm run build",
     "start": "electron-forge start",
+    "rebuild": "electron-rebuild -f -w huginn-and-muninn",
     "package": "electron-forge package",
     "make": "electron-forge make",
     "publish": "electron-forge publish",
@@ -60,6 +60,7 @@
     "efficy-rete-context-menu-plugin": "^1.0.0-alpha9",
     "electron-squirrel-startup": "^1.0.0",
     "electron-store": "^8.1.0",
+    "huginn-and-muninn": "/Users/jasonlaferrera/personal/huginn-and-muninn",
     "midi": "^2.0.0",
     "midi-message-parser": "^2.0.1",
     "monome-grid": "^1.0.2",
@@ -80,6 +81,7 @@
     "rete-history-plugin": "^0.2.2",
     "rete-keyboard-plugin": "^0.1.2",
     "rete-react-render-plugin": "^0.3.0",
+    "serialport": "^10.5.0",
     "update-electron-app": "^2.0.1",
     "usb-detection": "^4.14.1",
     "vue": "^3.2.37"

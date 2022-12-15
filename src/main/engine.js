@@ -4,6 +4,7 @@ const midiInputStream = require("./midi/midiInputStream.js");
 const midiOutputStream = require("./midi/midiOutputStream.js");
 import { MidiMessage } from "midi-message-parser";
 const monomeGrid = require("monome-grid");
+const hugAndMun = require("huginn-and-muninn");
 const OscEmitter = require("osc-emitter");
 const OscReciever = require("osc-receiver");
 const abletonlink = require("abletonlink");
@@ -32,6 +33,7 @@ class Engine extends EventEmitter {
     this.setupMonomeGrid();
     this.monomeGridLeds = [];
     this.monomeGridStates = [];
+    this.crow = null; 
 
     reteComponents.map((c) => {
       this.reteEngine.register(c);
@@ -64,6 +66,14 @@ class Engine extends EventEmitter {
       }
       this.monomeGrid.refresh(this.monomeGridLeds);
     });
+  }
+
+  setupCrow() {
+    // TODO, do this when USB connect / disconnect...
+    const callBack = (data) => {
+      this.handleCrowData(data);
+    };
+    this.crow = new hugAndMun.Crow();
   }
 
   processJSON(json) {
@@ -225,6 +235,22 @@ class Engine extends EventEmitter {
     });
     this.process(grids.map((mg) => mg.id));
   }
+
+  handleCrowData(data) {
+    console.log("crow data: ", data);
+  }
+
+  distributeCrowData(data) {
+    let crowNodes = Object.values(this.nodes).filter((n) => n.name == "Crow");
+    crowNodes.forEach((c) => {
+      c.data.data = data;
+    });
+    // TODO, how the fuck do we deal with this
+    // this.process(crowNodes.map((c) => c.id));
+  }
+
+
+
 }
 
 export default Engine;

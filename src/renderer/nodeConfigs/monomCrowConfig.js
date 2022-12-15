@@ -1,6 +1,6 @@
 const monomCrowConfig = {
-  channel: {
-    value: 1,
+  repl: {
+    value: [{ type: "output", value: "Hugin and Munin fly each day over the spacious earth." }],
     name: "repl",
     type: "repl",
     ui: "repl",

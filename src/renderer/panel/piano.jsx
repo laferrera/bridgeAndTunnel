@@ -8,11 +8,9 @@ export default function PanelPiano(props) {
       <Piano
         noteRange={{ first: 0, last: 11 }}
         playNote={(midiNumber) => {
-          // Play a given note - see notes below
           let notes = [...props.state[props.settingKey].val];
-          // console.log("notes, midiNumber", notes, midiNumber)
           if(notes.includes(midiNumber)) {
-            // console.log("note already in array");
+            // note already in array 
             notes.splice(notes.indexOf(midiNumber), 1);
           } else {
             notes.push(midiNumber);

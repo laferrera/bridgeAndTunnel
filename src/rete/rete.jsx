@@ -90,10 +90,10 @@ export function createEditor(container, rendererEmitter, editorRef) {
   // emitter callbacks
 
   editor.zoomToNodes = () => {
-    console.log("zoomin");
     AreaPlugin.zoomAt(editor, editor.nodes);
   };
 
+  // TODO, contain nodes to editor view...
   editor.containNodesToEditorView = (node) => {
       const [nX, nY] = node.position;
       const eX = editor.view.area.transform.x;
@@ -121,7 +121,7 @@ export function createEditor(container, rendererEmitter, editorRef) {
   });
 
   editor.on("zoom", ({ translate, zoom, source }) => {
-    console.log(zoom);
+    // console.log(zoom);
     return source !== "dblclick";
   });
 

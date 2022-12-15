@@ -1,5 +1,35 @@
-  to mess around
+// to mess around
     https://codesandbox.io/s/retejs-react-render-t899c?file=/src/rete.jsx:1619-1940    
+
+
+// crow stuff...
+const hugAndMun = require('./index');const crow = await new hugAndMun.Crow();
+const logger = function(data){console.log(data)}
+crow.setCallback(logger)
+
+s = `input[1].mode('change', 1.0, 0.1, 'rising');
+input[1].change = function (state) print('Hello, Molly!') end;`
+
+
+s2 = `input[2].mode('change', 1.0, 0.1, 'rising');
+input[2].change = function (state) print('Hello, Jason!') end;`
+
+crow.writeLines(s);
+
+// the whole serialport thing is a mess...
+// can i use an older version of serial port that doesn't include arm64?
+// https://github.com/serialport/bindings-cpp/pull/18/files
+
+// when we npm install serialport, then Hug&Mun won't try to install as a dependency...
+// so those versions have to match
+// https://copyprogramming.com/howto/electron-and-serial-ports
+// and then webpack looks for external, so thats good...
+// and then maybe we need to do electron forge build step to copy over?
+// https://github.com/serialport/node-serialport/issues/2464#issuecomment-1334140064
+
+
+
+
 
 
 models

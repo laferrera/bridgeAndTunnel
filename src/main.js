@@ -85,6 +85,10 @@ app.on("redo", () => {
 app.on("before-quit", (event) => {
     console.log("we haven't quitted just yet...");
     usbDetect.stopMonitoring();
+    if( engine.crow){
+      engine.crow.disconnect();
+    }
+    
   // TODO, kill ableton link somehow
   // delete engine.link;
 });
@@ -93,10 +97,13 @@ const checkUSB = () => {
   usbDetect.startMonitoring();
   usbDetect.on("add", function (device) {
     console.log("add", device);
-    BrowserWindow.getFocusedWindow().send("device-added");
+    // BrowserWindow.getFocusedWindow().send("device-added");
+    // send to engine and let engine talk to renderer
   });
   usbDetect.on("remove", function (device) {
-    BrowserWindow.getFocusedWindow().send("device-removed");
+    console.log("remove", device);
+    // BrowserWindow.getFocusedWindow().send("device-removed");
+    // send to engine and let engine talk to renderer
   });
 };
 
@@ -107,6 +114,8 @@ async function getRendererInitialData() {
   data.config = {};
   data.config.midiInputs = engine.getMIDIInputPorts();
   data.config.midiOutputs = engine.getMIDIOutputPorts();
+  // try and connect crow?
+  engine.setupCrow();
   return data;
 }
 
