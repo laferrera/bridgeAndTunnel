@@ -219,7 +219,7 @@ const menuTemplate = [
   {
     label: "View",
     submenu: [
-      //todo, take this out at production
+      // TODO , take this out at production
       { role: "reload" },
       { role: "forceReload" },
       { role: "toggleDevTools" },

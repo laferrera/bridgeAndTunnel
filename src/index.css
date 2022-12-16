@@ -42,6 +42,8 @@ body {
 .panel{
   min-width: 200px;
   background:#333;
+  z-index: 2;
+  box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.5);
 }
 
 .rete{
@@ -82,7 +84,7 @@ input {
   height: auto;
   padding-bottom: 6px;
   box-sizing: content-box;
-  min-width: 160px;
+  min-width: 180px;
   border-radius: 0px;
   transition: background 200ms;
 }
@@ -130,9 +132,18 @@ input {
 }
 
 .node .inputs-outputs-container{
+  padding-top: 6px;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+}
+
+.node .inputs,
+.node .outputs{
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  /* justify-content: space-between; */
 }
 
 .node .control input,
@@ -152,7 +163,7 @@ input {
 }
 
 .node .socket.output{
-  background:#ccc;
+  background: #333;
   margin-right: -6px;
 }
 

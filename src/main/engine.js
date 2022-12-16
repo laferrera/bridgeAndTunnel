@@ -252,9 +252,12 @@ class Engine extends EventEmitter {
   }
 
   sendLinesToCrow(cmd) {
-    if(!this.crow) return;
-    console.log("send cmd to crow: ", cmd);
-    this.crow.writeLines(cmd);
+    if(this.crow){
+      console.log("send cmd to crow: ", cmd);
+      this.crow.writeLines(cmd);
+    } else {
+      this.mainWindow.webContents.send("receive-lines-from-crow", "no crow.");
+    }
   }
 
   handleCrowOutput(data) {

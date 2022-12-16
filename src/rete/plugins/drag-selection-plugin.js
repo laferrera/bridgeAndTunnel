@@ -122,8 +122,6 @@ function install(editor, params) {
       item.style.pointerEvents = "none";
     });
 
-    console.log(e);
-
     cleanSelectionArea(selectionArea);
         selection[0] = {
           x: e.pageX - editor.view.container.offsetLeft,
@@ -186,7 +184,7 @@ function install(editor, params) {
   // #region
   // editor.view.container.style.position = "relative";
   editor.view.container.appendChild(selectionArea);
-  window.addEventListener("mousedown", handleMouseDown);
+  editor.view.container.addEventListener("mousedown", handleMouseDown);
   window.addEventListener("mouseup", handleMouseUp);
   // editor.view.container.addEventListener("mouseout", handleMouseUp);
   window.addEventListener("mousemove", handleMouseMove);

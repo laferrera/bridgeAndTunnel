@@ -51,9 +51,13 @@ window.electronAPI.handleRedo((event, value) => {
 window.electronAPI.handleReceiveLinesFromCrow((event, data) => {
   let crowNodes = editor.nodes.filter((n) => n.name == "Crow");
   crowNodes.forEach((c) => {
-    const outputLine = { type: "output", value: data };
+    let type = "output";
+    if (data.startsWith("repl")) {
+      type = "error";
+    }
+    const outputLine = { type: type, value: data };
     c.data.config.repl.value.push(outputLine);
-    rendererEmitter.emit("crowReplUpdate");
+    rendererEmitter.emit("crowReplUpdate", outputLine);
   });
 });
 
@@ -73,6 +77,7 @@ const editorComponent = (
 function App() {
   const [selectedNode, setSelectedNode] = useState(null);
   const [pannelState, setPanelState] = useState(Date.now());
+  const [panelRepl, setPanelRepl] = useState(null);
   editorRef = useRef(null);
 
   useEffect(() => {
@@ -111,9 +116,13 @@ function App() {
       }
     });
 
-    rendererEmitter.on("crowReplUpdate", () => {
-      if (editor.selected.list.length && editor.selected.list[0].name == "Crow") {
+    rendererEmitter.on("crowReplUpdate", (outputLine) => {
+      if (
+        editor.selected.list.length &&
+        editor.selected.list[0].name == "Crow"
+      ) {
         // setPanelState(Date.now());
+        setPanelRepl(outputLine);
       }
     });
 
@@ -148,6 +157,7 @@ function App() {
             editor={editor}
             rendererEmitter={rendererEmitter}
             uiConfigs={uiConfigs}
+            crowRepl={null}
           />
         )}
       </div>
