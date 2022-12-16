@@ -82,11 +82,11 @@ input {
   cursor: pointer;
   display: inline-block;
   height: auto;
-  padding-bottom: 6px;
+  /* padding-bottom: 6px; */
   box-sizing: content-box;
   min-width: 180px;
   border-radius: 0px;
-  transition: background 200ms;
+  transition: background 200ms ease-in-out;
 }
 
 .node.event{
@@ -94,7 +94,7 @@ input {
 }
 
 .node:hover{
-  background: cyan;
+  background: #0093D3;
   cursor: pointer;
 }
 
@@ -103,7 +103,8 @@ input {
 }
 
 .node.selected {
-  background: magenta;
+  background: #CC016B;
+  border: 1px solid #FFFFFF;
 }
 
 .node .title{
@@ -126,13 +127,14 @@ input {
 
 .node select,
 .node input:focus {
-  background-color: yellow;
+  background-color: #FFF10D;
   border:0;
   outline:none;
 }
 
 .node .inputs-outputs-container{
   padding-top: 6px;
+  padding-bottom: 6px;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -180,7 +182,7 @@ input {
 }
 
 .connection .main-path.active {
-  stroke: magenta
+  stroke: #CC016B;
 }
 
 .context-menu {
