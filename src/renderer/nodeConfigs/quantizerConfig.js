@@ -7,5 +7,5 @@ const quantizerConfig = {
   },
 };  
 
-export { quantizerConfig };
+export default quantizerConfig;
 

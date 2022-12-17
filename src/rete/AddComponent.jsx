@@ -2,8 +2,8 @@ import Rete from "rete";
 import { btNode } from "./btNode.jsx";
 import { NumControl } from "./NumControl.jsx";
 import { numSocket } from "./numSocket.js";
-import { mathConfig } from "../renderer/nodeConfigs/mathConfig.js";
-import { configBuilder } from "./utils.js";
+import config from "../renderer/nodeConfigs/mathConfig.js";
+import { deepCopy } from "./utils.js";
 export class AddComponent extends Rete.Component {
   constructor() {
     super("Add");
@@ -14,12 +14,8 @@ export class AddComponent extends Rete.Component {
     var inp1 = new Rete.Input("num1", "Input 1", numSocket);
     var inp2 = new Rete.Input("num2", "Input 2", numSocket);
     var out = new Rete.Output("sum", "Sum", numSocket);
-
-    // inp1.addControl(new NumControl(this.editor, "num1", node));
-    // inp2.addControl(new NumControl(this.editor, "num2", node));
-
-    node.data.configType = Object.keys({ mathConfig }).pop();
-    node.data.config = configBuilder(mathConfig);
+    node.data.config = deepCopy(config);
+    
     return node
       .addInput(inp1)
       .addInput(inp2)

@@ -68,5 +68,4 @@ const midiEmitterConfig = {
   },
 };  
 
-export { midiEmitterConfig };
-
+export default midiEmitterConfig;

@@ -1,8 +1,8 @@
 import Rete from "rete";
 import { btNode } from "./btNode.jsx";
 import { numSocket } from "./numSocket.js";
-import { monomCrowConfig } from "../renderer/nodeConfigs/monomCrowConfig.js";
-import { configBuilder, checkInputsAndSetData } from "./utils.js";
+import config from "../renderer/nodeConfigs/monomCrowConfig.js";
+import { deepCopy } from "./utils.js";
 
 export class MonomeCrowComponent extends Rete.Component {
   constructor() {
@@ -24,8 +24,8 @@ export class MonomeCrowComponent extends Rete.Component {
     var out1 = new Rete.Output("out1", "Output 1", numSocket);
     var out2 = new Rete.Output("out2", "Output 2", numSocket);
 
-    node.data.configType = Object.keys({ monomCrowConfig }).pop();
-    node.data.config = configBuilder(monomCrowConfig);
+    node.data.config = deepCopy(config);
+    
     node.data.x = 0;
     node.data.y = 0;
     node.data.state = 0;

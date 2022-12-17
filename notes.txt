@@ -2,6 +2,17 @@
     https://codesandbox.io/s/retejs-react-render-t899c?file=/src/rete.jsx:1619-1940    
 
 
+input[1].mode('change', 1.0, 0.1, 'rising')
+input[1].change = function (state) print("{state:".. input[1].volts .. "}") end
+
+
+s2 = `input[2].mode('change', 1.0, 0.1, 'rising');
+input[2].change = function (state) print('Hello, Jason!') end;`
+
+
+
+
+
 // crow stuff...
 const hugAndMun = require('./index');const crow = await new hugAndMun.Crow();
 const logger = function(data){console.log(data)}

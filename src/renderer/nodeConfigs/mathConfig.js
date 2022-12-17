@@ -7,7 +7,6 @@ const mathConfig = {
     label: "Radio Group",
     options: ["default", "option1", "option2"],
   },
-};  
+};
 
-export { mathConfig };
-
+export default mathConfig;

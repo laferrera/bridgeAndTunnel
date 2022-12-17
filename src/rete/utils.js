@@ -19,6 +19,9 @@ const checkInputsAndSetData = (inputs, data) => {
   return changed;
 }
 
+const deepCopy = (obj) => {
+  return JSON.parse(JSON.stringify(obj));
+}
 
 
-export { configBuilder, checkInputsAndSetData };
+export { configBuilder, checkInputsAndSetData, deepCopy };

@@ -14,9 +14,11 @@ import * as RadioGroup from "@radix-ui/react-radio-group";
 import * as HoverCard from "@radix-ui/react-hover-card";
 
 export default function Panel(props) {
-  const configType = props.node.data.configType;
+  // const configType = props.node.data.configType;
   let nodeConfig = props.node.data.config;
-  const uiConfig = props.uiConfigs[configType];
+  // const uiConfig = props.uiConfigs[configType];
+  const uiConfig = props.node.data.config;
+
 
   const state = {};
   const components = [];

@@ -4,15 +4,17 @@
 //   require('./' + file)
 // }
 
-import  oscEmitterConfig  from "./oscEmitterConfig.js";
-import { midiReceiverConfig } from "./midiReceiverConfig.js";
-import { midiEmitterConfig } from "./midiEmitterConfig.js";
-import { mathConfig } from "./mathConfig.js";
-import { quantizerConfig } from "./quantizerConfig.js";
-import { monomCrowConfig } from "./monomCrowConfig.js";
+import oscEmitterConfig from "./oscEmitterConfig.js";
+import oscReceiverConfig from "./oscReceiverConfig.js";
+import midiReceiverConfig from "./midiReceiverConfig.js";
+import midiEmitterConfig from "./midiEmitterConfig.js";
+import mathConfig from "./mathConfig.js";
+import quantizerConfig from "./quantizerConfig.js";
+import monomCrowConfig from "./monomCrowConfig.js";
 
 const uiConfigs = {
   oscEmitterConfig,
+  oscReceiverConfig,
   midiReceiverConfig,
   midiEmitterConfig,
   mathConfig,
