@@ -1,8 +1,7 @@
 import Rete from "rete";
 import { btNode } from "./btNode.jsx";
-import { NumControl } from "./NumControl.jsx";
 import { numSocket } from "./numSocket.js";
-import config from "../renderer/nodeConfigs/quantizerConfig.js";
+import config from "../../renderer/nodeConfigs/quantizerConfig.js";
 import { deepCopy } from "./utils.js";
 export class QuantizerComponent extends Rete.Component {
   constructor() {

@@ -1,8 +1,8 @@
 import Rete from "rete";
 import { btNode } from "./btNode.jsx";
-import { NumControl } from "./NumControl.jsx";
+import { NumControl } from "./controls/NumControl.jsx";
 import { numSocket } from "./numSocket.js";
-import config from "../renderer/nodeConfigs/mathConfig.js";
+import config from "../../renderer/nodeConfigs/mathConfig.js";
 import { deepCopy } from "./utils.js";
 export class ConstantComponent extends Rete.Component {
   constructor() {

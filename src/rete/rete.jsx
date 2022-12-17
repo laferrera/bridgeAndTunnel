@@ -14,10 +14,9 @@ import MultiSelectPlugin from "./plugins/multi-select-plugin.js";
 import DragSelectionPlugin from "./plugins/drag-selection-plugin.js";
 // import DataChangeAction from "./plugins/data-change-action.js";
 
-import { numSocket } from "./numSocket.js";
-import { AddComponent } from "./AddComponent.jsx";
-import { reteComponents } from "./index.js";
-import { render } from "react-dom";
+import { numSocket } from "./components/numSocket.js";
+import { reteComponents } from "./components/index.js";
+// import { render } from "react-dom";
 
 const min = (arr) => (arr.length === 0 ? 0 : Math.min(...arr));
 const max = (arr) => (arr.length === 0 ? 0 : Math.max(...arr));

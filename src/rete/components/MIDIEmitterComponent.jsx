@@ -1,9 +1,9 @@
 import Rete from "rete";
 import { btNode } from "./btNode.jsx";
 import { numSocket } from "./numSocket.js";
-import config from "../renderer/nodeConfigs/midiEmitterConfig.js";
+import config from "../../renderer/nodeConfigs/midiEmitterConfig.js";
 import { deepCopy } from "./utils.js";
-import { emitterEmitter } from "./emitterEmitter.js";
+import { emitterEmitter } from "../emitterEmitter.js";
 
 export class MIDIEmitterComponent extends Rete.Component {
   constructor() {

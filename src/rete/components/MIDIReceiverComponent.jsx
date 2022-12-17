@@ -1,9 +1,8 @@
 import Rete from "rete";
 import { btNode } from "./btNode.jsx";
 import { numSocket } from "./numSocket.js";
-import config from "../renderer/nodeConfigs/midiReceiverConfig.js";
+import config from "../../renderer/nodeConfigs/midiReceiverConfig.js";
 import { deepCopy } from "./utils.js";
-import { NumControl } from "./NumControl.jsx";
 
 export class MIDIReceiverComponent extends Rete.Component {
   constructor() {

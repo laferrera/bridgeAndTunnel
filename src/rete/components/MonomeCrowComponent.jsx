@@ -1,7 +1,7 @@
 import Rete from "rete";
 import { btNode } from "./btNode.jsx";
 import { numSocket } from "./numSocket.js";
-import config from "../renderer/nodeConfigs/monomCrowConfig.js";
+import config from "../../renderer/nodeConfigs/monomCrowConfig.js";
 import { deepCopy } from "./utils.js";
 
 export class MonomeCrowComponent extends Rete.Component {

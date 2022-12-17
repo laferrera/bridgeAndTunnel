@@ -12,7 +12,7 @@ import { emitterEmitter } from "../rete/emitterEmitter.js";
 const tempOSCPort = 10201;
 
 import Rete from "rete";
-import { reteComponents } from "../rete/index.js";
+import { reteComponents } from "../rete/components/index.js";
 class Engine extends EventEmitter {
   constructor(name) {
     super();
