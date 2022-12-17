@@ -8,6 +8,7 @@ export class MonomeGridComponent extends Rete.Component {
   constructor() {
     super("Grid");
     this.data.component = btNode; // optional
+    this.path = ["Monome"];
   }
 
   builder(node) {

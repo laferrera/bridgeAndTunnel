@@ -8,6 +8,7 @@ export class MultiplyComponent extends Rete.Component {
   constructor() {
     super("Multiply");
     this.data.component = btNode; // optional
+    this.path = ["Math"];
   }
 
   builder(node) {

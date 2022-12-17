@@ -8,6 +8,7 @@ export class OSCEmitterComponent extends Rete.Component {
   constructor() {
     super("OSC Emitter");
     this.data.component = btNode;
+    this.path = ["OSC"];
   }
 
   builder(node) {

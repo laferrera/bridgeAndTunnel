@@ -6,6 +6,7 @@ import addStarterNodes from "./rete/addStarterNodes.js";
 import { uiConfigs } from "./renderer/nodeConfigs";
 import Panel from "./renderer/panel/panel.jsx";
 import "./index.css";
+import "./contextMenu.css";
 
 const EventEmitter = require("events");
 const rendererEmitter = new EventEmitter();

@@ -8,6 +8,7 @@ export class MonomeCrowComponent extends Rete.Component {
   constructor() {
     super("Crow");
     this.data.component = btNode; // optional
+    this.path = ["Monome"];
   }
 
   builder(node) {

@@ -8,6 +8,7 @@ export class QuantizerComponent extends Rete.Component {
   constructor() {
     super("Quantizer");
     this.data.component = btNode; // optional
+    this.path = ["Math"];
   }
 
   builder(node) {

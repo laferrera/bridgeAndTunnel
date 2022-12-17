@@ -38,17 +38,11 @@ export function createEditor(container, rendererEmitter, editorRef) {
     searchBar: false, // true by default
     searchKeep: (title) => true, // leave item when searching, optional. For example, title => ['Refresh'].includes(title)
     delay: 100,
-    // allocate(component) {
-    //   return ['Submenu'];
-    // },
-    rename(component) {
-      return component.name;
-    },
-    nodeItems: node => {
+    nodeItems: (node) => {
       if (node.name === "OSC Emitter") {
         return {
           "Add Input"() {
-            rendererEmitter.emit("addInput", node);;
+            rendererEmitter.emit("addInput", node);
           },
           "Remove Input"() {
             rendererEmitter.emit("removeInput", node);
@@ -61,7 +55,16 @@ export function createEditor(container, rendererEmitter, editorRef) {
           },
         };
       }
-    }
+    },
+    // allocate(OSCEmitter) {
+    //   return ["MIDI"];
+    // },
+    allocate(component) {
+      return component.path;
+    },
+    // rename(component) {
+    //   return component.name;
+    // },
   });
 
   editor.use(AreaPlugin, {

@@ -9,6 +9,7 @@ export class MIDIEmitterComponent extends Rete.Component {
   constructor() {
     super("MIDI Emitter");
     this.data.component = btNode;
+    this.path = ["MIDI"];
   }
 
   builder(node) {

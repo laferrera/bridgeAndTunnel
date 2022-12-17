@@ -1,0 +1,67 @@
+@font-face {
+  font-family: '04b';
+  src: url(04B_03__.ttf);
+}
+
+@font-face {
+  font-family: 'PPSupplySans-Regular';
+  src: url(PPSupplySans-Regular.otf);
+}
+
+.context-menu {
+  left: 0;
+  top: 0;
+  padding: 0px;
+  margin-top: 0px;
+  border-radius: 0;
+  margin-left: 10px;
+  box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.75);
+}
+
+.context-menu .item {
+  padding: 4px;
+  width: 150px;
+  border-radius: 0;
+  color: #000;
+    border-bottom: 1px solid rgba(15, 15, 15, 0.7);
+  background-color: #FFFEFE;
+  /* border-bottom: 1px solid rgba(15, 15, 15, 0.7);
+  background-color: rgba(35, 35, 35, 0.7); */
+  cursor: pointer;
+  position: relative;
+}
+
+.context-menu .item .subitems {
+  position: absolute;
+  display: none;
+  left: 100%;
+  top: 0;
+  border-radius: 0px;
+  overflow: overlay;
+}
+
+.context-menu>.item:hover .subitems {
+  display: block;
+}
+
+.context-menu>.item.have-subitems {
+  padding-right: 16px;
+}
+
+
+.context-menu .item:first-child {
+  border-radius: 0;
+}
+
+.context-menu .item:last-child {
+  border-radius: 0;
+}
+
+.context-menu .item:hover {
+  background-color: #0093D3;
+  /* background-color: rgba(45, 45, 45, 0.7); */
+}
+
+.context-menu .item:active {
+    background-color: #CC016B;
+}
