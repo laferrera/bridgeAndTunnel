@@ -14,11 +14,6 @@ function install(editor) {
       case "ShiftRight":
         shifted = true;
         break;
-      case "KeyI":
-        console.log(editor.nodes);
-        console.log("-------");
-        console.log(editor.toJSON());
-        break;
       case "Backspace":
         if (document.activeElement.tagName !== "INPUT") {
           editor.selected.each((n) => editor.removeNode(n));

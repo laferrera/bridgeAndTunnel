@@ -24,7 +24,7 @@ app.createWindow = () => {
     width: 800,
     height: 600,
     // TODO, background
-    backgroundColor: "#ff00ff",
+    backgroundColor: "#CC016B",
     // frame: false,
     // titleBarStyle: 'hidden',
     webPreferences: {
