@@ -4,7 +4,7 @@
 //   require('./' + file)
 // }
 
-import { oscEmitterConfig } from "./oscEmitterConfig.js";
+import  oscEmitterConfig  from "./oscEmitterConfig.js";
 import { midiReceiverConfig } from "./midiReceiverConfig.js";
 import { midiEmitterConfig } from "./midiEmitterConfig.js";
 import { mathConfig } from "./mathConfig.js";

@@ -1,11 +1,11 @@
 import { AddComponent } from "./AddComponent.jsx";
-import { MIDIRecieverComponent } from "./MIDIRecieverComponent.jsx";
+import { MIDIReceiverComponent } from "./MIDIReceiverComponent.jsx";
 import { OSCEmitterComponent } from "./OSCEmitterComponent.jsx";
 import { MonomeGridComponent } from "./MonomeGridComponent.jsx";
 
 async function addStarterNodes(editor){
-var mr1 = await new MIDIRecieverComponent().createNode({ num: 2 });
-var mr2 = await new MIDIRecieverComponent().createNode({ num: 3 });
+var mr1 = await new MIDIReceiverComponent().createNode({ num: 2 });
+var mr2 = await new MIDIReceiverComponent().createNode({ num: 3 });
 var osc = await new OSCEmitterComponent().createNode({ num: 3 });
   var add = await new AddComponent().createNode({ num: 3 });
 

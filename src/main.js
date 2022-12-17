@@ -82,14 +82,15 @@ app.on("redo", () => {
   }
 });
 
-app.on("before-quit", (event) => {
-    console.log("we haven't quitted just yet...");
-    // BrowserWindow.getFocusedWindow().close();
-    usbDetect.stopMonitoring();
-    if( engine.crow){
-      engine.crow.disconnect();
-    }
-    
+app.on("will-quit", (event) => {
+  console.log("we haven't quitted just yet...");
+  if (BrowserWindow.getFocusedWindow()) {
+    BrowserWindow.getFocusedWindow().send("redo");
+  }
+  usbDetect.stopMonitoring();
+  if (engine.crow) {
+    engine.crow.disconnect();
+  }
   // TODO, kill ableton link somehow
   // delete engine.link;
 });

@@ -32,7 +32,6 @@ export function createEditor(container, rendererEmitter, editorRef) {
   });
   editor.use(ReactRenderPlugin, { createRoot });
 
-
   editor.use(ContextMenuPlugin, {
     Menu: ReactMenu, // required
     searchBar: false, // true by default
@@ -99,13 +98,13 @@ export function createEditor(container, rendererEmitter, editorRef) {
 
   // TODO, contain nodes to editor view...
   editor.containNodesToEditorView = (node) => {
-      const [nX, nY] = node.position;
-      const eX = editor.view.area.transform.x;
-      const eY = editor.view.area.transform.y;
-      if( eX - Math.abs(nX) < 0 || eY - Math.abs(nY) < 0) {
-        // editor.zoomToNodes();
-      }
-  }
+    const [nX, nY] = node.position;
+    const eX = editor.view.area.transform.x;
+    const eY = editor.view.area.transform.y;
+    if (eX - Math.abs(nX) < 0 || eY - Math.abs(nY) < 0) {
+      // editor.zoomToNodes();
+    }
+  };
 
   rendererEmitter.on("addInput", (node) => {
     let inputLength = Array.from(node.inputs).length;
@@ -120,6 +119,23 @@ export function createEditor(container, rendererEmitter, editorRef) {
     if (inputLength > 1) {
       let inp = Array.from(node.inputs).pop()[1];
       node.removeInput(inp);
+      node.update();
+    }
+  });
+
+  rendererEmitter.on("addOutput", (node) => {
+    let outputLength = Array.from(node.outputs).length;
+    outputLength++;
+    let out = new Rete.Output("num" + outputLength, "Number", numSocket);
+    node.addoutput(out);
+    node.update();
+  });
+
+  rendererEmitter.on("removePutput", (node) => {
+    let outputLength = Array.from(node.outputs).length;
+    if (outputLength > 1) {
+      let out = Array.from(node.outputs).pop()[1];
+      node.removeoutput(out);
       node.update();
     }
   });

@@ -21,4 +21,4 @@ let oscEmitterConfig = {
     rendererEmitterCall: "removeInput",
   },
 };
-export { oscEmitterConfig };
+export default oscEmitterConfig;

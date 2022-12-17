@@ -19,11 +19,6 @@ const checkInputsAndSetData = (inputs, data) => {
   return changed;
 }
 
-const markInputsAsRead = (inputs) => {
-  Object.keys(inputs).forEach(key => {
-    inputs[key][0] = { v: inputs[key][0].v, r: true };
-  });
-}
 
 
-export { configBuilder, checkInputsAndSetData, markInputsAsRead };
+export { configBuilder, checkInputsAndSetData };
