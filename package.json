@@ -61,6 +61,7 @@
     "efficy-rete-context-menu-plugin": "^1.0.0-alpha9",
     "electron-squirrel-startup": "^1.0.0",
     "electron-store": "^8.1.0",
+    "electron-window-state": "^5.0.3",
     "huginn-and-muninn": "../huginn-and-muninn",
     "midi": "^2.0.0",
     "midi-message-parser": "^2.0.1",

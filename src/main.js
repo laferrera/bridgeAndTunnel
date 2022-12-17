@@ -8,9 +8,10 @@ require("update-electron-app")({
 });
 import "regenerator-runtime/runtime";
 import Engine from "./main/engine.js";
-import { generalSettings } from "./generalSettings.js";
+// import { generalSettings } from "./generalSettings.js";
 const engine = new Engine("bridgeAndtunnel@0.1.0");
 const store = new Store();
+const windowStateKeeper = require("electron-window-state");
 let mainWindow;
 
 const usbDetect = require("usb-detection");
@@ -20,10 +21,20 @@ if (require("electron-squirrel-startup")) {
 }
 
 app.createWindow = () => {
+
+  let mainWindowState = windowStateKeeper({
+    defaultWidth: 1000,
+    defaultHeight: 800,
+  });
+ 
+
   mainWindow = new BrowserWindow({
-    width: 800,
-    height: 600,
-    // TODO, background
+    // width: 800,
+    // height: 600,
+    'x': mainWindowState.x,
+    'y': mainWindowState.y,
+    'width': mainWindowState.width,
+    'height': mainWindowState.height,
     backgroundColor: "#CC016B",
     // frame: false,
     // titleBarStyle: 'hidden',
@@ -32,6 +43,8 @@ app.createWindow = () => {
     },
   });
 
+  mainWindowState.manage(mainWindow);
+  
   mainWindow.loadURL(MAIN_WINDOW_WEBPACK_ENTRY);
   mainWindow.webContents.openDevTools();
   engine.setMainWindow(mainWindow);

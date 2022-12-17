@@ -6,6 +6,7 @@ import ReactRenderPlugin from "rete-react-render-plugin";
 import ConnectionPlugin from "rete-connection-plugin";
 import ConnectionPathPlugin from "rete-connection-path-plugin";
 import AreaPlugin from "rete-area-plugin";
+// import AreaPlugin from "./plugins/area-plugin.js";
 import ContextMenuPlugin, { ReactMenu } from "rete-context-menu-plugin-react";
 // import ContextMenuPlugin, { ReactMenu } from "./plugins/context-menu-plugin.js";
 import HistoryPlugin from "rete-history-plugin";
@@ -30,7 +31,6 @@ export function createEditor(container, rendererEmitter, editorRef) {
     options: { vertical: false, curvature: 0.0 }, // optional
   });
   editor.use(ReactRenderPlugin, { createRoot });
-
   editor.use(ContextMenuPlugin, {
     Menu: ReactMenu, // required
     searchBar: false, // true by default
@@ -54,20 +54,14 @@ export function createEditor(container, rendererEmitter, editorRef) {
         };
       }
     },
-    // allocate(OSCEmitter) {
-    //   return ["MIDI"];
-    // },
     allocate(component) {
       return component.path;
     },
-    // rename(component) {
-    //   return component.name;
-    // },
   });
 
   editor.use(AreaPlugin, {
-    scaleExtent: { min: 0.5, max: 1 },
-    translateExtent: { width: 500, height: 500 },
+    // scaleExtent: { min: 0.5, max: 1 },
+    // translateExtent: { width: 500, height: 500 },
   });
   editor.use(KeyboardPlugin);
   editor.use(MultiSelectPlugin);
@@ -97,12 +91,27 @@ export function createEditor(container, rendererEmitter, editorRef) {
 
   // TODO, contain nodes to editor view...
   editor.containNodesToEditorView = (node) => {
-    const [nX, nY] = node.position;
-    const eX = editor.view.area.transform.x;
-    const eY = editor.view.area.transform.y;
-    if (eX - Math.abs(nX) < 0 || eY - Math.abs(nY) < 0) {
-      // editor.zoomToNodes();
+    console.log('n',node.position[0], node.position[1]);
+    console.log(
+      "v",
+      editor.view.area.transform.x,
+      editor.view.area.transform.y
+    );
+
+    const xPos = (node.position[0] + editor.view.area.transform.x) /
+        editor.view.area.transform.k;
+
+    const yPos = (node.position[1] + editor.view.area.transform.y) /
+        editor.view.area.transform.k;
+
+    console.log("m", xPos, yPos);
+
+      console.log("-------")
+
+    if (xPos < 0 || yPos < 0 || xPos > editor.view.area.width || yPos > editor.view.area.height) {
+      editor.zoomToNodes();
     }
+
   };
 
   rendererEmitter.on("addInput", (node) => {

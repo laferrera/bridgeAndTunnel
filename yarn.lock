@@ -4173,6 +4173,14 @@
   "resolved" "https://registry.npmjs.org/electron-to-chromium/-/electron-to-chromium-1.4.284.tgz"
   "version" "1.4.284"
 
+"electron-window-state@^5.0.3":
+  "integrity" "sha512-1mNTwCfkolXl3kMf50yW3vE2lZj0y92P/HYWFBrb+v2S/pCka5mdwN3cagKm458A7NjndSwijynXgcLWRodsVg=="
+  "resolved" "https://registry.npmjs.org/electron-window-state/-/electron-window-state-5.0.3.tgz"
+  "version" "5.0.3"
+  dependencies:
+    "jsonfile" "^4.0.0"
+    "mkdirp" "^0.5.1"
+
 "electron-winstaller@^5.0.0":
   "integrity" "sha512-4wlZzkUm5cJNiOtp5wL804+QpygdKTKkrZJXA3sSDEI2XnCVPv0kxmxUvVw4KHBwbNS+Yox89agEr+VkR7kxww=="
   "resolved" "https://registry.npmjs.org/electron-winstaller/-/electron-winstaller-5.1.0.tgz"
