@@ -87,6 +87,7 @@ input {
   min-width: 180px;
   border-radius: 0px;
   transition: background 200ms ease-in-out;
+  box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.75);
 }
 
 .node.event{
@@ -105,6 +106,7 @@ input {
 .node.selected {
   background: #CC016B;
   border: 1px solid #FFFFFF;
+  
 }
 
 .node .title{

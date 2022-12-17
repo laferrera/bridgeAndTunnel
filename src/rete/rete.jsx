@@ -96,38 +96,39 @@ export function createEditor(container, rendererEmitter, editorRef) {
   // emitter callbacks
 
   editor.zoomToNodes = () => {
+    console.log("...........")
     AreaPlugin.zoomAt(editor, editor.nodes);
   };
 
   // TODO, contain nodes to editor view...
   editor.containNodesToEditorView = (node) => {
-    console.log("n", node.position[0], node.position[1]);
-    console.log(
-      "v",
-      editor.view.area.transform.x,
-      editor.view.area.transform.y
-    );
+    // console.log("n", node.position[0], node.position[1]);
+    // console.log(
+    //   "v",
+    //   editor.view.area.transform.x,
+    //   editor.view.area.transform.y
+    // );
 
-    const xPos =
-      (node.position[0] + editor.view.area.transform.x) /
-      editor.view.area.transform.k;
+    // const xPos =
+    //   (node.position[0] + editor.view.area.transform.x) /
+    //   editor.view.area.transform.k;
 
-    const yPos =
-      (node.position[1] + editor.view.area.transform.y) /
-      editor.view.area.transform.k;
+    // const yPos =
+    //   (node.position[1] + editor.view.area.transform.y) /
+    //   editor.view.area.transform.k;
 
-    console.log("m", xPos, yPos);
+    // console.log("m", xPos, yPos);
 
-    console.log("-------");
+    // console.log("-------");
 
-    if (
-      xPos < 0 ||
-      yPos < 0 ||
-      xPos > editor.view.area.width ||
-      yPos > editor.view.area.height
-    ) {
-      editor.zoomToNodes();
-    }
+    // if (
+    //   xPos < 0 ||
+    //   yPos < 0 ||
+    //   xPos > editor.view.area.width ||
+    //   yPos > editor.view.area.height
+    // ) {
+    //   editor.zoomToNodes();
+    // }
   };
 
   rendererEmitter.on("addInput", (node) => {

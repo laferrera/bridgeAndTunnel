@@ -8,46 +8,44 @@ export class btNode extends Node {
 
     return (
       <div className={`node ${selected}`}>
-        <div className="title">
-           {node.name} 
-        </div>
+        <div className="title">{node.name}</div>
         <div className="inputs-outputs-container">
           {/* Inputs */}
           <div className="inputs">
-          {inputs.map((input) => (
-            <div className="input" key={input.key}>
-              <Socket
-                type="input"
-                socket={input.socket}
-                io={input}
-                innerRef={bindSocket}
-              />
-              {!input.showControl() && (
-                <div className="input-title">{input.name}</div>
-              )}
-              {input.showControl() && (
-                <Control
-                  className="input-control"
-                  control={input.control}
-                  innerRef={bindControl}
+            {inputs.map((input) => (
+              <div className="input" key={input.key}>
+                <Socket
+                  type="input"
+                  socket={input.socket}
+                  io={input}
+                  innerRef={bindSocket}
                 />
-              )}
-            </div>
-          ))}    
-          </div>    
+                {!input.showControl() && (
+                  <div className="input-title">{input.name}</div>
+                )}
+                {input.showControl() && (
+                  <Control
+                    className="input-control"
+                    control={input.control}
+                    innerRef={bindControl}
+                  />
+                )}
+              </div>
+            ))}
+          </div>
           {/* Outputs */}
           <div className="outputs">
-          {outputs.map((output) => (
-            <div className="output" key={output.key}>
-              <div className="output-title">{output.name}</div>
-              <Socket
-                type="output"
-                socket={output.socket}
-                io={output}
-                innerRef={bindSocket}
-              />
-            </div>
-          ))}
+            {outputs.map((output) => (
+              <div className="output" key={output.key}>
+                <div className="output-title">{output.name}</div>
+                <Socket
+                  type="output"
+                  socket={output.socket}
+                  io={output}
+                  innerRef={bindSocket}
+                />
+              </div>
+            ))}
           </div>
         </div>
         {/* Controls */}

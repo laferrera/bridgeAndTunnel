@@ -10,6 +10,7 @@ import "./contextMenu.css";
 
 const EventEmitter = require("events");
 const rendererEmitter = new EventEmitter();
+let nodeIndexCounter = 1;
 
 window.electronAPI.handleEngineError((event, message, data) => {
   // TODO
@@ -103,10 +104,25 @@ function App() {
       });
     }
 
+    // something better for this...
+    setTimeout(() => {
+          editor.nodes.forEach((n) => {
+            editor.view.updateConnections({ node: n });
+          });
+    }, 1);
+
+
+
+
     // set up listeners
     editor.on("nodeselected", (node) => {
       setSelectedNode(node);
       setPanelState(Date.now());
+      editor.trigger("hidecontextmenu");
+      // editor.view.nodes.forEach((n) => { n.el.style.zIndex = 1; });
+      nodeIndexCounter++;
+      editor.view.nodes.get(node).el.style.zIndex = nodeIndexCounter;
+
       if (node.name.toLowerCase().includes("midi")) {
         window.electronAPI.getMidiDevices().then((data) => {
           config.midiInputs = data.midiInputs;
