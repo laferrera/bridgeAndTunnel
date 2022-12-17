@@ -1,7 +1,7 @@
 import Rete from "rete";
 import { btNode } from "./btNode.jsx";
 import { numSocket } from "./numSocket.js";
-import config from "../../renderer/nodeConfigs/oscEmitterConfig.js";
+import config from "../../renderer/nodeConfigs/oscReceiverConfig.js";
 import { deepCopy } from "./utils.js";
 export class OSCReceiverComponent extends Rete.Component {
   constructor() {

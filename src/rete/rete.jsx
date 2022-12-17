@@ -37,21 +37,31 @@ export function createEditor(container, rendererEmitter, editorRef) {
     searchKeep: (title) => true, // leave item when searching, optional. For example, title => ['Refresh'].includes(title)
     delay: 100,
     nodeItems: (node) => {
-      if (node.name === "OSC Emitter") {
-        return {
-          "Add Input"() {
-            rendererEmitter.emit("addInput", node);
-          },
-          "Remove Input"() {
-            rendererEmitter.emit("removeInput", node);
-          },
-        };
-      } else {
-        return {
-          "Click me"() {
-            console.log("Works for node!");
-          },
-        };
+      switch (node.name) {
+        case "OSC Emitter":
+          return {
+            "Add Input"() {
+              rendererEmitter.emit("addInput", node);
+            },
+            "Remove Input"() {
+              rendererEmitter.emit("removeInput", node);
+            },
+          };
+        case "OSC Receiver":
+          return {
+            "Add Output"() {
+              rendererEmitter.emit("addOutput", node);
+            },
+            "Remove Output"() {
+              rendererEmitter.emit("removeOutput", node);
+            },
+          };
+        default:
+          return {
+            "Click me"() {
+              console.log("Works for node!");
+            },
+          };
       }
     },
     allocate(component) {
@@ -91,27 +101,33 @@ export function createEditor(container, rendererEmitter, editorRef) {
 
   // TODO, contain nodes to editor view...
   editor.containNodesToEditorView = (node) => {
-    console.log('n',node.position[0], node.position[1]);
+    console.log("n", node.position[0], node.position[1]);
     console.log(
       "v",
       editor.view.area.transform.x,
       editor.view.area.transform.y
     );
 
-    const xPos = (node.position[0] + editor.view.area.transform.x) /
-        editor.view.area.transform.k;
+    const xPos =
+      (node.position[0] + editor.view.area.transform.x) /
+      editor.view.area.transform.k;
 
-    const yPos = (node.position[1] + editor.view.area.transform.y) /
-        editor.view.area.transform.k;
+    const yPos =
+      (node.position[1] + editor.view.area.transform.y) /
+      editor.view.area.transform.k;
 
     console.log("m", xPos, yPos);
 
-      console.log("-------")
+    console.log("-------");
 
-    if (xPos < 0 || yPos < 0 || xPos > editor.view.area.width || yPos > editor.view.area.height) {
+    if (
+      xPos < 0 ||
+      yPos < 0 ||
+      xPos > editor.view.area.width ||
+      yPos > editor.view.area.height
+    ) {
       editor.zoomToNodes();
     }
-
   };
 
   rendererEmitter.on("addInput", (node) => {
@@ -135,15 +151,15 @@ export function createEditor(container, rendererEmitter, editorRef) {
     let outputLength = Array.from(node.outputs).length;
     outputLength++;
     let out = new Rete.Output("num" + outputLength, "Number", numSocket);
-    node.addoutput(out);
+    node.addOutput(out);
     node.update();
   });
 
-  rendererEmitter.on("removePutput", (node) => {
+  rendererEmitter.on("removeOutput", (node) => {
     let outputLength = Array.from(node.outputs).length;
     if (outputLength > 1) {
       let out = Array.from(node.outputs).pop()[1];
-      node.removeoutput(out);
+      node.removeOutput(out);
       node.update();
     }
   });

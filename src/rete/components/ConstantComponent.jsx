@@ -8,6 +8,7 @@ export class ConstantComponent extends Rete.Component {
   constructor() {
     super("Constant");
     this.data.component = btNode; // optional
+    this.path = ["Math"];
   }
 
   builder(node) {

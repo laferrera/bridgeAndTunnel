@@ -98,14 +98,22 @@ body,
 
 .Button:hover,
 .SelectTrigger:hover {
-  background-color: rgba(0, 0, 0, 0.1);
+  background-color:#0093D3;
+  /* background-color: rgba(0, 0, 0, 0.1); */
   cursor: pointer;
 }
 
 .Button:focus,
 .SelectTrigger:focus {
+  /* color:#000; */
+  /* background-color: #FFF10D; */
   background-color: rgba(0, 0, 0, 0.2);
   box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.15);
+}
+
+.SelectTrigger:active,
+.Button:active{
+  background-color:#CC016B;
 }
 
 .SelectContent {

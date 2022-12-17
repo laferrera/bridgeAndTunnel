@@ -21,20 +21,18 @@ if (require("electron-squirrel-startup")) {
 }
 
 app.createWindow = () => {
-
   let mainWindowState = windowStateKeeper({
     defaultWidth: 1000,
     defaultHeight: 800,
   });
- 
 
   mainWindow = new BrowserWindow({
     // width: 800,
     // height: 600,
-    'x': mainWindowState.x,
-    'y': mainWindowState.y,
-    'width': mainWindowState.width,
-    'height': mainWindowState.height,
+    x: mainWindowState.x,
+    y: mainWindowState.y,
+    width: mainWindowState.width,
+    height: mainWindowState.height,
     backgroundColor: "#CC016B",
     // frame: false,
     // titleBarStyle: 'hidden',
@@ -44,7 +42,7 @@ app.createWindow = () => {
   });
 
   mainWindowState.manage(mainWindow);
-  
+
   mainWindow.loadURL(MAIN_WINDOW_WEBPACK_ENTRY);
   mainWindow.webContents.openDevTools();
   engine.setMainWindow(mainWindow);
