@@ -5520,7 +5520,7 @@
     "agent-base" "6"
     "debug" "4"
 
-"huginn-and-muninn@/Users/jasonlaferrera/personal/huginn-and-muninn":
+"huginn-and-muninn@../huginn-and-muninn":
   "resolved" "file:../huginn-and-muninn"
   "version" "0.1.0"
   dependencies:
@@ -7494,11 +7494,6 @@
     "loose-envify" "^1.1.0"
     "scheduler" "^0.23.0"
 
-"react-dom@npm:@pika/react-dom@16.13.1":
-  "integrity" "sha512-tCROpA6uP7caCNodaOUcqmauQmpVOmFXsaaKUJgLOMiZdlW+L02ItK3WAqGSOw25rM0bbwDXNC/x9PpfiQ9ESg=="
-  "resolved" "https://registry.npmjs.org/@pika/react-dom/-/react-dom-16.13.1.tgz"
-  "version" "16.13.1"
-
 "react-is@^16.13.1":
   "integrity" "sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ=="
   "resolved" "https://registry.npmjs.org/react-is/-/react-is-16.13.1.tgz"
@@ -7563,11 +7558,6 @@
   "version" "18.2.0"
   dependencies:
     "loose-envify" "^1.1.0"
-
-"react@^16.0.0", "react@npm:@pika/react@16.13.1":
-  "integrity" "sha512-v33Ub2QxntNpDFRnkj3tCbT6jMb7Etu7LOMQO/YAulLRIDtDvJdMwuOVJDdPYUmDtWjfWOB5xSP7nl7k0BApbQ=="
-  "resolved" "https://registry.npmjs.org/@pika/react/-/react-16.13.1.tgz"
-  "version" "16.13.1"
 
 "read-pkg-up@^2.0.0":
   "integrity" "sha512-1orxQfbWGUiTn9XsPlChs6rLie/AV9jwZTGmu2NZw/CUDJQchXJFYE0Fq5j7+n558T1JhDWLdhyd1Zj+wLY//w=="
@@ -7869,14 +7859,13 @@
   "resolved" "https://registry.npmjs.org/rete-connection-plugin/-/rete-connection-plugin-0.9.0.tgz"
   "version" "0.9.0"
 
-"rete-context-menu-plugin-react@^0.0.8":
-  "integrity" "sha512-evl65UcS5yHbEHVBZQvNEBzpzfwQDjm3ZRCFAeGiNMTAvkXrxLlGN6Tpfuk8+/YpvgveeAJ3/fjXoXD2cPCB4g=="
-  "resolved" "https://registry.npmjs.org/rete-context-menu-plugin-react/-/rete-context-menu-plugin-react-0.0.8.tgz"
+"rete-context-menu-plugin-react@../rete-context-menu-plugin-react":
+  "resolved" "file:../rete-context-menu-plugin-react"
   "version" "0.0.8"
   dependencies:
     "lodash" "^4.17.11"
-    "react" "npm:@pika/react@16.13.1"
-    "react-dom" "npm:@pika/react-dom@16.13.1"
+    "react" "^16.13.1"
+    "react-dom" "^16.13.1"
 
 "rete-context-menu-plugin@^1.0.0-alpha9":
   "integrity" "sha512-dtW+IIlzDSe4z36ygcB77QKpczJnzS1AdC2C6Wx0QkhU5+mL7axU9Tp5AUcVH/Y7RLXskAiHX3GAO6ZGgI2iSg=="
@@ -7903,7 +7892,7 @@
   "resolved" "https://registry.npmjs.org/rete-react-render-plugin/-/rete-react-render-plugin-0.3.0.tgz"
   "version" "0.3.0"
 
-"rete@/Users/jasonlaferrera/personal/rete", "rete@^1.4.9":
+"rete@../rete", "rete@^1.4.9":
   "resolved" "file:../rete"
   "version" "1.5.0-rc1"
 

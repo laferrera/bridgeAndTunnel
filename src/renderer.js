@@ -161,7 +161,9 @@ function App() {
           />
         )}
       </div>
-      <div className="rete">{editorComponent}</div>
+      <div className="rete">
+        {editorComponent}
+      </div>
     </div>
   );
 }

@@ -43,7 +43,7 @@ export default function Panel(props) {
         components.push(
           <Button
             key={setting}
-            rendererEmitter={props.emitter}
+            rendererEmitter={props.rendererEmitter}
             node={props.node}
             setting={uiConfig[setting]}
           />
