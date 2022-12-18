@@ -170,7 +170,6 @@ app.whenReady().then(() => {
   });
 
   ipcMain.on("rete:engine-process-json", (event, json) => {
-    console.log("cur file path", app.filePath);
     engine.processJSON(json);
   });
 

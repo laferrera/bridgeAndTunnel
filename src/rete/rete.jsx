@@ -101,32 +101,16 @@ export function createEditor(container, rendererEmitter, editorRef) {
 
 
   editor.containNodesToEditorView = (node) => {
-    // TODO
-
-    // Can't we just detect if the mouse is outside of the editor view and then trigger zoom to the nodes?
-
-    // console.log("n", node.position[0], node.position[1]);
-    // console.log(
-    //   "v",
-    //   editor.view.area.transform.x,
-    //   editor.view.area.transform.y
-    // );
-    // const xPos =
-    //   (node.position[0] + editor.view.area.transform.x) /
-    //   editor.view.area.transform.k;
-    // const yPos =
-    //   (node.position[1] + editor.view.area.transform.y) /
-    //   editor.view.area.transform.k;
-    // console.log("m", xPos, yPos);
-    // console.log("-------");
-    // if (
-    //   xPos < 0 ||
-    //   yPos < 0 ||
-    //   xPos > editor.view.area.width ||
-    //   yPos > editor.view.area.height
-    // ) {
-    //   editor.zoomToNodes();
-    // }
+    const transform = editor.view.area.transform;
+    const areaStart = {x: (0 - transform.x) / transform.k, 
+                       y: (0 - transform.y) / transform.k};
+    const areaEnd = {x: (editor.view.container.offsetWidth - transform.x) / transform.k, 
+                     y: (editor.view.container.offsetHeight - transform.y) / transform.k};
+    const inside = node.position[0] >= areaStart.x && node.position[0] <= areaEnd.x 
+    && node.position[1] >= areaStart.y && node.position[1] <= areaEnd.y;
+    if(!inside){
+      editor.zoomToNodes();
+    }
   };
 
   rendererEmitter.on("addInput", (node) => {

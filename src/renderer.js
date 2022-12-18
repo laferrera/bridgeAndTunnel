@@ -45,7 +45,7 @@ window.electronAPI.handleLoadFile((event, file, content) => {
 });
 
 window.electronAPI.handleNewSession((event, value) => {
-  console.log("new session");
+  editor.clear();
 });
 
 window.electronAPI.handleUndo((event, value) => {
@@ -142,9 +142,6 @@ function App() {
       editor.view.nodes.get(node).el.style.zIndex = nodeIndexCounter;
       // TODO, set meta when loading from JSON or something
       node.setMeta({ zIndex: nodeIndexCounter });
-
-      console.log("hi. node translated",node);
-
       if (node.name.toLowerCase().includes("midi")) {
         window.electronAPI.getMidiDevices().then((data) => {
           config.midiInputs = data.midiInputs;

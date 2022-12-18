@@ -32,10 +32,13 @@ const openFile = (file) => {
   const content = fs.readFileSync(file).toString();
   if (BrowserWindow.getFocusedWindow()) {
     BrowserWindow.getFocusedWindow().send("load-file", file, content);
+    app.saveFilePath = file;
+    const saveMenuItem = app.menu.getMenuItemById("saveMenuItem");
+    saveMenuItem.enabled = true;
   } else {
     //TODO, hows the timing on this...
     app.createWindow();
-    app.filePath = file;
+    app.saveFilePath = file;
     const saveMenuItem = app.menu.getMenuItemById("saveMenuItem");
     saveMenuItem.enabled = true;
     BrowserWindow.getFocusedWindow().send("load-file", file, content);
@@ -73,7 +76,7 @@ const saveAsFile = () => {
             console.log("Saved!");
           }
         );
-        app.filePath = file.filePath;
+        app.saveFilePath = file.filePath;
         const saveMenuItem = app.menu.getMenuItemById("saveMenuItem");
         saveMenuItem.enabled = true;
         app.addRecentDocument(file.filePath);
@@ -86,7 +89,7 @@ const saveAsFile = () => {
 
 const saveFile = () => {
   fs.writeFile(
-    app.filePath.toString(),
+    app.saveFilePath.toString(),
     JSON.stringify(BrowserWindow.getFocusedWindow().store.get("session")),
     function (err) {
       if (err) throw err;
@@ -116,6 +119,7 @@ const newSession = () => {
       });
   } else {
     app.createWindow();
+    app.saveFilePath = null;
     const saveMenuItem = app.menu.getMenuItemById("saveMenuItem");
     saveMenuItem.enabled = false;
   }
@@ -153,7 +157,7 @@ const menuTemplate = [
         id: "saveMenuItem",
         accelerator: "CommandOrControl+S",
         enabled: false,
-        // enabled: (app.filePath !== null),
+        // enabled: (app.saveFilePath !== null),
         click: async () => {
           saveFile();
         },
