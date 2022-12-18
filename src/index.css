@@ -86,7 +86,7 @@ input {
   box-sizing: content-box;
   min-width: 180px;
   border-radius: 0px;
-  transition: background 200ms ease-in-out;
+  transition: background 150 ease-in-out;
   box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.75);
 }
 

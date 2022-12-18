@@ -12,6 +12,7 @@ const EventEmitter = require("events");
 const rendererEmitter = new EventEmitter();
 let nodeIndexCounter = 1;
 
+
 window.electronAPI.handleEngineError((event, message, data) => {
   // TODO
   // https://stackoverflow.com/questions/4866986/detect-if-an-alert-or-confirm-is-displayed-on-a-page
@@ -34,7 +35,13 @@ window.electronAPI.handleSaveFile((event, value) => {
 });
 
 window.electronAPI.handleLoadFile((event, file, content) => {
-  console.log("load file", file, content);
+  const data = JSON.parse(content);
+  console.log("load file", file, data);
+  editor.fromJSON(data.editor).then(() => {
+    editor.setHistory(data.history);
+    editor.zoomToNodes();
+    renderWires();
+  });
 });
 
 window.electronAPI.handleNewSession((event, value) => {
@@ -42,13 +49,19 @@ window.electronAPI.handleNewSession((event, value) => {
 });
 
 window.electronAPI.handleUndo((event, value) => {
-  console.log("undo");
   editor.trigger("undo");
 });
 
 window.electronAPI.handleRedo((event, value) => {
   editor.trigger("redo");
 });
+
+window.electronAPI.handleSelectAll((event, value) => {
+  editor.nodes.forEach(function (node) {
+    editor.selectNode(node, true);
+  });
+});
+
 
 window.electronAPI.handleReceiveLinesFromCrow((event, data) => {
   let crowNodes = editor.nodes.filter((n) => n.name == "Crow");
@@ -76,6 +89,14 @@ const editorComponent = (
   <div ref={(ref) => ref && createEditor(ref, rendererEmitter, editorRef)} />
 );
 
+const renderWires = () => {
+      setTimeout(() => {
+      editor.nodes.forEach((n) => {
+        editor.view.updateConnections({ node: n });
+      });
+    }, 200);
+};
+
 function App() {
   const [selectedNode, setSelectedNode] = useState(null);
   const [pannelState, setPanelState] = useState(Date.now());
@@ -87,9 +108,12 @@ function App() {
     console.log("editor", editor);
 
     // build nodes
-    if (initialData.session) {
+    if (initialData.session.editor) {
       try {
-        editor.fromJSON(initialData.session).then(() => {
+        editor.fromJSON(initialData.session.editor).then(() => {
+          // TODO, history... 
+          // console.log("initialData.session.history",  initialData.session.history);
+          // editor.setHistory(initialData.session.history);
           editor.zoomToNodes();
         });
       } catch (error) {
@@ -99,20 +123,14 @@ function App() {
         });
       }
     } else {
+      console.log("what happened to initial data?", initialData)
       addStarterNodes(editor).then(() => {
         editor.zoomToNodes();
       });
     }
 
     // something better for this...
-    setTimeout(() => {
-          editor.nodes.forEach((n) => {
-            editor.view.updateConnections({ node: n });
-          });
-    }, 1);
-
-
-
+    renderWires();
 
     // set up listeners
     editor.on("nodeselected", (node) => {
@@ -122,6 +140,10 @@ function App() {
       // editor.view.nodes.forEach((n) => { n.el.style.zIndex = 1; });
       nodeIndexCounter++;
       editor.view.nodes.get(node).el.style.zIndex = nodeIndexCounter;
+      // TODO, set meta when loading from JSON or something
+      node.setMeta({ zIndex: nodeIndexCounter });
+
+      console.log("hi. node translated",node);
 
       if (node.name.toLowerCase().includes("midi")) {
         window.electronAPI.getMidiDevices().then((data) => {
@@ -178,16 +200,13 @@ function App() {
           />
         )}
       </div>
-      <div className="rete">
-        {editorComponent}
-      </div>
+      <div className="rete">{editorComponent}</div>
     </div>
   );
 }
 
 window.electronAPI.getInitialData().then((data) => {
   initialData = data;
-  console.log(data);
   config = data.config;
   buildConfig();
   const rootElement = document.getElementById("root");

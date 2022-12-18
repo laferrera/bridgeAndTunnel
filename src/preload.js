@@ -22,6 +22,7 @@ contextBridge.exposeInMainWorld("electronAPI", {
   handleLoadFile: (callback) => ipcRenderer.on("load-file", callback),
   handleUndo: (callback) => ipcRenderer.on("undo", callback),
   handleRedo: (callback) => ipcRenderer.on("redo", callback),
+  handleSelectAll: (callback) => ipcRenderer.on("select-all", callback),
   handleNewSession: (callback) => ipcRenderer.on("new-session", callback),
   handleRestoreSession: (callback) => ipcRenderer.on("restore-session", callback),
   handleMidiDeviceUpdate: (callback) => ipcRenderer.on("midi-device-update", callback),

@@ -1,4 +1,4 @@
-const { app, BrowserWindow, dialog, ipcMain, Menu } = require("electron");
+const { app, BrowserWindow, dialog, ipcMain, Menu, session } = require("electron");
 const fs = require("fs");
 const Store = require("electron-store");
 import menuTemplate from "./main/menu.js";
@@ -13,7 +13,6 @@ const engine = new Engine("bridgeAndtunnel@0.1.0");
 const store = new Store();
 const windowStateKeeper = require("electron-window-state");
 let mainWindow;
-
 const usbDetect = require("usb-detection");
 
 if (require("electron-squirrel-startup")) {
@@ -47,7 +46,9 @@ app.createWindow = () => {
   mainWindow.webContents.openDevTools();
   engine.setMainWindow(mainWindow);
   // TODO, seems like we shouldn't have to set engine/mainwindow both ways...
+  // but how does the Menu functions access then?
   mainWindow.engine = engine;
+  mainWindow.store = store;
 };
 
 app.on("ready", app.createWindow);
@@ -92,6 +93,14 @@ app.on("redo", () => {
     BrowserWindow.getFocusedWindow().send("redo");
   }
 });
+
+app.on("selectAll", () => {
+  if (BrowserWindow.getFocusedWindow()) {
+    BrowserWindow.getFocusedWindow().send("selectAll");
+  }
+});
+
+
 
 app.on("will-quit", (event) => {
   console.log("we haven't quitted just yet...");

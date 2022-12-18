@@ -6,18 +6,16 @@ import ReactRenderPlugin from "rete-react-render-plugin";
 import ConnectionPlugin from "rete-connection-plugin";
 import ConnectionPathPlugin from "rete-connection-path-plugin";
 import AreaPlugin from "rete-area-plugin";
-// import AreaPlugin from "./plugins/area-plugin.js";
 import ContextMenuPlugin, { ReactMenu } from "rete-context-menu-plugin-react";
 // import ContextMenuPlugin, { ReactMenu } from "./plugins/context-menu-plugin.js";
-import HistoryPlugin from "rete-history-plugin";
+// import HistoryPlugin from "rete-history-plugin";
+import HistoryPlugin from "./plugins/history-plugin.js";
 import KeyboardPlugin from "./plugins/keyboard-plugin.js";
 import MultiSelectPlugin from "./plugins/multi-select-plugin.js";
 import DragSelectionPlugin from "./plugins/drag-selection-plugin.js";
-// import DataChangeAction from "./plugins/data-change-action.js";
-
 import { numSocket } from "./components/numSocket.js";
 import { reteComponents } from "./components/index.js";
-// import { render } from "react-dom";
+// import DataChangeAction from "./plugins/data-change-action.js";
 
 const min = (arr) => (arr.length === 0 ? 0 : Math.min(...arr));
 const max = (arr) => (arr.length === 0 ? 0 : Math.max(...arr));
@@ -81,7 +79,7 @@ export function createEditor(container, rendererEmitter, editorRef) {
     editor.register(c);
   });
 
-  editor.use(HistoryPlugin);
+  editor.use(HistoryPlugin, { keyboard: false });
 
   editor.on(
     "process nodecreated noderemoved connectioncreated connectionremoved",
@@ -89,38 +87,38 @@ export function createEditor(container, rendererEmitter, editorRef) {
       // should this be ASYNC?
       await window.electronAPI.sendNodesToMain(editor.toJSON().nodes);
       // TODO, add history...
-      await window.electronAPI.storeSession(editor.toJSON());
+      const data = {editor: editor.toJSON(), history: editor.getHistoryJSON()};
+      await window.electronAPI.storeSession(data);
+      // await window.electronAPI.storeSession(editor.toJSON());
     }
   );
 
   // emitter callbacks
 
   editor.zoomToNodes = () => {
-    console.log("...........")
     AreaPlugin.zoomAt(editor, editor.nodes);
   };
 
-  // TODO, contain nodes to editor view...
+
   editor.containNodesToEditorView = (node) => {
+    // TODO
+
+    // Can't we just detect if the mouse is outside of the editor view and then trigger zoom to the nodes?
+
     // console.log("n", node.position[0], node.position[1]);
     // console.log(
     //   "v",
     //   editor.view.area.transform.x,
     //   editor.view.area.transform.y
     // );
-
     // const xPos =
     //   (node.position[0] + editor.view.area.transform.x) /
     //   editor.view.area.transform.k;
-
     // const yPos =
     //   (node.position[1] + editor.view.area.transform.y) /
     //   editor.view.area.transform.k;
-
     // console.log("m", xPos, yPos);
-
     // console.log("-------");
-
     // if (
     //   xPos < 0 ||
     //   yPos < 0 ||
@@ -178,8 +176,6 @@ export function createEditor(container, rendererEmitter, editorRef) {
   // https://github.com/retejs/area-plugin/blob/master/src/restrictor.js
 
   window.electronAPI.sendNodesToMain(editor.toJSON().nodes);
-  console.log("rete editor created");
-
   editorRef.current = editor;
   return editor;
 }

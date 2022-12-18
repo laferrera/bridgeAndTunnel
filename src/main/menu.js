@@ -5,6 +5,12 @@ const { app, dialog, BrowserWindow, webContents } = require("electron");
 const isMac = process.platform === "darwin";
 const mainWindow = BrowserWindow.fromId(1);
 
+const sendToFocusedWindow = (msg) => {
+  if (BrowserWindow.getFocusedWindow()) {
+    BrowserWindow.getFocusedWindow().send(msg);
+  }
+}
+
 const getFileFromUser = () => {
   dialog
     .showOpenDialog(mainWindow, {
@@ -59,7 +65,9 @@ const saveAsFile = () => {
         // Creating and Writing to the sample.txt file
         fs.writeFile(
           file.filePath.toString(),
-          JSON.stringify(BrowserWindow.getFocusedWindow().engine.nodes),
+          // TODO use the session store?
+          // JSON.stringify(BrowserWindow.getFocusedWindow().engine.nodes),
+          JSON.stringify(BrowserWindow.getFocusedWindow().store.get("session")),
           function (err) {
             if (err) throw err;
             console.log("Saved!");
@@ -79,7 +87,7 @@ const saveAsFile = () => {
 const saveFile = () => {
   fs.writeFile(
     app.filePath.toString(),
-    JSON.stringify(BrowserWindow.getFocusedWindow().engine.nodes),
+    JSON.stringify(BrowserWindow.getFocusedWindow().store.get("session")),
     function (err) {
       if (err) throw err;
       console.log("Saved!");
@@ -186,7 +194,8 @@ const menuTemplate = [
         id: "undoMenuItem",
         accelerator: "CommandOrControl+Z",
         click: async () => {
-          app.emit("undo");
+          // app.emit("undo");
+          sendToFocusedWindow("undo");
         },
       },
       {
@@ -194,7 +203,8 @@ const menuTemplate = [
         id: "redoMenuItem",
         accelerator: "Shift+CommandOrControl+Z",
         click: async () => {
-          app.emit("redo");
+          // app.emit("redo");
+          sendToFocusedWindow("redo");
         },
       },
       { type: "separator" },
@@ -203,9 +213,17 @@ const menuTemplate = [
       { role: "paste" },
       ...(isMac
         ? [
-            { role: "pasteAndMatchStyle" },
-            { role: "delete" },
-            { role: "selectAll" },
+            // { role: "delete" },
+            // { role: "selectAll" },
+            {
+              label: "Select All",
+              id: "selectAllMenuItem",
+              accelerator: "CommandOrControl+A",
+              click: async () => {
+                // app.emit("selectAll");
+                sendToFocusedWindow("select-all");
+              },
+            },
             { type: "separator" },
             {
               label: "Speech",
