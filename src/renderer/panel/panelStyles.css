@@ -97,6 +97,7 @@ body,
 }
 
 .TextInput{
+  cursor: text;
   background: var(--bnt-cream);
   color:#000;
 }

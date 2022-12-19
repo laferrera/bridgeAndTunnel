@@ -23,7 +23,7 @@ class TextInput extends React.Component {
         >
           {this.props.setting.label}
         </Label.Root>
-        <input className="TextInput" type="text" value={this.props.state[this.props.settingKey].val} onChange={this.handleChange} />
+        <input className="TextInput" type={this.props.setting.type} value={this.props.state[this.props.settingKey].val} onChange={this.handleChange} />
       </div>
     );
   }

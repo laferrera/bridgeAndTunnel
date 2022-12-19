@@ -1,10 +1,10 @@
 let oscReceiverConfig = {
-  port:{
+  port: {
     value: "2727",
     name: "Port",
-    type: "string",
-    ui: "number",
-    label: "Port"
+    type: "number",
+    ui: "text",
+    label: "Port",
   },
   address: {
     value: "/note_on",
@@ -12,6 +12,9 @@ let oscReceiverConfig = {
     type: "string",
     ui: "text",
     label: "Address",
+  },
+  oscValues: {
+    value: []
   },
   addOutput: {
     name: "Add Output",

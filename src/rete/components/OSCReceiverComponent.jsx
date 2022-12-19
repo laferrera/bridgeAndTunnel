@@ -13,19 +13,19 @@ export class OSCReceiverComponent extends Rete.Component {
   builder(node) {
     let out = new Rete.Output('num1', "Number", numSocket);
     node.data.config = deepCopy(config);
-
     return node
       .addOutput(out);
 
   }
 
   worker(node, inputs, outputs) {
-      Object.keys(outputs).forEach((key) => {
-        if (outputs[key].length && outputs[key][0] !== node.data[key]) {
-          changed = true;
-          node.data[key] = outputs[key][0];
-        }
-      });
+    let outputLength = Object.keys(node.outputs).length;
+    node.data.oscValues.forEach((val, i) => {
+      if (i < outputLength) {
+        const outputKey = `num${i + 1}`;
+        outputs[outputKey] = val;
+      }
+    });
   }
 
 }

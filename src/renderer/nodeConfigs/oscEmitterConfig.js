@@ -9,8 +9,8 @@ let oscEmitterConfig = {
   port:{
     value: "7272",
     name: "Port",
-    type: "string",
-    ui: "number",
+    type: "number",
+    ui: "text",
     label: "Port"
   },
   address: {

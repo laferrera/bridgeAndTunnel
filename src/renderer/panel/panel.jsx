@@ -78,6 +78,7 @@ export default function Panel(props) {
             setting={uiConfig[setting]}
           />
         )
+        break;
       default:
         console.log("no ui for: ", ui)
     }

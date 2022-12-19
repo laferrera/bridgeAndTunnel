@@ -102,12 +102,14 @@ export function createEditor(container, rendererEmitter, editorRef) {
 
   editor.containNodesToEditorView = (node) => {
     const transform = editor.view.area.transform;
-    const areaStart = {x: (0 - transform.x) / transform.k, 
-                       y: (0 - transform.y) / transform.k};
-    const areaEnd = {x: (editor.view.container.offsetWidth - transform.x) / transform.k, 
-                     y: (editor.view.container.offsetHeight - transform.y) / transform.k};
-    const inside = node.position[0] >= areaStart.x && node.position[0] <= areaEnd.x 
-    && node.position[1] >= areaStart.y && node.position[1] <= areaEnd.y;
+    const areaStart = {x: (0 - transform.x) / (.9 * transform.k),
+                       y: (0 - transform.y) / (.95 * transform.k)};
+    const areaEnd = {x: (editor.view.container.offsetWidth - transform.x) / (.95 * transform.k), 
+                     y: (editor.view.container.offsetHeight - transform.y) / (.95 * transform.k)};
+    const inside = node.position[0] >= areaStart.x 
+                   && node.position[0] <= areaEnd.x 
+                   && node.position[1] >= areaStart.y 
+                   && node.position[1] <= areaEnd.y;
     if(!inside){
       editor.zoomToNodes();
     }
