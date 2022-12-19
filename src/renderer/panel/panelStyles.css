@@ -35,7 +35,7 @@ body {
 
   background-color: #1f1f1f !important;
 
-  color: rgba(255, 255, 255, 0.92);
+  color: var(--bnt-cream);
 
   overflow: hidden;
 }
@@ -63,21 +63,21 @@ body,
   left: 0;
   top: 0;
   bottom: 0;
-
-  border-inline-start: 1px solid rgba(255, 255, 255, 0.1);
-
+  /* border-inline-start: 1px solid rgba(255, 255, 255, 0.1); */
   overflow-x: hidden;
   overflow-y: scroll;
 }
 
-.SelectMenuWrapper {
+.SelectMenuWrapper,
+.TextInputWrapper {
   display: flex;
   flex-direction: column;
   cursor:pointer;
 }
 
 .Button,
-.SelectTrigger {
+.SelectTrigger,
+.TextInput {
   all: unset;
   display: inline-flex;
   align-items: center;
@@ -90,12 +90,15 @@ body,
   height: 35px;
   gap: 5px;
   background-color: transparent;
-  color: #f5f5f7;
+  color: var(--bnt-cream);
   border: 1px solid rgba(255, 255, 255, 0.1);
-
   margin: 7px 15px 0 15px;
-
   transition: background-color 0.2s ease;
+}
+
+.TextInput{
+  background: var(--bnt-cream);
+  color:#000;
 }
 
 .Button:hover,
@@ -106,8 +109,6 @@ body,
 
 .Button:focus,
 .SelectTrigger:focus {
-  /* color:#000; */
-  /* background-color: #FFF10D; */
   background-color: rgba(0, 0, 0, 0.2);
   box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.15);
 }
@@ -149,8 +150,7 @@ body,
   padding: 0 35px 0 25px;
   position: relative;
   user-select: none;
-
-  color: rgba(255, 255, 255, 0.85);
+  color: var(--bnt-cream);
 }
 
 .SelectItem[data-disabled] {
@@ -160,7 +160,7 @@ body,
 
 .SelectItem:focus {
   background-color: var(--bnt-cyan);
-  color: rgba(255, 255, 255, 0.85);
+  color: var(--bnt-cream);
 }
 
 .SelectLabel {

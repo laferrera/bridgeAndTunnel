@@ -79,21 +79,17 @@ input {
 .node {
   all: unset;
   background: #999;
-  border: 1px solid white;
+  border: 1px solid var(--bnt-cream);
   border-radius: 10px;
   cursor: pointer;
   display: inline-block;
   height: auto;
-  /* padding-bottom: 6px; */
   box-sizing: content-box;
   min-width: 180px;
-  border-radius: 0px;
+  /* border-radius: 0px; */
+  border-radius: var(--bnt-border-radius);
   transition: background 150ms ease-in-out;
   box-shadow: var(--bnt-box-shadow);
-}
-
-.node.event{
-  background: #999;
 }
 
 .node:hover{
@@ -114,6 +110,8 @@ input {
 
 .node .title{
   font-size: 14px;
+  border-top-left-radius: var(--bnt-border-radius);
+  border-top-right-radius: var(--bnt-border-radius);
   background:rgba(0,0,0,0.5);
   text-align: center;
   padding: 2px;
@@ -162,11 +160,11 @@ input {
     border-radius: 6px;
     width: 12px;
     height: 12px;
-    border: 1px solid white;
+    border: 1px solid var(--bnt-cream);
 }
 
 .node .socket.used {
-  background: white;
+  background: var(--bnt-cream);
 }
 
 .node .socket.output{
@@ -181,7 +179,7 @@ input {
 
 .connection .main-path {
   fill: none;
-  stroke: #eee;
+  stroke: var(--bnt-cream);
   stroke-width: 1px;
   pointer-events: none;
 }

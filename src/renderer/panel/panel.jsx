@@ -4,6 +4,7 @@ import PanelSelect from "./select.jsx";
 import PanelPiano from "./piano.jsx";
 import GeneralPurposeReplUI from "./repl.jsx";
 import Button from "./button.jsx";
+import TextInput from "./textInput.jsx"
 // import { uiConfigs } from '../nodeConfigs';
 import DataChangeAction from "../../rete/plugins/data-change-action.js";
 
@@ -68,6 +69,15 @@ export default function Panel(props) {
           />
         );
         break;
+      case "text":
+        components.push(
+          <TextInput
+            key={setting}
+            state={state}
+            settingKey={setting}
+            setting={uiConfig[setting]}
+          />
+        )
       default:
         console.log("no ui for: ", ui)
     }
