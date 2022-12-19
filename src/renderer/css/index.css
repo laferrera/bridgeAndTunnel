@@ -1,3 +1,5 @@
+@import './vars.css';
+
 @font-face {
   font-family: '04b';
   src: url(04B_03__.ttf);
@@ -43,7 +45,7 @@ body {
   min-width: 200px;
   background:#333;
   z-index: 2;
-  box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.5);
+  box-shadow: var(--bnt-box-shadow);
 }
 
 .rete{
@@ -55,7 +57,7 @@ select,
 input {
   width: 100%;
   border-radius: 0px;
-  background-color: white;
+  background-color: var(--bnt-cream);
   padding: 2px 6px;
   border: 1px solid #999;
   font-size: 110%;
@@ -86,8 +88,8 @@ input {
   box-sizing: content-box;
   min-width: 180px;
   border-radius: 0px;
-  transition: background 150 ease-in-out;
-  box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.75);
+  transition: background 150ms ease-in-out;
+  box-shadow: var(--bnt-box-shadow);
 }
 
 .node.event{
@@ -95,7 +97,7 @@ input {
 }
 
 .node:hover{
-  background: #0093D3;
+  background: var(--bnt-cyan);
   cursor: pointer;
 }
 
@@ -104,8 +106,9 @@ input {
 }
 
 .node.selected {
-  background: #CC016B;
-  border: 1px solid #FFFFFF;
+  background: var(--bnt-magenta);
+  border: 1px solid;
+  border-color: var(--bnt-cream);
   
 }
 
@@ -129,7 +132,7 @@ input {
 
 .node select,
 .node input:focus {
-  background-color: #FFF10D;
+  background-color: var(--bnt-yellow);
   border:0;
   outline:none;
 }
@@ -184,5 +187,5 @@ input {
 }
 
 .connection .main-path.active {
-  stroke: #CC016B;
+  stroke: var(--bnt-magenta)
 }

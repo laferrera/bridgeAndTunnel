@@ -9,6 +9,8 @@
 }
 } */
 
+@import '../css/vars.css';
+
 :root {
   --easingDefault: cubic-bezier(0.25, 0.1, 0.25, 1);
   --easingIn: cubic-bezier(0.42, 0, 1, 1);
@@ -98,8 +100,7 @@ body,
 
 .Button:hover,
 .SelectTrigger:hover {
-  background-color:#0093D3;
-  /* background-color: rgba(0, 0, 0, 0.1); */
+  background-color: var(--bnt-cyan);
   cursor: pointer;
 }
 
@@ -113,7 +114,7 @@ body,
 
 .SelectTrigger:active,
 .Button:active{
-  background-color:#CC016B;
+  background-color: var(--bnt-magenta);
 }
 
 .SelectContent {
@@ -259,7 +260,7 @@ body,
 }
 
 .Switch:hover {
-  background-color: rgba(255, 255, 255, 0.1);
+  background-color: var(--bnt-cyan);
 }
 
 .Switch[data-state="checked"]:hover {
@@ -409,7 +410,7 @@ body,
 .RadioGroupIndicator {
   width: 0;
   height: 0;
-  background-color: yellow;
+  background-color: var(--bnt-yellow);
 }
 
 .RadioGroupItemWrapper {

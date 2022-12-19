@@ -6238,11 +6238,11 @@
     "agent-base" "6"
     "debug" "4"
 
-"huginn-and-muninn@../huginn-and-muninn":
-  "resolved" "file:../huginn-and-muninn"
+"huginn-and-muninn@./huginn-and-muninn":
+  "resolved" "file:huginn-and-muninn"
   "version" "0.1.0"
   dependencies:
-    "serialport" "^10.3.0"
+    "serialport" "^9.2.8"
 
 "human-signals@^2.1.0":
   "integrity" "sha512-B4FFZ6q/T2jhhksgkbEW3HBvWIfDW85snkQgawt07S7J5QXTk6BkNV+0yAeZrM5QpMAdYlocGoljn0sJ/WQkFw=="
@@ -9615,7 +9615,7 @@
     "osc-receiver" "^1.1.0"
     "underscore" "^1.6.0"
 
-"serialport@^10.3.0", "serialport@^9.2.8":
+"serialport@^9.2.8":
   "integrity" "sha512-FsWpMQgSJxi93JgWl5xM1f9/Z8IjRJuaUEoHqLf8FPBLw7gMhInuHOBhI2onQufWIYPGTz3H3oGcu1nCaK1EfA=="
   "resolved" "https://registry.npmjs.org/serialport/-/serialport-9.2.8.tgz"
   "version" "9.2.8"

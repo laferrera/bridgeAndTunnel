@@ -4,7 +4,7 @@ const midiInputStream = require("./midi/midiInputStream.js");
 const midiOutputStream = require("./midi/midiOutputStream.js");
 import { MidiMessage } from "midi-message-parser";
 const monomeGrid = require("monome-grid");
-// const hugAndMun = require("huginn-and-muninn");
+const hugAndMun = require("huginn-and-muninn");
 const { SerialPort } = require("serialport");
 const OscEmitter = require("osc-emitter");
 const OscReciever = require("osc-receiver");
@@ -75,15 +75,15 @@ class Engine extends EventEmitter {
 
   setupCrow() {
     // TODO, do this when USB connect / disconnect...
-    // if (!this.crow) {
-    //   const callBack = (data) => {
-    //     this.handleCrowOutput(data);
-    //   };
-    //   hugAndMun().then((crow) => {
-    //     this.crow = crow;
-    //     this.crow.setCallback(callBack)
-    //   })
-    // }
+    if (!this.crow) {
+      const callBack = (data) => {
+        this.handleCrowOutput(data);
+      };
+      hugAndMun().then((crow) => {
+        this.crow = crow;
+        this.crow.setCallback(callBack)
+      })
+    }
   }
 
   processJSON(json) {

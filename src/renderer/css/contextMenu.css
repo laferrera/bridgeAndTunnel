@@ -1,3 +1,5 @@
+@import './vars.css';
+
 @font-face {
   font-family: '04b';
   src: url(04B_03__.ttf);
@@ -15,7 +17,7 @@
   margin-top: 0px;
   border-radius: 0;
   margin-left: 10px;
-  box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.75);
+  box-shadow: var(--bnt-box-shadow);
 }
 
 .context-menu .item {
@@ -23,8 +25,8 @@
   width: 150px;
   border-radius: 0;
   color: #000;
-    border-bottom: 1px solid rgba(15, 15, 15, 0.7);
-  background-color: #FFFEFE;
+  border-bottom: 1px solid rgba(15, 15, 15, 0.7);
+  background-color: var(--bnt-cream);
   /* border-bottom: 1px solid rgba(15, 15, 15, 0.7);
   background-color: rgba(35, 35, 35, 0.7); */
   cursor: pointer;
@@ -58,10 +60,9 @@
 }
 
 .context-menu .item:hover {
-  background-color: #0093D3;
-  /* background-color: rgba(45, 45, 45, 0.7); */
+  background-color: var(--bnt-cyan);
 }
 
 .context-menu .item:active {
-    background-color: #CC016B;
+  background-color: var(--bnt-magenta);
 }
