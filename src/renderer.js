@@ -64,6 +64,7 @@ window.electronAPI.handleSelectAll((event, value) => {
 
 
 window.electronAPI.handleReceiveLinesFromCrow((event, data) => {
+  if(!editor) return;
   let crowNodes = editor.nodes.filter((n) => n.name == "Crow");
   crowNodes.forEach((c) => {
     let type = "output";

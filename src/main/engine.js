@@ -6,8 +6,6 @@ import { MidiMessage } from "midi-message-parser";
 const monomeGrid = require("monome-grid");
 const hugAndMun = require("huginn-and-muninn");
 const { SerialPort } = require("serialport");
-// const OscEmitter = require("osc-emitter");
-// const OscReciever = require("osc-receiver");
 const KissAndTell = require("kiss-and-tell");
 const abletonlink = require("abletonlink");
 import { emitterEmitter } from "../rete/emitterEmitter.js";
@@ -28,13 +26,9 @@ class Engine extends EventEmitter {
       this.midiOutputStreams.push(
         new midiOutputStream.init(this, "Bridge & Tunnel")
         );
-        // this.OSCEmitter = new OscEmitter();
-        // this.OSCEmitter.add("127.0.0.1", tempOSCPort);
-        // this.OscReciever = new OscReciever();
         this.oscCommunicator = new KissAndTell();
         this.oscCommunicator.bind(oscListenPort);
         this.oscCommunicator.on("message", this.handleOSCMessage);
-        
         // this.link = new abletonlink;
         this.reteEngine = new Rete.Engine(name);
         this.reteEngine.on("error", ({ message, data }) => {
