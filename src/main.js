@@ -109,6 +109,7 @@ app.on("will-quit", (event) => {
   }
   usbDetect.stopMonitoring();
   if (engine.crow) {
+    console.log("disconnecting crow")
     engine.crow.disconnect();
   }
   // TODO, kill ableton link somehow

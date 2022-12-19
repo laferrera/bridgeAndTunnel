@@ -1,4 +1,11 @@
 let oscReceiverConfig = {
+  port:{
+    value: "2727",
+    name: "Port",
+    type: "string",
+    ui: "number",
+    label: "Port"
+  },
   address: {
     value: "/note_on",
     name: "Address",

@@ -64,6 +64,7 @@
     "electron-store": "^8.1.0",
     "electron-window-state": "^5.0.3",
     "huginn-and-muninn": "./huginn-and-muninn",
+    "kiss-and-tell": "../kiss-and-tell",
     "midi": "^2.0.0",
     "midi-message-parser": "^2.0.1",
     "monome-grid": "^1.0.2",

@@ -1,4 +1,18 @@
 let oscEmitterConfig = {
+  host: {
+    value: "localhost",
+    name: "Host",
+    type: "string",
+    ui: "text",
+    label: "Host",
+  },  
+  port:{
+    value: "7272",
+    name: "Port",
+    type: "string",
+    ui: "number",
+    label: "Port"
+  },
   address: {
     value: "/note_on",
     name: "Address",

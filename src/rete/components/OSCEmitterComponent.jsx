@@ -22,7 +22,7 @@ export class OSCEmitterComponent extends Rete.Component {
   }
 
   worker(node, inputs, outputs) {
-    // we dont have any outputs for Emitter
+    // we dont have any output sockets for Emitter
     node.data.oscValues = [];
     Object.values(inputs).forEach((input) => {
       if (input.length > 0) {

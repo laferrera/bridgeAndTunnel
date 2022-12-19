@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import "./peStyles.css";
+import "./panelStyles.css";
 import PanelSelect from "./select.jsx";
 import PanelPiano from "./piano.jsx";
 import GeneralPurposeReplUI from "./repl.jsx";
