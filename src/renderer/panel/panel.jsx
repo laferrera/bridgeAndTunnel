@@ -27,28 +27,28 @@ export default function Panel(props) {
       fn: resultArr[1],
     };
 
-    if (uiConfig.hasOwnProperty(setting)) {
-      if (uiConfig[setting].ui === "select") {
-        components.push(
-          <PanelSelect
-            key={setting}
-            state={state}
-            settingKey={setting}
-            setting={uiConfig[setting]}
-          />
-        );
-      }
-      if (uiConfig[setting].ui === "button") {
+    if (uiConfig.hasOwnProperty(setting)){
+    const ui = uiConfig[setting].ui;
+    switch (ui){
+      case "select":
+      components.push(
+        <PanelSelect
+          key={setting}
+          state={state}
+          settingKey={setting}
+          setting={uiConfig[setting]}
+        />);
+        break;
+      case "button":
         components.push(
           <Button
             key={setting}
             rendererEmitter={props.rendererEmitter}
             node={props.node}
             setting={uiConfig[setting]}
-          />
-        );
-      }
-      if (uiConfig[setting].ui === "piano") {
+          />);
+        break;
+      case "piano":
         components.push(
           <PanelPiano
             key={setting}
@@ -57,8 +57,8 @@ export default function Panel(props) {
             setting={uiConfig[setting]}
           />
         );
-      }
-      if (uiConfig[setting].ui === "repl") {
+        break;
+      case "repl":
         components.push(
           <GeneralPurposeReplUI
             key={setting}
@@ -67,7 +67,10 @@ export default function Panel(props) {
             setting={uiConfig[setting]}
           />
         );
-      }
+        break;
+      default:
+        console.log("no ui for: ", ui)
+    }
     }
   }
 

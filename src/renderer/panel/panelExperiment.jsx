@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 
-import "./peStyles.css";
+import ".panelStyles.css";
 
 import {
   CheckIcon,
