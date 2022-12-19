@@ -2,10 +2,10 @@ const { app, BrowserWindow, dialog, ipcMain, Menu, session } = require("electron
 const fs = require("fs");
 const Store = require("electron-store");
 import menuTemplate from "./main/menu.js";
-require("update-electron-app")({
-  repo: "laferrera/bridgeAndTunnel",
-  updateInterval: "1 hour",
-});
+// require("update-electron-app")({
+//   repo: "laferrera/bridgeAndTunnel",
+//   updateInterval: "1 hour",
+// });
 import "regenerator-runtime/runtime";
 import Engine from "./main/engine.js";
 // import { generalSettings } from "./generalSettings.js";

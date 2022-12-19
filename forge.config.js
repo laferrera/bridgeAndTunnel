@@ -3,6 +3,13 @@ module.exports = {
     // asar: true,
     icon: "icons/icon.icns",
     afterExtract: ["copy-to-package-directory.js"],
+    // osxSign: {},
+    // osxNotarize: {
+    //   tool: 'notarytool',
+    //   appleId: process.env.APPLE_ID,
+    //   appleIdPassword: process.env.APPLE_PASSWORD,
+    //   teamId: process.env.APPLE_TEAM_ID
+    // },
   },
   rebuildConfig: {},
   makers: [

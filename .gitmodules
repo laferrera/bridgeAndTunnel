@@ -1,0 +1,9 @@
+[submodule "rete"]
+	path = rete
+	url = https://github.com/laferrera/rete
+[submodule "rete-context-menu-plugin-react"]
+	path = rete-context-menu-plugin-react
+	url = https://github.com/laferrera/rete-context-menu-plugin-react
+[submodule "huginn-and-muninn"]
+	path = huginn-and-muninn
+	url = https://github.com/laferrera/huginn-and-muninn

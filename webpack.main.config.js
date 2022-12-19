@@ -8,10 +8,12 @@ module.exports = {
   module: {
     rules: require("./webpack.rules"),
   },
+  target: "electron-main",
+  devtool: "source-map",
   externals: {
-    serialport: "commonjs2 serialport", // Ref: https://copyprogramming.com/howto/electron-and-serial-ports
+    // serialport: "commonjs2 serialport", // Ref: https://copyprogramming.com/howto/electron-and-serial-ports
   },
   output: {
-    library: { type: "commonjs2" },
+    // library: { type: "commonjs2" },
   },
 };

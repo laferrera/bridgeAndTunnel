@@ -14,9 +14,13 @@ input[2].change = function (state) print('Hello, Jason!') end;`
 
 
 // crow stuff...
-const hugAndMun = require('./index');const crow = await new hugAndMun.Crow();
-const logger = function(data){console.log(data)}
-crow.setCallback(logger)
+
+let crow;
+hugAndMun().then((myCrow) => {
+    crow = myCrow;
+    this.crow.setCallback(callBack)
+})
+
 
 s = `input[1].mode('change', 1.0, 0.1, 'rising');
 input[1].change = function (state) print('Hello, Molly!') end;`
