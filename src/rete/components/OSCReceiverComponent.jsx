@@ -1,7 +1,7 @@
 import Rete from "rete";
 import { BnTNode } from "./BnTNode.jsx";
 import { numSocket } from "./numSocket.js";
-import config from "../../renderer/nodeConfigs/oscReceiverConfig.js";
+import config from "../nodeConfigs/oscReceiverConfig.js";
 import { multiOutputs } from "./utils.js";
 export class OSCReceiverComponent extends BnTNode {
   constructor() {

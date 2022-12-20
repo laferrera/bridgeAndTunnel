@@ -1,7 +1,7 @@
 import Rete from "rete";
 import { BnTNode } from "./BnTNode.jsx";
 import { numSocket } from "./numSocket.js";
-import  config  from "../../renderer/nodeConfigs/oscEmitterConfig.js";
+import  config  from "../nodeConfigs/oscEmitterConfig.js";
 import { multiInputs } from "./utils.js";
 import { emitterEmitter } from "../emitterEmitter.js";
 export class OSCEmitterComponent extends BnTNode {

@@ -1,7 +1,7 @@
 import Rete from "rete";
 import { BnTNode } from "./BnTNode.jsx";
 import { numSocket } from "./numSocket.js";
-import config from "../../renderer/nodeConfigs/monomeGridConfig.js";
+import config from "../nodeConfigs/monomeGridConfig.js";
 import { checkInputsAndSetData } from "./utils.js";
 export class MonomeGridComponent extends BnTNode {
   constructor() {

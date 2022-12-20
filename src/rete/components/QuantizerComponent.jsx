@@ -1,7 +1,7 @@
 import Rete from "rete";
 import { BnTNode } from "./BnTNode.jsx";
 import { numSocket } from "./numSocket.js";
-import config from "../../renderer/nodeConfigs/quantizerConfig.js";
+import config from "../nodeConfigs/quantizerConfig.js";
 export class QuantizerComponent extends BnTNode {
   constructor() {
     super("Quantizer");

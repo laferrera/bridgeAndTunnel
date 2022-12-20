@@ -3,7 +3,7 @@ import { createRoot } from "react-dom/client";
 import "regenerator-runtime/runtime";
 import { useRete, createEditor } from "./rete/rete.jsx";
 import addStarterNodes from "./rete/addStarterNodes.js";
-import { uiConfigs } from "./renderer/nodeConfigs";
+import { uiConfigs } from "./rete/nodeConfigs";
 import Panel from "./renderer/panel/panel.jsx";
 import "./renderer/css/index.css";
 import "./renderer/css/contextMenu.css";

@@ -1,7 +1,7 @@
 import Rete from "rete";
 import { BnTNode } from "./BnTNode.jsx";
 import { numSocket } from "./numSocket.js";
-import config from "../../renderer/nodeConfigs/mathConfig.js";
+import config from "../nodeConfigs/mathConfig.js";
 
 export class AddComponent extends BnTNode {
   constructor() {

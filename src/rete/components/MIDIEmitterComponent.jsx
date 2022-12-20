@@ -1,7 +1,7 @@
 import Rete from "rete";
 import { BnTNode } from "./BnTNode.jsx";
 import { numSocket } from "./numSocket.js";
-import config from "../../renderer/nodeConfigs/midiEmitterConfig.js";
+import config from "../nodeConfigs/midiEmitterConfig.js";
 import { emitterEmitter } from "../emitterEmitter.js";
 
 export class MIDIEmitterComponent extends BnTNode {

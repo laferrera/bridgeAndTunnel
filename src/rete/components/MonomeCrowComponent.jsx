@@ -1,7 +1,7 @@
 import Rete from "rete";
 import { BnTNode } from "./BnTNode.jsx";
 import { numSocket } from "./numSocket.js";
-import config from "../../renderer/nodeConfigs/monomeCrowConfig.js";
+import config from "../nodeConfigs/monomeCrowConfig.js";
 import { multiInputs, multiOutputs } from "./utils.js";
 
 export class MonomeCrowComponent extends BnTNode {
