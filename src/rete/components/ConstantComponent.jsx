@@ -2,6 +2,7 @@ import Rete from "rete";
 import { BnTNode } from "./BnTNode.jsx";
 import { numSocket } from "./numSocket.js";
 import { NumControl } from "./controls/NumControl.jsx";
+import config from "../nodeConfigs/mathConfig.js";
 export class ConstantComponent extends BnTNode {
   constructor() {
     super("Constant");

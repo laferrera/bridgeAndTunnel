@@ -1,4 +1,5 @@
 const minConfig = {
+  type: "minConfig",
   compareVal: {
     value: 0,
     name: "Min",

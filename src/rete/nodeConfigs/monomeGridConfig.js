@@ -1,4 +1,5 @@
 const monomeGridConfig = {
+  type: "monomeGridConfig",
   latch: {
     value: true,
     name: "latch",

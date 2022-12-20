@@ -1,4 +1,5 @@
 const mathConfig = {
+  type: "mathConfig",
   radioGroupDemoValue: {
     value: "default",
     name: "Radio Group Demo Value",

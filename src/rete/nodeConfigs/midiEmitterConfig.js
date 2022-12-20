@@ -1,4 +1,5 @@
 const midiEmitterConfig = {
+  type: "midiEmitterConfig",
   channel: {
     value: 1,
     name: "Channel",

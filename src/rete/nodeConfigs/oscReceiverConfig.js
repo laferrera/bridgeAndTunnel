@@ -1,4 +1,5 @@
 let oscReceiverConfig = {
+  type: "oscReceiverConfig",
   port: {
     value: "2727",
     name: "Port",

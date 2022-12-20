@@ -1,4 +1,5 @@
 const midiReceiverConfig = {
+  type: "midiReceiverConfig",
   channel: {
     value: 1,
     name: "Channel",

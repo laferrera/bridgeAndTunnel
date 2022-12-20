@@ -1,4 +1,5 @@
 const monomeCrowConfig = {
+  type: "monomeCrowConfig",
   repl: {
     value: [
       {

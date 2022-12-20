@@ -1,4 +1,5 @@
 let oscEmitterConfig = {
+  type: "oscEmitterConfig",
   host: {
     value: "localhost",
     name: "Host",

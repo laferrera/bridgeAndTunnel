@@ -20,9 +20,9 @@ import * as HoverCard from "@radix-ui/react-hover-card";
 export default function Panel(props) {
   const configType = props.node.data.configType;
   let nodeConfig = props.node.data.config;
-  const globalUIConfig = props.uiConfigs[configType];
-  // const uiConfig = mergeJSON(globalUIConfig, nodeConfig);
-  const uiConfig = nodeConfig;
+  const globalUIConfig = props.uiConfigs[nodeConfig.type];
+  const uiConfig = mergeJSON([globalUIConfig, nodeConfig]);
+  // const uiConfig = nodeConfig;
 
   const editor = props.editor;
   const state = {};
