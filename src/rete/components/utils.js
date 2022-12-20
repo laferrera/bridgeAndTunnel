@@ -13,7 +13,7 @@ const checkInputsAndSetData = (inputs, data) => {
   Object.keys(inputs).forEach(key => {
     if (inputs[key].length && inputs[key][0] !== data[key]) {
       changed = true;
-      data[key] = inputs[key][0];
+      data[key] = inputs[key][0] ? inputs[key][0] : 0;
     }
   });
   return changed;

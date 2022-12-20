@@ -14,7 +14,7 @@ export class OSCEmitterComponent extends Rete.Component {
   builder(node) {
     let inp = new Rete.Input('num1', "Number", numSocket);
     // inp.addControl(new NumControl(this.editor, "num", node));
-    node.data.config = deepCopy(config);
+    if(!node.data.config) { node.data.config = deepCopy(config) }
     
     return node
       .addInput(inp);
@@ -29,7 +29,6 @@ export class OSCEmitterComponent extends Rete.Component {
         node.data.oscValues.push(input[0]);
       }
     });
-    console.log("node.data.oscValues: ", node.data.oscValues);
     emitterEmitter.emit("send-osc-message", node);
   }
 

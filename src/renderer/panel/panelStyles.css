@@ -245,7 +245,14 @@ body,
   color: rgba(255, 255, 255, 0.33);
 }
 
-.Switch {
+.SwitchWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 7px 15px 0 15px;
+}
+
+.SwitchRoot {
   all: unset;
   width: 42px;
   height: 25px;
@@ -255,32 +262,34 @@ body,
 
   border-radius: 9999px;
   position: relative;
-  /* margin: 7px 15px 0 15px; */
+
   transition: background-color 0.3s ease;
   cursor:pointer;
 }
 
-.Switch:hover {
-  background-color: var(--bnt-cyan);
+.SwitchRoot:hover {
+  background-color: var(--bnt-yellow);
+  cursor:pointer;
 }
 
-.Switch[data-state="checked"]:hover {
-  background-color: hsl(221, 68%, 52%);
+.SwitchRoot[data-state="checked"]:hover {
+  background-color: var(--bnt-yellow);
 }
 
-.Switch:focus {
-  box-shadow: 0 0 0 0.5px rgba(255, 255, 255, 0.33);
+.SwitchRoot:focus {
+    box-shadow: 0 0 0 2px black;
+  /* box-shadow: 0 0 0 0.5px rgba(255, 255, 255, 0.33); */
 }
 
-.Switch[data-state="checked"] {
-  background-color: #275bca;
+.SwitchRoot[data-state="checked"] {
+  background-color: var(--bnt-green);
 }
 
 .SwitchThumb {
   display: block;
-  width: 23px;
-  height: 23px;
-  background-color: rgba(255, 255, 255, 0.85);
+  width: 21px;
+  height: 21px;
+  background-color: #ffffff;
   border-radius: 9999px;
   box-shadow: inset 0px 0.5px 0.5px rgba(255, 255, 255, 0.33);
 
@@ -293,19 +302,11 @@ body,
 
 .SwitchThumb:hover {
   background-color: rgba(255, 255, 255, 1);
+  cursor: pointer;
 }
 
 .SwitchThumb[data-state="checked"] {
   transform: translateX(18px);
-}
-
-.SwitchWrapper {
-  display: flex;
-  /* flex-direction: row-reverse; */
-  /* background: tomato; */
-  align-items: center;
-  /* justify-content: space-between; */
-  margin: 7px 15px 0 15px;
 }
 
 .LabelInline {

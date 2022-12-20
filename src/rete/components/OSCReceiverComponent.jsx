@@ -12,7 +12,8 @@ export class OSCReceiverComponent extends Rete.Component {
 
   builder(node) {
     let out = new Rete.Output('num1', "Number", numSocket);
-    node.data.config = deepCopy(config);
+    if(!node.data.config) { node.data.config = deepCopy(config) }
+    node.data.oscValues = [];
     return node
       .addOutput(out);
 

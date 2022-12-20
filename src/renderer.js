@@ -82,10 +82,11 @@ const buildConfig = () => {
   uiConfigs.midiEmitterConfig.portName.options = config.midiOutputs;
 };
 
+
 let editorRef;
 let editor;
-let initialData;
 let config = {};
+
 const editorComponent = (
   <div ref={(ref) => ref && createEditor(ref, rendererEmitter, editorRef)} />
 );
@@ -98,7 +99,7 @@ const renderWires = () => {
     }, 200);
 };
 
-function App() {
+function App(props) {
   const [selectedNode, setSelectedNode] = useState(null);
   const [pannelState, setPanelState] = useState(Date.now());
   const [panelRepl, setPanelRepl] = useState(null);
@@ -109,10 +110,10 @@ function App() {
     console.log("editor", editor);
 
     // build nodes
-    if (initialData.session.editor) {
+    if (props.initialData.session.editor) {
       try {
-        editor.fromJSON(initialData.session.editor).then(() => {
-          // TODO, history... 
+        editor.fromJSON(props.initialData.session.editor).then(() => {
+          // TODO, history...
           // console.log("initialData.session.history",  initialData.session.history);
           // editor.setHistory(initialData.session.history);
           editor.zoomToNodes();
@@ -124,7 +125,6 @@ function App() {
         });
       }
     } else {
-      console.log("what happened to initial data?", initialData)
       addStarterNodes(editor).then(() => {
         editor.zoomToNodes();
       });
@@ -169,7 +169,7 @@ function App() {
         setSelectedNode(editor.selected.list[0]);
       }
       //TODO why doesn't undo/redo update the engine?
-      window.electronAPI.sendNodesToMain(editor.toJSON().nodes);
+      editor.sendSessionToMain();
     });
 
     editor.on("nodedragged", (node) => {
@@ -203,13 +203,16 @@ function App() {
   );
 }
 
+
+
 window.electronAPI.getInitialData().then((data) => {
-  initialData = data;
+  const initialData = data;
   config = data.config;
-  buildConfig();
+  buildConfig()
   const rootElement = document.getElementById("root");
-  createRoot(rootElement).render(<App />);
+  createRoot(rootElement).render(<App initialData={initialData}/>);
 });
+
 
 /**
  * This file will automatically be loaded by webpack and run in the "renderer" context.

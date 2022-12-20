@@ -1,4 +1,4 @@
-const monomCrowConfig = {
+const monomeCrowConfig = {
   repl: {
     value: [
       {
@@ -13,4 +13,4 @@ const monomCrowConfig = {
   },
 };
 
-export default monomCrowConfig;
+export default monomeCrowConfig;

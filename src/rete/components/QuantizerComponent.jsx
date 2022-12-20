@@ -14,7 +14,7 @@ export class QuantizerComponent extends Rete.Component {
     var inp = new Rete.Input("input", "Input", numSocket);
     var shift = new Rete.Input("shift", "Shift", numSocket);
     var out = new Rete.Output("output", "Output", numSocket);
-    node.data.config = deepCopy(config);
+    if(!node.data.config) { node.data.config = deepCopy(config) }
     
     return node.addInput(inp).addInput(shift).addOutput(out);
   }

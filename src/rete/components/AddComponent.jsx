@@ -13,7 +13,7 @@ export class AddComponent extends Rete.Component {
     var inp1 = new Rete.Input("num1", "Input 1", numSocket);
     var inp2 = new Rete.Input("num2", "Input 2", numSocket);
     var out = new Rete.Output("sum", "Sum", numSocket);
-    node.data.config = deepCopy(config);
+    if(!node.data.config) { node.data.config = deepCopy(config) }
     
     return node
       .addInput(inp1)

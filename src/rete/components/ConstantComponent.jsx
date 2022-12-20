@@ -13,7 +13,7 @@ export class ConstantComponent extends Rete.Component {
 
   builder(node) {
     var out = new Rete.Output("constant", "Constant", numSocket);
-    node.data.config = deepCopy(config);
+    if(!node.data.config) { node.data.config = deepCopy(config) }
     
     return node
       // .addInput(inp1)

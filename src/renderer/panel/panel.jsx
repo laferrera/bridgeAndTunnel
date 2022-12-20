@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "./panelStyles.css";
 import PanelSelect from "./select.jsx";
+import PanelSwitch from "./switch.jsx";
 import PanelPiano from "./piano.jsx";
 import GeneralPurposeReplUI from "./repl.jsx";
 import Button from "./button.jsx";
@@ -17,6 +18,7 @@ import * as HoverCard from "@radix-ui/react-hover-card";
 export default function Panel(props) {
   let nodeConfig = props.node.data.config;
   const uiConfig = props.node.data.config;
+  const editor = props.editor;
 
   const state = {};
   const components = [];
@@ -69,6 +71,16 @@ export default function Panel(props) {
           />
         );
         break;
+      case "switch":
+        components.push(
+          <PanelSwitch
+            key={setting}
+            state={state}
+            settingKey={setting}
+            setting={uiConfig[setting]}
+          />
+        );
+        break;
       case "text":
         components.push(
           <TextInput
@@ -96,8 +108,9 @@ export default function Panel(props) {
     Object.keys(state).forEach((key, index) => {
       if (state[key].val !== props.node.data.config[key].value) {
         nodeConfig[key].value = state[key].val;
-        window.electronAPI.sendNodesToMain(props.editor.toJSON().nodes);
-        props.editor.trigger(
+        editor.sendSessionToMain();
+
+        editor.trigger(
           "addhistory",
           new DataChangeAction(prevConfig, nodeConfig, props.node)
         );

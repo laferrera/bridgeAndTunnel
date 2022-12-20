@@ -103,7 +103,7 @@ export async function ReteEditor(container, rendererEmitter) {
 
   rendererEmitter.on('NodeConfigHistory', async (prev, next, node) => {
     editor.trigger('addhistory', new DataChangeAction(prev, next, node));
-    await window.electronAPI.sendNodesToMain(editor.toJSON().nodes);
+    // await window.electronAPI.sendNodesToMain(editor.toJSON().nodes);
   });
 
   rendererEmitter.on('addInput', (node) => {

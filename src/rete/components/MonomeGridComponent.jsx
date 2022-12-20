@@ -1,7 +1,7 @@
 import Rete from "rete";
 import { btNode } from "./btNode.jsx";
 import { numSocket } from "./numSocket.js";
-import config from "../../renderer/nodeConfigs/midiReceiverConfig.js";
+import config from "../../renderer/nodeConfigs/monomeGridConfig.js";
 import { deepCopy, checkInputsAndSetData } from "./utils.js";
 export class MonomeGridComponent extends Rete.Component {
   constructor() {
@@ -17,15 +17,12 @@ export class MonomeGridComponent extends Rete.Component {
     var outX = new Rete.Output("x", "X", numSocket);
     var outY = new Rete.Output("y", "Y", numSocket);
     var outState = new Rete.Output("state", "State", numSocket);
+    if(!node.data.config) { node.data.config = deepCopy(config) }
 
-    // inp1.addControl(new NumControl(this.editor, "num1", node));
-    // inp2.addControl(new NumControl(this.editor, "num2", node));
-
-    node.data.config = deepCopy(config);
-    
     node.data.x = 0;
     node.data.y = 0;
     node.data.state = 0;
+    
     return node
       .addInput(inpX)
       .addInput(inpY)
@@ -37,7 +34,7 @@ export class MonomeGridComponent extends Rete.Component {
 
   worker(node, inputs, outputs) {
     checkInputsAndSetData(inputs,node.data);
-
+    console.log("grid node.data", node.data.x, node.data.y, node.data.state);
     outputs['x'] = node.data.x;
     outputs['y'] = node.data.y;
     outputs["state"] = node.data.state;

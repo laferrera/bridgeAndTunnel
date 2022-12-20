@@ -16,7 +16,8 @@ export class MIDIEmitterComponent extends Rete.Component {
     // we dont have any inputs for Recieve
     let noteIn = new Rete.Input("noteIn", "Note", numSocket);
     let velocityIn = new Rete.Input("velocityIn", "Velocity", numSocket);
-    node.data.config = deepCopy(config);
+    console.log("node.data.config", node.data.config);
+    if(!node.data.config) { node.data.config = deepCopy(config) }
 
     // let ctrl = new MIDIReceiveControl(this.editor, 'config', node);
     return node.addInput(noteIn).addInput(velocityIn);

@@ -85,15 +85,15 @@ export function createEditor(container, rendererEmitter, editorRef) {
     "process nodecreated noderemoved connectioncreated connectionremoved",
     async () => {
       // should this be ASYNC?
-      await window.electronAPI.sendNodesToMain(editor.toJSON().nodes);
       // TODO, add history...
-      const data = {editor: editor.toJSON(), history: editor.getHistoryJSON()};
-      await window.electronAPI.storeSession(data);
-      // await window.electronAPI.storeSession(editor.toJSON());
+      editor.sendSessionToMain();
     }
   );
 
-  // emitter callbacks
+  editor.sendSessionToMain = () =>{
+    const data = {editor: editor.toJSON(), history: editor.getHistoryJSON()};
+    window.electronAPI.storeSession(data);
+  }
 
   editor.zoomToNodes = () => {
     AreaPlugin.zoomAt(editor, editor.nodes);
@@ -161,7 +161,7 @@ export function createEditor(container, rendererEmitter, editorRef) {
   // AreaPlugin.restrictZoom();
   // https://github.com/retejs/area-plugin/blob/master/src/restrictor.js
 
-  window.electronAPI.sendNodesToMain(editor.toJSON().nodes);
+  editor.sendSessionToMain();
   editorRef.current = editor;
   return editor;
 }

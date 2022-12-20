@@ -15,6 +15,12 @@ const windowStateKeeper = require("electron-window-state");
 let mainWindow;
 const usbDetect = require("usb-detection");
 
+import installExtension, {
+  REACT_DEVELOPER_TOOLS,
+} from "electron-devtools-installer";
+
+
+
 if (require("electron-squirrel-startup")) {
   app.quit();
 }
@@ -161,10 +167,10 @@ app.whenReady().then(() => {
   ipcMain.handle("get-initial-data", getRendererInitialData);
   ipcMain.handle("get-midi-devices", getMIDIPorts);
 
-  ipcMain.on("rete:sendNodesToMain", (event, nodes) => {
+  // ipcMain.on("rete:sendNodesToMain", (event, nodes) => {
     // this used to be an async function, does it need to be
-    engine.storeNodes(nodes);
-  });
+    // engine.storeNodes(nodes);
+  // });
 
   ipcMain.on("send-lines-to-crow", (event, cmd) => {
     engine.sendLinesToCrow(cmd);
@@ -176,7 +182,13 @@ app.whenReady().then(() => {
 
   ipcMain.on("store-session", (event, session) => {
     store.set("session", session);
+    engine.storeNodes(session.editor.nodes);
   });
 
   checkUSB();
+
+  installExtension(REACT_DEVELOPER_TOOLS)
+    .then((name) => console.log(`Added Extension:  ${name}`))
+    .catch((err) => console.log("An error occurred: ", err));
+
 });

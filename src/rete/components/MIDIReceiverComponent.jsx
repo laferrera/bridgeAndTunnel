@@ -15,7 +15,7 @@ export class MIDIReceiverComponent extends Rete.Component {
     // we dont have any inputs for Receive
     let noteOut = new Rete.Output("noteOut", "Note", numSocket);
     let velocityOut = new Rete.Output("velocityOut", "Velocity", numSocket);
-    node.data.config = deepCopy(config);
+    if(!node.data.config) { node.data.config = deepCopy(config) }
 
     // let ctrl = new MIDIReceiveControl(this.editor, 'config', node);
     return (
