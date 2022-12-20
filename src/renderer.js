@@ -143,14 +143,15 @@ function App(props) {
       editor.view.nodes.get(node).el.style.zIndex = nodeIndexCounter;
       // TODO, set meta when loading from JSON or something
       node.setMeta({ zIndex: nodeIndexCounter });
-      if (node.name.toLowerCase().includes("midi")) {
-        window.electronAPI.getMidiDevices().then((data) => {
-          config.midiInputs = data.midiInputs;
-          config.midiOutputs = data.midiOutputs;
-          buildConfig();
-          setPanelState(Date.now());
-        });
-      }
+      // TODO, do we need to update MIDI configs on every click?
+      // if (node.name.toLowerCase().includes("midi")) {
+      //   window.electronAPI.getMidiDevices().then((data) => {
+      //     config.midiInputs = data.midiInputs;
+      //     config.midiOutputs = data.midiOutputs;
+      //     buildConfig();
+      //     setPanelState(Date.now());
+      //   });
+      // }
     });
 
     rendererEmitter.on("crowReplUpdate", (outputLine) => {

@@ -80,16 +80,19 @@ input {
   all: unset;
   background: #999;
   border: 1px solid var(--bnt-cream);
-  border-radius: 10px;
-  cursor: pointer;
   display: inline-block;
   height: auto;
   box-sizing: content-box;
   min-width: 180px;
-  /* border-radius: 0px; */
   border-radius: var(--bnt-border-radius);
   transition: background 100ms ease-in-out;
   box-shadow: var(--bnt-box-shadow);
+}
+
+.node:hover,
+.node:hover*,
+.node *:hover {
+  cursor: pointer;
 }
 
 .node:hover{
