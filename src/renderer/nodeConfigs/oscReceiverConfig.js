@@ -14,8 +14,9 @@ let oscReceiverConfig = {
     label: "Address",
   },
   oscValues: {
-    value: []
+    value: [],
   },
+  numOutputs: 1,
   addOutput: {
     name: "Add Output",
     type: "button",

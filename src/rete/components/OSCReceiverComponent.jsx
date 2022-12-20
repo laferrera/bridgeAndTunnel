@@ -11,11 +11,18 @@ export class OSCReceiverComponent extends Rete.Component {
   }
 
   builder(node) {
-    let out = new Rete.Output('num1', "Number", numSocket);
+    // let out = new Rete.Output('num1', "Number", numSocket);
     if(!node.data.config) { node.data.config = deepCopy(config) }
+
+    [...Array(node.data.config.numOutputs)].forEach((_, i) => {
+      let out = new Rete.Output(`num${i + 1}`, "Number", numSocket);
+      node.addOutput(out);
+    });
+
+
     node.data.oscValues = [];
     return node
-      .addOutput(out);
+      // .addOutput(out);
 
   }
 

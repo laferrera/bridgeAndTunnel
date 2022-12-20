@@ -116,11 +116,12 @@ export function createEditor(container, rendererEmitter, editorRef) {
   };
 
   rendererEmitter.on("addInput", (node) => {
-    let inputLength = Array.from(node.inputs).length;
+    let inputLength = node.data.config.numInputs;
     inputLength++;
     let inp = new Rete.Input("num" + inputLength, "Number", numSocket);
     node.addInput(inp);
     node.update();
+    node.data.config.numInputs = inputLength;
   });
 
   rendererEmitter.on("removeInput", (node) => {
@@ -129,15 +130,18 @@ export function createEditor(container, rendererEmitter, editorRef) {
       let inp = Array.from(node.inputs).pop()[1];
       node.removeInput(inp);
       node.update();
+      node.data.config.numInputs = inputLength--;
     }
   });
 
   rendererEmitter.on("addOutput", (node) => {
-    let outputLength = Array.from(node.outputs).length;
+    // let outputLength = Array.from(node.outputs).length;
+    let outputLength = node.data.config.numOutputs;
     outputLength++;
     let out = new Rete.Output("num" + outputLength, "Number", numSocket);
     node.addOutput(out);
     node.update();
+    node.data.config.numOutputs = outputLength;
   });
 
   rendererEmitter.on("removeOutput", (node) => {
@@ -146,6 +150,7 @@ export function createEditor(container, rendererEmitter, editorRef) {
       let out = Array.from(node.outputs).pop()[1];
       node.removeOutput(out);
       node.update();
+      node.data.config.numOutputs = outputLength--;
     }
   });
 

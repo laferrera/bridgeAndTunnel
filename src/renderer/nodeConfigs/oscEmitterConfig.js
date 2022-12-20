@@ -11,7 +11,9 @@ let oscEmitterConfig = {
     name: "Port",
     type: "number",
     ui: "text",
-    label: "Port"
+    label: "Port",
+    min: 4096,
+    max: 65535,
   },
   address: {
     value: "/note_on",
@@ -20,6 +22,7 @@ let oscEmitterConfig = {
     ui: "text",
     label: "Address",
   },
+  numInputs: 1,
   addInput: {
     name: "Add Input",
     type: "button",

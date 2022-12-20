@@ -12,12 +12,16 @@ export class OSCEmitterComponent extends Rete.Component {
   }
 
   builder(node) {
-    let inp = new Rete.Input('num1', "Number", numSocket);
-    // inp.addControl(new NumControl(this.editor, "num", node));
+    // let inp = new Rete.Input('num1', "Number", numSocket);
+    console.log("osc emitter node", node)
     if(!node.data.config) { node.data.config = deepCopy(config) }
     
+    [...Array(node.data.config.numInputs)].forEach((_, i) => {
+      let inp = new Rete.Input(`num${i + 1}`, "Number", numSocket);
+      node.addInput(inp);
+    });
+
     return node
-      .addInput(inp);
 
   }
 

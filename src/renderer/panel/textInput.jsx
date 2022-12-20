@@ -6,7 +6,6 @@ class TextInput extends React.Component {
     super(props);
     // This binding is necessary to make `this` work in the callback
     this.handleChange = this.handleChange.bind(this);
-
   }
 
   handleChange(event) {
@@ -23,7 +22,12 @@ class TextInput extends React.Component {
         >
           {this.props.setting.label}
         </Label.Root>
-        <input className="TextInput" type={this.props.setting.type} value={this.props.state[this.props.settingKey].val} onChange={this.handleChange} />
+        <input className="TextInput" 
+          type={this.props.setting.type} 
+          value={this.props.state[this.props.settingKey].val} 
+          onChange={this.handleChange} 
+          // { ...this.props.setting.min ? "min=" + this.props.setting.min : ""}
+        />
       </div>
     );
   }

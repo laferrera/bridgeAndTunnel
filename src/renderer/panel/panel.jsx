@@ -92,8 +92,8 @@ export default function Panel(props) {
         )
         break;
       default:
-        console.log("no ui for: ", ui)
-    }
+        // console.log("no ui for: ", ui)
+      }
     }
   }
 
