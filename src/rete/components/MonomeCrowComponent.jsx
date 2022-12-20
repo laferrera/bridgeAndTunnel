@@ -1,46 +1,24 @@
 import Rete from "rete";
-import { btNode } from "./btNode.jsx";
+import { BnTNode } from "./BnTNode.jsx";
 import { numSocket } from "./numSocket.js";
 import config from "../../renderer/nodeConfigs/monomeCrowConfig.js";
-import { deepCopy } from "./utils.js";
+import { multiInputs, multiOutputs } from "./utils.js";
 
-export class MonomeCrowComponent extends Rete.Component {
+export class MonomeCrowComponent extends BnTNode {
   constructor() {
     super("Crow");
-    this.data.component = btNode; // optional
     this.path = ["Monome"];
   }
 
   builder(node) {
-    var trig1 = new Rete.Input("trig1", "Trigger 1", numSocket);
-    var inp1 = new Rete.Input("inp1", "Input 1", numSocket);
-    var trig2 = new Rete.Input("trig2", "Trigger 2", numSocket);
-    var inp2 = new Rete.Input("inp2", "Input 2", numSocket);
-    var trig3 = new Rete.Input("trig3", "Trigger 3", numSocket);
-    var inp3 = new Rete.Input("inp3", "Input 3", numSocket);
-    var trig4 = new Rete.Input("trig4", "Trigger 4", numSocket);
-    var inp4 = new Rete.Input("inp4", "Input 4", numSocket);
+    super.builder(node, config);
+    multiInputs(node.data.config.numInputs, node, numSocket);
+    multiOutputs(node.data.config.numOutputs, node, numSocket);
 
-    var out1 = new Rete.Output("out1", "Output 1", numSocket);
-    var out2 = new Rete.Output("out2", "Output 2", numSocket);
-
-    if(!node.data.config) { node.data.config = deepCopy(config) }
-    
     node.data.x = 0;
     node.data.y = 0;
     node.data.state = 0;
-    return node
-      .addInput(trig1)
-      .addInput(inp1)
-      .addInput(trig2)
-      .addInput(inp2)
-      .addInput(trig3)
-      .addInput(inp3)
-      .addInput(trig4)
-      .addInput(inp4)
-      .addOutput(out1)
-      .addOutput(out2);
-
+    return node;
   }
 
   worker(node, inputs, outputs) {

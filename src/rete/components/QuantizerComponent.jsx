@@ -1,21 +1,19 @@
 import Rete from "rete";
-import { btNode } from "./btNode.jsx";
+import { BnTNode } from "./BnTNode.jsx";
 import { numSocket } from "./numSocket.js";
 import config from "../../renderer/nodeConfigs/quantizerConfig.js";
-import { deepCopy } from "./utils.js";
-export class QuantizerComponent extends Rete.Component {
+export class QuantizerComponent extends BnTNode {
   constructor() {
     super("Quantizer");
-    this.data.component = btNode; // optional
     this.path = ["Math"];
   }
 
   builder(node) {
+    super.builder(node, config);
     var inp = new Rete.Input("input", "Input", numSocket);
     var shift = new Rete.Input("shift", "Shift", numSocket);
     var out = new Rete.Output("output", "Output", numSocket);
-    if(!node.data.config) { node.data.config = deepCopy(config) }
-    
+
     return node.addInput(inp).addInput(shift).addOutput(out);
   }
 
@@ -23,7 +21,9 @@ export class QuantizerComponent extends Rete.Component {
     let inp = inputs["input"].length ? inputs["input"][0] : 0;
     let shift = inputs["shift"].length ? inputs["shift"][0] : 0;
     let scale = node.data.config.scale.value;
-    if (!scale) { scale = [0];}
+    if (!scale) {
+      scale = [0];
+    }
 
     const baseOctave = Math.floor((shift + inp) / scale.length);
     const scaleIndex = Math.abs((shift + inp) % scale.length);

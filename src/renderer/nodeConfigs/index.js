@@ -12,6 +12,7 @@ import mathConfig from "./mathConfig.js";
 import quantizerConfig from "./quantizerConfig.js";
 import monomeCrowConfig from "./monomeCrowConfig.js";
 import monomeGridConfig from "./monomeGridConfig.js";
+import minConfig from "./minConfig.js";
 
 const uiConfigs = {
   oscEmitterConfig,
@@ -22,6 +23,7 @@ const uiConfigs = {
   quantizerConfig,
   monomeCrowConfig,
   monomeGridConfig,
+  minConfig
 };
 
 export { uiConfigs };

@@ -1,28 +1,20 @@
 import Rete from "rete";
-import { btNode } from "./btNode.jsx";
+import { BnTNode } from "./BnTNode.jsx";
 import { numSocket } from "./numSocket.js";
 import  config  from "../../renderer/nodeConfigs/oscEmitterConfig.js";
-import { deepCopy } from "./utils.js";
+import { multiInputs } from "./utils.js";
 import { emitterEmitter } from "../emitterEmitter.js";
-export class OSCEmitterComponent extends Rete.Component {
+export class OSCEmitterComponent extends BnTNode {
   constructor() {
     super("OSC Emitter");
-    this.data.component = btNode;
     this.path = ["OSC"];
   }
 
   builder(node) {
-    // let inp = new Rete.Input('num1', "Number", numSocket);
-    console.log("osc emitter node", node)
-    if(!node.data.config) { node.data.config = deepCopy(config) }
-    
-    [...Array(node.data.config.numInputs)].forEach((_, i) => {
-      let inp = new Rete.Input(`num${i + 1}`, "Number", numSocket);
-      node.addInput(inp);
-    });
+    super.builder(node, config);
+    multiInputs(node.data.config.numInputs, node, numSocket);
 
-    return node
-
+    return node;
   }
 
   worker(node, inputs, outputs) {
@@ -35,5 +27,4 @@ export class OSCEmitterComponent extends Rete.Component {
     });
     emitterEmitter.emit("send-osc-message", node);
   }
-
 }

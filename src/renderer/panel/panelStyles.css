@@ -69,7 +69,8 @@ body,
 }
 
 .SelectMenuWrapper,
-.TextInputWrapper {
+.TextInputWrapper,
+.SliderWrapper {
   display: flex;
   flex-direction: column;
   cursor:pointer;
@@ -77,7 +78,8 @@ body,
 
 .Button,
 .SelectTrigger,
-.TextInput {
+.TextInput,
+.SliderRoot {
   all: unset;
   display: inline-flex;
   align-items: center;
@@ -492,5 +494,65 @@ border: 1px solid rgb(78, 78, 78);
   padding: 0 11px;
 
   max-width: 200px;
+}
+
+
+.SliderRoot {
+  position: relative;
+  display: flex;
+  align-items: center;
+  user-select: none;
+  touch-action: none;
+}
+
+.SliderRoot[data-orientation='horizontal'] {
+  height: 20px;
+}
+
+.SliderRoot[data-orientation='vertical'] {
+  flex-direction: column;
+  width: 20px;
+  height: 100px;
+}
+
+.SliderTrack {
+  background-color: var(--bnt-cream);
+  position: relative;
+  flex-grow: 1;
+  border-radius: 9999px;
+}
+
+.SliderTrack[data-orientation='horizontal'] {
+  height: 3px;
+}
+
+.SliderTrack[data-orientation='vertical'] {
+  width: 3px;
+}
+
+.SliderRange {
+  position: absolute;
+  background-color: white;
+  border-radius: 9999px;
+  height: 100%;
+}
+
+.SliderThumb {
+  display: block;
+  width: 20px;
+  height: 20px;
+  background-color: white;
+  box-shadow: 0 2px 10px var(--bnt-black0);
+  border-radius: 10px;
+}
+
+.SliderThumb:hover {
+  cursor: pointer;
+  background-color: var(--bnt-magenta);
+}
+
+.SliderThumb:focus {
+  outline: none;
+  box-shadow: 0 0 0 5px var(--bnt-clear-grey);
 }
 

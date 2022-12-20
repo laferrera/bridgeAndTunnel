@@ -1,21 +1,19 @@
 import Rete from "rete";
-import { btNode } from "./btNode.jsx";
+import { BnTNode } from "./BnTNode.jsx";
 import { numSocket } from "./numSocket.js";
 import config from "../../renderer/nodeConfigs/midiReceiverConfig.js";
-import { deepCopy } from "./utils.js";
 
-export class MIDIReceiverComponent extends Rete.Component {
+export class MIDIReceiverComponent extends BnTNode {
   constructor() {
     super("MIDI Receiver");
-    this.data.component = btNode;
     this.path = ["MIDI"];
   }
 
   builder(node) {
+    super.builder(node, config);
     // we dont have any inputs for Receive
     let noteOut = new Rete.Output("noteOut", "Note", numSocket);
     let velocityOut = new Rete.Output("velocityOut", "Velocity", numSocket);
-    if(!node.data.config) { node.data.config = deepCopy(config) }
 
     // let ctrl = new MIDIReceiveControl(this.editor, 'config', node);
     return (

@@ -2,12 +2,14 @@ import React, { useState, useEffect } from "react";
 import "./panelStyles.css";
 import PanelSelect from "./select.jsx";
 import PanelSwitch from "./switch.jsx";
+import PanelSlider from "./slider.jsx";
 import PanelPiano from "./piano.jsx";
 import GeneralPurposeReplUI from "./repl.jsx";
 import Button from "./button.jsx";
 import TextInput from "./textInput.jsx"
 // import { uiConfigs } from '../nodeConfigs';
 import DataChangeAction from "../../rete/plugins/data-change-action.js";
+import { mergeJSON } from "../../globalUtils.js";
 
 import * as Label from "@radix-ui/react-label";
 import * as Switch from "@radix-ui/react-switch";
@@ -16,10 +18,13 @@ import * as RadioGroup from "@radix-ui/react-radio-group";
 import * as HoverCard from "@radix-ui/react-hover-card";
 
 export default function Panel(props) {
+  const configType = props.node.data.configType;
   let nodeConfig = props.node.data.config;
-  const uiConfig = props.node.data.config;
-  const editor = props.editor;
+  const globalUIConfig = props.uiConfigs[configType];
+  // const uiConfig = mergeJSON(globalUIConfig, nodeConfig);
+  const uiConfig = nodeConfig;
 
+  const editor = props.editor;
   const state = {};
   const components = [];
   const didMount = React.useRef(null);
@@ -32,15 +37,16 @@ export default function Panel(props) {
 
     if (uiConfig.hasOwnProperty(setting)){
     const ui = uiConfig[setting].ui;
-    switch (ui){
+    switch (ui) {
       case "select":
-      components.push(
-        <PanelSelect
-          key={setting}
-          state={state}
-          settingKey={setting}
-          setting={uiConfig[setting]}
-        />);
+        components.push(
+          <PanelSelect
+            key={setting}
+            state={state}
+            settingKey={setting}
+            setting={uiConfig[setting]}
+          />
+        );
         break;
       case "button":
         components.push(
@@ -49,7 +55,8 @@ export default function Panel(props) {
             rendererEmitter={props.rendererEmitter}
             node={props.node}
             setting={uiConfig[setting]}
-          />);
+          />
+        );
         break;
       case "piano":
         components.push(
@@ -81,6 +88,16 @@ export default function Panel(props) {
           />
         );
         break;
+      case "slider":
+        components.push(
+          <PanelSlider
+            key={setting}
+            state={state}
+            settingKey={setting}
+            setting={uiConfig[setting]}
+          />
+        );
+        break;
       case "text":
         components.push(
           <TextInput
@@ -89,11 +106,11 @@ export default function Panel(props) {
             settingKey={setting}
             setting={uiConfig[setting]}
           />
-        )
+        );
         break;
       default:
-        // console.log("no ui for: ", ui)
-      }
+      // console.log("no ui for: ", ui)
+    }
     }
   }
 

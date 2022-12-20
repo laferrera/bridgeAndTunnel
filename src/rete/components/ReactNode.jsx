@@ -1,7 +1,8 @@
 import React from "react";
 import { Node, Socket, Control } from "rete-react-render-plugin";
+import { deepCopy } from "../../globalUtils.js";
+export class ReactNode extends Node {
 
-export class btNode extends Node {
   render() {
     const { node, bindSocket, bindControl } = this.props;
     const { outputs, controls, inputs, selected } = this.state;

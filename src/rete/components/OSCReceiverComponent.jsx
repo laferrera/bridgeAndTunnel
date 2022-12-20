@@ -1,29 +1,21 @@
 import Rete from "rete";
-import { btNode } from "./btNode.jsx";
+import { BnTNode } from "./BnTNode.jsx";
 import { numSocket } from "./numSocket.js";
 import config from "../../renderer/nodeConfigs/oscReceiverConfig.js";
-import { deepCopy } from "./utils.js";
-export class OSCReceiverComponent extends Rete.Component {
+import { multiOutputs } from "./utils.js";
+export class OSCReceiverComponent extends BnTNode {
   constructor() {
     super("OSC Receiver");
-    this.data.component = btNode;
     this.path = ["OSC"];
   }
 
   builder(node) {
-    // let out = new Rete.Output('num1', "Number", numSocket);
-    if(!node.data.config) { node.data.config = deepCopy(config) }
-
-    [...Array(node.data.config.numOutputs)].forEach((_, i) => {
-      let out = new Rete.Output(`num${i + 1}`, "Number", numSocket);
-      node.addOutput(out);
-    });
-
+    super.builder(node, config);
+    multiOutputs(node.data.config.numOutputs, node, numSocket);
 
     node.data.oscValues = [];
-    return node
-      // .addOutput(out);
-
+    return node;
+    // .addOutput(out);
   }
 
   worker(node, inputs, outputs) {
@@ -35,5 +27,4 @@ export class OSCReceiverComponent extends Rete.Component {
       }
     });
   }
-
 }

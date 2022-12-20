@@ -1,20 +1,19 @@
 import Rete from "rete";
 import { BnTNode } from "./BnTNode.jsx";
 import { numSocket } from "./numSocket.js";
-import config from "../../renderer/nodeConfigs/mathConfig.js";
+import config from "../../renderer/nodeConfigs/minConfig.js";
 
-export class MultiplyComponent extends BnTNode {
+export class MinComponent extends BnTNode {
   constructor() {
-    super("Multiply");
+    super("Min");
     this.path = ["Math"];
   }
 
   builder(node) {
-    super.builder(node, config);    
+    super.builder(node, config);
     var inp1 = new Rete.Input("num1", "Input 1", numSocket);
     var inp2 = new Rete.Input("num2", "Input 2", numSocket);
-    var out = new Rete.Output("product", "Product", numSocket);
-
+    var out = new Rete.Output("out", "Product", numSocket);
     return (
       node
         .addInput(inp1)
@@ -27,10 +26,7 @@ export class MultiplyComponent extends BnTNode {
   worker(node, inputs, outputs) {
     let n1 = inputs["num1"].length ? inputs["num1"][0] : 0;
     let n2 = inputs["num2"].length ? inputs["num2"][0] : 0;
-    let product = n1 * n2;
-    if (Number.isNaN(product)) {
-      product = 0;
-    }
-    outputs["product"] = product;
+    let out = Math.min(n1, n2);
+    outputs["out"] = out;
   }
 }

@@ -1,4 +1,10 @@
 :root {
+  --bnt-black0: #000000;
+  --bnt-black1: #1A1A1A;
+  --bnt-black2: #333333;
+  --bnt-black3: #4D4D4D;
+  --bnt-clear-grey: rgba(0, 0, 0, 0.3);
+  --bnt-clear-gray:vars(--bnt-clear-grey);
   --bnt-cyan: #0093D3;
   --bnt-magenta: #CC016B;
   --bnt-yellow: #FFF10D;

@@ -1,24 +1,23 @@
 import Rete from "rete";
-import { btNode } from "./btNode.jsx";
-import { NumControl } from "./controls/NumControl.jsx";
+import { BnTNode } from "./BnTNode.jsx";
 import { numSocket } from "./numSocket.js";
-import config from "../../renderer/nodeConfigs/mathConfig.js";
-import { deepCopy } from "./utils.js";
-export class ConstantComponent extends Rete.Component {
+import { NumControl } from "./controls/NumControl.jsx";
+export class ConstantComponent extends BnTNode {
   constructor() {
     super("Constant");
-    this.data.component = btNode; // optional
     this.path = ["Math"];
   }
 
   builder(node) {
+    super.builder(node, config);
     var out = new Rete.Output("constant", "Constant", numSocket);
-    if(!node.data.config) { node.data.config = deepCopy(config) }
-    
-    return node
-      // .addInput(inp1)
-      .addControl(new NumControl(this.editor, "num", node, true))
-      .addOutput(out);
+
+    return (
+      node
+        // .addInput(inp1)
+        .addControl(new NumControl(this.editor, "num", node, true))
+        .addOutput(out)
+    );
   }
 
   worker(node, inputs, outputs) {

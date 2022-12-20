@@ -6,6 +6,7 @@
 
 import { AddComponent } from "./AddComponent.jsx";
 import { MultiplyComponent } from "./MultiplyComponent.jsx";
+import { MinComponent } from "./MinComponent.jsx";
 import { ConstantComponent } from "./ConstantComponent.jsx";
 import { QuantizerComponent } from "./QuantizerComponent.jsx";
 import { MIDIReceiverComponent } from "./MIDIReceiverComponent.jsx";
@@ -22,9 +23,10 @@ const reteComponents = [
   new OSCReceiverComponent(),
   new MonomeGridComponent(),
   new MonomeCrowComponent(),
+  new ConstantComponent(),
   new AddComponent(),
   new MultiplyComponent(),
-  new ConstantComponent(),
+  new MinComponent(),
   new QuantizerComponent(),
 ];
 

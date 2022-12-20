@@ -24,7 +24,7 @@ let oscReceiverConfig = {
     label: "Add Output",
     rendererEmitterCall: "addOutput",
   },
-  removeInput: {
+  removeOutput: {
     name: "Remove Output",
     type: "button",
     ui: "button",
