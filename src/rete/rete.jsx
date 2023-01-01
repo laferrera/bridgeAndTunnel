@@ -26,7 +26,7 @@ export function createEditor(container, rendererEmitter, editorRef) {
   editor.use(ConnectionPathPlugin, {
     type: ConnectionPathPlugin.DEFAULT, // DEFAULT or LINEAR transformer
     curve: ConnectionPathPlugin.curveBundle, // curve identifier
-    options: { vertical: false, curvature: 0.0 }, // optional
+    options: { vertical: false, curvature: 0 }, // optional
   });
   editor.use(ReactRenderPlugin, { createRoot });
   editor.use(ContextMenuPlugin, {
@@ -158,6 +158,8 @@ export function createEditor(container, rendererEmitter, editorRef) {
     // console.log(zoom);
     return source !== "dblclick";
   });
+
+  editor.view.container.firstElementChild.classList.add("editor");
 
   editor.view.resize();
   // AreaPlugin.zoomAt(editor);

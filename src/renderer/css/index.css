@@ -1,14 +1,5 @@
 @import './vars.css';
 
-@font-face {
-  font-family: '04b';
-  src: url(04B_03__.ttf);
-}
-
-@font-face {
-  font-family: 'PPSupplySans-Regular';
-  src: url(PPSupplySans-Regular.otf);
-}
 
 body {
   /* font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, */
@@ -24,7 +15,7 @@ body,
 .node .output-title,
 .node select,
 .node input {
-  font-family: 'PPSupplySans-Regular';
+font-family: var(--bnt-font-family);
   /* font-family: '04b'; */
 }
 
@@ -64,22 +55,29 @@ input {
   width: 170px;
 }
 
-.editor {
+/* .editor {
   display: flex;
   flex-wrap: nowrap;
   flex-direction: column;
   height: 100vh;
-}
+} */
 
 .container {
   flex: 1;
   overflow: hidden;
 }
 
+.editor:hover{
+  cursor: grab;
+  background-color: #999;
+}
+
 .node {
   all: unset;
-  background: #999;
-  border: 1px solid var(--bnt-cream);
+  background: var(--bnt-node-bg);
+  color: var(--bnt-cream);
+  border: var(--bnt-border-width) solid var(--bnt-cream);
+
   display: inline-block;
   height: auto;
   box-sizing: content-box;
@@ -113,8 +111,8 @@ input {
 
 .node .title{
   font-size: 14px;
-  border-top-left-radius: var(--bnt-border-radius);
-  border-top-right-radius: var(--bnt-border-radius);
+  border-top-left-radius: calc(var(--bnt-border-radius) - var(--bnt-border-width));
+  border-top-right-radius: calc(var(--bnt-border-radius) - var(--bnt-border-width));
   background:rgba(0,0,0,0.5);
   text-align: center;
   padding: 2px;
@@ -164,20 +162,19 @@ input {
     width: 12px;
     height: 12px;
     border: 1px solid var(--bnt-cream);
-}
-
-.node .socket.used {
-  background: var(--bnt-cream);
+    background: #333;
 }
 
 .node .socket.output{
-  background: #333;
   margin-right: -6px;
 }
 
 .node .socket.input {
-  background: #333;
   margin-left: -6px;
+}
+
+.node .socket:hover {
+  background: var(--bnt-cream);
 }
 
 .connection .main-path {

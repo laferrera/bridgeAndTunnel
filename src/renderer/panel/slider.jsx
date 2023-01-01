@@ -21,7 +21,7 @@ export default function PanelSlider(props) {
         min={props.setting.min}
         step={1}
         aria-label={props.setting.label}
-        onValueChange={(value) => {
+        onValueCommit={(value) => {
           console.log(value);
           props.state[props.settingKey].fn(value);
         }}

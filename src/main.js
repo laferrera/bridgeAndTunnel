@@ -27,18 +27,16 @@ if (require("electron-squirrel-startup")) {
 
 app.createWindow = () => {
   let mainWindowState = windowStateKeeper({
-    defaultWidth: 1000,
-    defaultHeight: 800,
   });
 
   mainWindow = new BrowserWindow({
     // width: 800,
     // height: 600,
-    x: mainWindowState.x,
-    y: mainWindowState.y,
+    x: mainWindowState.x || 0,
+    y: mainWindowState.y || 0,
     width: mainWindowState.width,
     height: mainWindowState.height,
-    backgroundColor: "#CC016B",
+    backgroundColor: "#000000",
     // frame: false,
     // titleBarStyle: 'hidden',
     webPreferences: {

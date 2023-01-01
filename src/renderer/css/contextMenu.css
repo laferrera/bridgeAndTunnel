@@ -6,7 +6,7 @@
 }
 
 @font-face {
-  font-family: 'PPSupplySans-Regular';
+  font-family: var(--bnt-font-family);
   src: url(PPSupplySans-Regular.otf);
 }
 

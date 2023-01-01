@@ -6,6 +6,9 @@ input[1].mode('change', 1.0, 0.1, 'rising')
 input[1].change = function (state) print("{state:".. input[1].volts .. "}") end
 
 
+
+input[1].change = function (state) print("{crow{id} output{id}:".. input[1].volts .. "}") end
+
 s2 = `input[2].mode('change', 1.0, 0.1, 'rising');
 input[2].change = function (state) print('Hello, Jason!') end;`
 

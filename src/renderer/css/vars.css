@@ -1,4 +1,16 @@
+@font-face {
+  font-family: '04b';
+  src: url(04B_03__.ttf);
+}
+
+@font-face {
+  font-family: 'PPSupplySans-Regular';
+  src: url(PPSupplySans-Regular.otf);
+}
+
 :root {
+    /* --bnt-font-family: '04b', sans-serif; */
+      --bnt-font-family: 'PPSupplySans-Regular', sans-serif;
   --bnt-black0: #000000;
   --bnt-black1: #1A1A1A;
   --bnt-black2: #333333;
@@ -13,5 +25,7 @@
   --bnt-green: #01CC6b;
   --bnt-box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.75);
   --bnt-border-radius: 6px;
+  --bnt-border-width: 1px;
 
+  --bnt-node-bg: #666;
 }

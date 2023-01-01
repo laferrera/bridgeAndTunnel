@@ -2,7 +2,7 @@ module.exports = {
   packagerConfig: {
     // asar: true,
     icon: "icons/icon.icns",
-    afterExtract: ["copy-to-package-directory.js"],
+    // afterExtract: ["copy-to-package-directory.js"],
     // osxSign: {},
     // osxNotarize: {
     //   tool: 'notarytool',
