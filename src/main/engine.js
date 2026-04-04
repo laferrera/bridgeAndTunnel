@@ -1,5 +1,4 @@
 const EventEmitter = require("events");
-// const midi = require("midi");
 const midiInputStream = require("./midi/midiInputStream.js");
 const midiOutputStream = require("./midi/midiOutputStream.js");
 import { MidiMessage } from "midi-message-parser";
@@ -30,7 +29,7 @@ class Engine extends EventEmitter {
     this.oscCommunicator.bind(oscListenPort);
     this.oscCommunicator.on("message", (message) => { this.handleOSCMessage(message);});
 
-    // this.link = new abletonlink;
+    // TODO: initialize abletonlink here for tempo sync
     this.reteEngine = new Rete.Engine(name);
     this.reteEngine.on("error", ({ message, data }) => {
       this.alertErrorToRenderer(message, data);
@@ -51,11 +50,6 @@ class Engine extends EventEmitter {
     emitterEmitter.on("engine:emit-midi-message", (node) => {
       this.emitMIDI(node);
     });
-
-    // this.on("engine:distribute-midi-message", (message) => {
-    //   // this.decodeMIDIMessage(message);
-    //   this.distributeIncomingMIDIMessage(message);
-    // });
   }
 
   setupMonomeGrid() {
@@ -114,32 +108,22 @@ class Engine extends EventEmitter {
   }
 
   getMIDIInputPorts() {
-    // let inputPorts = [['Bridge & Tunnel', 'Bridge & Tunnel']];
     for (let i = 0; i < this.midiInputStreams[0].input.getPortCount(); i++) {
       const portName = this.midiInputStreams[0].input.getPortName(i);
-      if (
-        this.midiInputStreams.filter((m) => m.portName === portName).length ===
-        0
-      ) {
+      if (this.midiInputStreams.filter((m) => m.portName === portName).length === 0) {
         const inPort = new midiInputStream.init(this, portName, i);
         this.midiInputStreams.push(inPort);
-        // inputPorts.push([portName, portName]);
       }
     }
     return this.midiInputStreams.map((m) => [m.portName, m.portName]);
   }
 
   getMIDIOutputPorts() {
-    // let outputPorts = [['Bridge & Tunnel', 'Bridge & Tunnel']];
-    for (var i = 0; i < this.midiOutputStreams[0].output.getPortCount(); i++) {
+    for (let i = 0; i < this.midiOutputStreams[0].output.getPortCount(); i++) {
       const portName = this.midiOutputStreams[0].output.getPortName(i);
-      if (
-        this.midiOutputStreams.filter((m) => m.portName === portName).length ===
-        0
-      ) {
+      if (this.midiOutputStreams.filter((m) => m.portName === portName).length === 0) {
         const outPort = new midiOutputStream.init(this, portName, i);
         this.midiOutputStreams.push(outPort);
-        // outputPorts.push([portName, portName]);
       }
     }
     return this.midiOutputStreams.map((m) => [m.portName, m.portName]);
@@ -181,19 +165,6 @@ class Engine extends EventEmitter {
     const channel = node.data.config.channel.value;
     const note = node.data.noteIn;
     const velocity = node.data.velocityIn;
-    console.log(
-      "emit midi: ",
-      "node.id :",
-      node.id,
-      " port: ",
-      portName,
-      "channel: ",
-      channel,
-      "note: ",
-      note,
-      "velocity: ",
-      velocity
-    );
     const message = new MidiMessage(
       "noteon",
       note, // note number
@@ -205,13 +176,6 @@ class Engine extends EventEmitter {
     this.midiOutputStreams
       .filter((m) => m.portName == portName)[0]
       .output.sendMessage(message.toMidiArray());
-    // .encoder.noteOn(1, 64, 100);
-    // .encoder.write({
-    //   type: "NoteOn",
-    //   channel: channel,
-    //   note: note,
-    //   velocity: velocity,
-    // });
   }
 
   emitOSC(node) {
@@ -219,12 +183,10 @@ class Engine extends EventEmitter {
     const port = node.data.config.port.value;
     const address = node.data.config.address.value;
     const args = node.data.oscValues;
-    console.log("emit osc: ", host, port, address, args);
     this.oscCommunicator.oscEmit(host, port, address, args);
   }
 
   handleOSCMessage(message){
-    console.log("osc message received: ", message);
     const address = message.address;
     const args = message.data;
     const nodes = Object.values(this.nodes).filter(
@@ -240,8 +202,6 @@ class Engine extends EventEmitter {
   }
 
   distributeMonomeGridPress(x, y, state) {
-    // this.updateMIDIPorts();
-    console.log("grid press: ", x, y, state);
     this.monomeGridLeds[y][x] = state * 15;
     this.monomeGridStates[y][x] = state;
     this.monomeGrid.refresh(this.monomeGridLeds);
@@ -256,7 +216,6 @@ class Engine extends EventEmitter {
 
   sendLinesToCrow(cmd) {
     if (this.crow) {
-      console.log("send cmd to crow: ", cmd);
       this.crow.writeLines(cmd);
     } else {
       this.mainWindow.webContents.send("receive-lines-from-crow", "no crow.");
@@ -264,7 +223,6 @@ class Engine extends EventEmitter {
   }
 
   handleCrowOutput(data) {
-    console.log("crow said: ", data);
     this.mainWindow.webContents.send("receive-lines-from-crow", data);
   }
 
@@ -273,8 +231,7 @@ class Engine extends EventEmitter {
     crowNodes.forEach((c) => {
       c.data.data = data;
     });
-    // TODO, how the fuck do we deal with this
-    // this.process(crowNodes.map((c) => c.id));
+    // TODO: wire crow node outputs to hardware I/O — how to trigger re-process here?
   }
 }
         

@@ -11,7 +11,9 @@ module.exports = {
   target: "electron-main",
   devtool: "source-map",
   externals: {
-    // serialport: "commonjs2 serialport", // Ref: https://copyprogramming.com/howto/electron-and-serial-ports
+    "@julusian/midi": "commonjs2 @julusian/midi",
+    "serialport": "commonjs2 serialport",
+    "@serialport/bindings-cpp": "commonjs2 @serialport/bindings-cpp",
   },
   output: {
     // library: { type: "commonjs2" },

@@ -107,17 +107,14 @@ app.on("selectAll", () => {
 
 
 app.on("will-quit", (event) => {
-  console.log("we haven't quitted just yet...");
   if (BrowserWindow.getFocusedWindow()) {
     BrowserWindow.getFocusedWindow().send("redo");
   }
   usbDetect.stopMonitoring();
   if (engine.crow) {
-    console.log("disconnecting crow")
     engine.crow.disconnect();
   }
-  // TODO, kill ableton link somehow
-  // delete engine.link;
+  // TODO: kill abletonlink on quit once integrated
 });
 
 const checkUSB = () => {
@@ -185,8 +182,6 @@ app.whenReady().then(() => {
 
   checkUSB();
 
-  installExtension(REACT_DEVELOPER_TOOLS)
-    .then((name) => console.log(`Added Extension:  ${name}`))
-    .catch((err) => console.log("An error occurred: ", err));
+  installExtension(REACT_DEVELOPER_TOOLS).catch(() => {});
 
 });

@@ -1,5 +1,5 @@
 const { EncodeStream } = require('@lachenmayer/midi-messages')
-const midi = require('midi');
+const midi = require("@julusian/midi");
 
 module.exports = {
 
@@ -17,7 +17,6 @@ module.exports = {
         }
         
         this.encoder.on('data', message => {
-            console.log('sending message from encoder: ', message)
             this.output.sendMessage(message);
         });
 

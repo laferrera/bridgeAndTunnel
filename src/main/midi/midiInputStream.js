@@ -1,6 +1,6 @@
 const { DecodeStream } = require("@lachenmayer/midi-messages");
 const { MidiMessage } = require("midi-message-parser");
-const midi = require("midi");
+const midi = require("@julusian/midi");
 
 module.exports = {
   debug: function () {
