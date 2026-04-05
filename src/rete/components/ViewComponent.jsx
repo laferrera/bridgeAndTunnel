@@ -23,6 +23,9 @@ export class ViewComponent extends BnTNode {
   worker(node, inputs, outputs) {
     const num = inputs["num"].length ? inputs["num"][0] : 0;
     outputs["num"] = num;
-    emitterEmitter.emit("view-node-update", { nodeId: node.id, value: num });
+    if (num !== node.data._lastDisplayed) {
+      node.data._lastDisplayed = num;
+      emitterEmitter.emit("view-node-update", { nodeId: node.id, value: num });
+    }
   }
 }

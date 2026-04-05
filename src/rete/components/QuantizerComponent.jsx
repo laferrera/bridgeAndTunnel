@@ -25,8 +25,9 @@ export class QuantizerComponent extends BnTNode {
       scale = [0];
     }
 
-    const baseOctave = Math.floor((shift + inp) / scale.length);
-    const scaleIndex = Math.abs((shift + inp) % scale.length);
+    const combined = Math.floor(shift + inp);
+    const baseOctave = Math.floor(combined / scale.length);
+    const scaleIndex = ((combined % scale.length) + scale.length) % scale.length;
     const note = parseInt(baseOctave * 12 + scale[scaleIndex]);
 
     outputs["output"] = note;

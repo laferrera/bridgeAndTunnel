@@ -18,13 +18,12 @@ export class OSCEmitterComponent extends BnTNode {
   }
 
   worker(node, inputs, outputs) {
-    // we dont have any output sockets for Emitter
+    const inputCount = node.data.config.numInputs;
     node.data.oscValues = [];
-    Object.values(inputs).forEach((input) => {
-      if (input.length > 0) {
-        node.data.oscValues.push(input[0]);
-      }
-    });
+    for (let i = 1; i <= inputCount; i++) {
+      const input = inputs[`num${i}`];
+      node.data.oscValues.push(input && input.length > 0 ? input[0] : 0);
+    }
     if (!emitterEmitter.passive) emitterEmitter.emit("send-osc-message", node);
   }
 }

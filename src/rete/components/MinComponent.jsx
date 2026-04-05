@@ -13,7 +13,7 @@ export class MinComponent extends BnTNode {
     super.builder(node, config);
     var inp1 = new Rete.Input("num1", "Input 1", numSocket);
     var inp2 = new Rete.Input("num2", "Input 2", numSocket);
-    var out = new Rete.Output("out", "Product", numSocket);
+    var out = new Rete.Output("out", "Min", numSocket);
     return (
       node
         .addInput(inp1)

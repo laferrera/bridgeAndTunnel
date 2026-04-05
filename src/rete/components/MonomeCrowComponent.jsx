@@ -15,9 +15,6 @@ export class MonomeCrowComponent extends BnTNode {
     multiInputs(node.data.config.numInputs, node, numSocket);
     multiOutputs(node.data.config.numOutputs, node, numSocket);
 
-    node.data.x = 0;
-    node.data.y = 0;
-    node.data.state = 0;
     return node;
   }
 

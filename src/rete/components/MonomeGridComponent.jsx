@@ -33,7 +33,6 @@ export class MonomeGridComponent extends BnTNode {
 
   worker(node, inputs, outputs) {
     checkInputsAndSetData(inputs, node.data);
-    console.log("grid node.data", node.data.x, node.data.y, node.data.state);
     outputs["x"] = node.data.x;
     outputs["y"] = node.data.y;
     outputs["state"] = node.data.state;

@@ -32,6 +32,7 @@ class Engine extends EventEmitter {
 
     this.link = null;
     this.linkRunning = false;
+    this.clockIntervalMs = {};
 
     this.reteEngine = new Rete.Engine(name);
     this.reteEngine.on("error", ({ message, data }) => {
@@ -125,10 +126,12 @@ class Engine extends EventEmitter {
   }
 
   startClock(node) {
-    this.stopClock(node.id);
     const bpm = node.data.config.bpm.value;
     const subdivision = node.data.config.subdivision.value;
     const intervalMs = 240000 / (bpm * subdivision);
+    if (this.clockIntervalMs[node.id] === intervalMs) return;
+    this.stopClock(node.id);
+    this.clockIntervalMs[node.id] = intervalMs;
     this.clockIntervals[node.id] = setInterval(() => {
       const liveNode = this.nodes[node.id];
       if (!liveNode) { this.stopClock(node.id); return; }
@@ -141,6 +144,7 @@ class Engine extends EventEmitter {
     if (this.clockIntervals[nodeId]) {
       clearInterval(this.clockIntervals[nodeId]);
       delete this.clockIntervals[nodeId];
+      delete this.clockIntervalMs[nodeId];
     }
   }
 
@@ -252,11 +256,10 @@ class Engine extends EventEmitter {
   }
 
   distributeIncomingMIDIMessage(message, portName) {
-    console.log("midi message: ", message, portName);
     let channel = message.channel;
     let midiReceivers = Object.values(this.nodes).filter(
       (n) =>
-        n.name == "MIDI Receive" &&
+        n.name == "MIDI Receiver" &&
         n.data.config.channel.value == channel &&
         n.data.config.portName.value == portName
     );
@@ -280,9 +283,9 @@ class Engine extends EventEmitter {
       0 // timestamp
     );
 
-    this.midiOutputStreams
-      .filter((m) => m.portName == portName)[0]
-      .output.sendMessage(message.toMidiArray());
+    const stream = this.midiOutputStreams.find((m) => m.portName === portName);
+    if (!stream) return;
+    stream.output.sendMessage(message.toMidiArray());
   }
 
   emitOSC(node) {
@@ -300,10 +303,7 @@ class Engine extends EventEmitter {
       (n) => n.name == "OSC Receiver" && n.data.config.address.value == address
     );
     nodes.forEach((mr) => {
-      mr.data.oscValues = [];
-      args.forEach((arg) => {
-        mr.data.oscValues.push(arg);
-      });
+      mr.data.oscValues = [...args];
     });
     this.process(nodes.map((mr) => mr.id));
   }
