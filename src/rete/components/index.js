@@ -27,6 +27,7 @@ import { ToggleComponent } from "./ToggleComponent.jsx";
 import { SelectComponent } from "./SelectComponent.jsx";
 import { NoteToHzComponent } from "./NoteToHzComponent.jsx";
 import { ChordComponent } from "./ChordComponent.jsx";
+import { RandomComponent } from "./RandomComponent.jsx";
 
 const reteComponents = [
   new MIDIReceiverComponent(),
@@ -58,6 +59,7 @@ const reteComponents = [
   new QuantizerComponent(),
   new NoteToHzComponent(),
   new ChordComponent(),
+  new RandomComponent(),
 ];
 
 export { reteComponents };

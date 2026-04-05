@@ -14,6 +14,7 @@ import monomeCrowConfig from "./monomeCrowConfig.js";
 import monomeGridConfig from "./monomeGridConfig.js";
 import minConfig from "./minConfig.js";
 import chordConfig from "./chordConfig.js";
+import randomConfig from "./randomConfig.js";
 
 const uiConfigs = {
   oscEmitterConfig,
@@ -26,6 +27,7 @@ const uiConfigs = {
   monomeGridConfig,
   minConfig,
   chordConfig,
+  randomConfig,
 };
 
 export { uiConfigs };
