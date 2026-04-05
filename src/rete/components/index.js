@@ -9,6 +9,9 @@ import { ModuloComponent } from "./ModuloComponent.jsx";
 import { RoundComponent } from "./RoundComponent.jsx";
 import { ClampComponent } from "./ClampComponent.jsx";
 import { ScaleComponent } from "./ScaleComponent.jsx";
+import { CounterComponent } from "./CounterComponent.jsx";
+import { ViewComponent } from "./ViewComponent.jsx";
+import { TriggerComponent } from "./TriggerComponent.jsx";
 import { ConstantComponent } from "./ConstantComponent.jsx";
 import { QuantizerComponent } from "./QuantizerComponent.jsx";
 import { MIDIReceiverComponent } from "./MIDIReceiverComponent.jsx";
@@ -17,6 +20,7 @@ import { OSCEmitterComponent } from "./OSCEmitterComponent.jsx";
 import { OSCReceiverComponent } from "./OSCReceiverComponent.jsx";
 import { MonomeGridComponent } from "./MonomeGridComponent.jsx";
 import { MonomeCrowComponent } from "./MonomeCrowComponent.jsx";
+import { SampleAndHoldComponent } from "./SampleAndHoldComponent.jsx";
 
 const reteComponents = [
   new MIDIReceiverComponent(),
@@ -37,6 +41,10 @@ const reteComponents = [
   new RoundComponent(),
   new ClampComponent(),
   new ScaleComponent(),
+  new CounterComponent(),
+  new SampleAndHoldComponent(),
+  new ViewComponent(),
+  new TriggerComponent(),
   new QuantizerComponent(),
 ];
 

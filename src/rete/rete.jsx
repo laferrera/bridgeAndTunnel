@@ -15,6 +15,7 @@ import MultiSelectPlugin from "./plugins/multi-select-plugin.js";
 import DragSelectionPlugin from "./plugins/drag-selection-plugin.js";
 import { numSocket } from "./components/numSocket.js";
 import { reteComponents } from "./components/index.js";
+import { viewUpdateBus } from "./viewUpdateBus.js";
 // import DataChangeAction from "./plugins/data-change-action.js";
 
 const min = (arr) => (arr.length === 0 ? 0 : Math.min(...arr));
@@ -167,6 +168,10 @@ export function createEditor(container, rendererEmitter, editorRef) {
   AreaPlugin.zoomAt(editor, editor.nodes);
   // AreaPlugin.restrictZoom();
   // https://github.com/retejs/area-plugin/blob/master/src/restrictor.js
+
+  window.electronAPI.handleViewNodeUpdate((_event, { nodeId, value }) => {
+    viewUpdateBus.emit("update", { nodeId, value });
+  });
 
   editor.sendSessionToMain();
   editorRef.current = editor;

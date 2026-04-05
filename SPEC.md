@@ -98,11 +98,29 @@ Interface for Monome Crow eurorack module. Exposes a REPL console for sending Lu
 
 ---
 
+### Constant
+Outputs a fixed user-defined value.
+
+**Output:** `constant`
+
+**Config:**
+- Value — numeric input field, editable directly in the node
+
+---
+
 ### Add
 Adds two numbers.
 
 **Inputs:** `num1`, `num2`
 **Output:** `sum`
+
+---
+
+### Subtract
+Subtracts the second input from the first.
+
+**Inputs:** `num1`, `num2`
+**Output:** `difference`
 
 ---
 
@@ -114,6 +132,14 @@ Multiplies two numbers.
 
 ---
 
+### Divide
+Divides the first input by the second. Outputs 0 if the divisor is 0.
+
+**Inputs:** `num1`, `num2`
+**Output:** `quotient`
+
+---
+
 ### Min
 Passes the smaller of two input values.
 
@@ -122,13 +148,61 @@ Passes the smaller of two input values.
 
 ---
 
-### Constant
-Outputs a fixed user-defined value.
+### Max
+Passes the larger of two input values.
 
-**Output:** `constant`
+**Inputs:** `num1`, `num2`
+**Output:** `out`
+
+---
+
+### Abs
+Returns the absolute value of the input.
+
+**Input:** `num`
+**Output:** `out`
+
+---
+
+### Modulo
+Returns `num1 % num2`. Outputs 0 if the divisor is 0.
+
+**Inputs:** `num1`, `num2`
+**Output:** `out`
+
+---
+
+### Round
+Rounds the input to the nearest integer.
+
+**Input:** `num`
+**Output:** `out`
+
+---
+
+### Clamp
+Limits the input to a configurable min/max range.
+
+**Input:** `num`
+**Output:** `out`
 
 **Config:**
-- Value — numeric input field, editable directly in the node
+- Min — lower bound (default 0, range −1000–1000)
+- Max — upper bound (default 127, range −1000–1000)
+
+---
+
+### Scale
+Remaps a value from one numeric range to another.
+
+**Input:** `num`
+**Output:** `out`
+
+**Config:**
+- In Min / In Max — the expected input range (default 0–127)
+- Out Min / Out Max — the desired output range (default 0–127)
+
+**Formula:** `outMin + (num − inMin) × (outMax − outMin) / (inMax − inMin)`
 
 ---
 
@@ -145,19 +219,30 @@ Maps an input value onto a musical scale with an octave offset. Useful for conve
 
 ---
 
-## Planned Nodes
+### Counter
+Increments a count on each rising edge of the trigger input, wrapping at a configurable max. A rising edge on the reset input returns the count to 0.
 
-These are referenced in development notes but not yet built.
+**Inputs:** `trigger`, `reset`
+**Output:** `count`
 
-**Clock** — generates tempo-synced triggers at a configurable BPM and division. Would output a gate signal or tick count.
+**Config:**
+- Max — wrap value (default 8, range 1–64)
+- Step — increment per trigger (default 1, range 1–16)
 
-**Random** — outputs random values within a configurable range, triggered by an input or on a clock.
+---
 
-**Sequencer** — steps through a sequence of values (notes, velocities, etc.) on each trigger input.
+### View
+Displays the current value passing through. Useful for debugging signal flow.
 
-**Ableton Link** — sync tempo and transport with Ableton Live and other Link-enabled apps. The `abletonlink` library is installed but not yet integrated.
+**Input:** `num`
+**Output:** `num` (passthrough)
 
-**Additional math nodes** — Divide, Modulo, Scale/Map (remap a value from one range to another), Sample & Hold, and others as needed.
+---
+
+### Trigger
+Emits a single pulse of 1 when the button is clicked, then resets to 0 on the next process cycle.
+
+**Output:** `trigger`
 
 ---
 
@@ -179,13 +264,29 @@ These are referenced in development notes but not yet built.
 
 | Device | Library | Status |
 |--------|---------|--------|
-| MIDI in/out | `midi` | Working |
-| OSC in/out | `kiss-and-tell` | Working |
+| MIDI in/out | `@julusian/midi` | Working |
+| OSC in/out | `osc-emitter` / `osc-receiver` | Working (listens on port 2626) |
 | Monome Grid | `monome-grid` | Working |
 | Monome Crow | `huginn-and-muninn` + `serialport` | REPL only |
 | Ableton Link | `abletonlink` | Not yet integrated |
-| USB hot-plug | `usb-detection` | Installed, not yet wired |
+| USB hot-plug | `usb-detection` | Not yet integrated |
 
 MIDI ports are enumerated at startup. A virtual "Bridge & Tunnel" MIDI port is created automatically.
 
 OSC listens globally on port 2626; individual OSC Receiver nodes filter by address pattern.
+
+---
+
+## Planned
+
+**Clock** — generates tempo-synced triggers at a configurable BPM and division.
+
+**Random** — outputs random values within a configurable range on each trigger.
+
+**Sequencer** — steps through a sequence of values on each trigger input.
+
+**Ableton Link** — sync tempo and transport with Ableton Live and other Link-enabled apps.
+
+**Crow signal routing** — wire Crow node inputs/outputs to actual Crow hardware CV/gate I/O.
+
+**USB hot-plug** — automatically detect and respond to MIDI device connect/disconnect events.

@@ -50,6 +50,12 @@ class Engine extends EventEmitter {
     emitterEmitter.on("engine:emit-midi-message", (node) => {
       this.emitMIDI(node);
     });
+
+    emitterEmitter.on("view-node-update", ({ nodeId, value }) => {
+      if (this.mainWindow) {
+        this.mainWindow.webContents.send("view-node-update", { nodeId, value });
+      }
+    });
   }
 
   setupMonomeGrid() {
@@ -82,6 +88,15 @@ class Engine extends EventEmitter {
 
   processJSON(json) {
     this.reteEngine.process(json);
+  }
+
+  async passiveProcessJSON(json) {
+    emitterEmitter.passive = true;
+    try {
+      await this.reteEngine.processAll(json);
+    } finally {
+      emitterEmitter.passive = false;
+    }
   }
 
   process(nodeIds) {

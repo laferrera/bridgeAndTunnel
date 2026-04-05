@@ -23,6 +23,6 @@ export class MIDIEmitterComponent extends BnTNode {
     node.data.velocityIn = inputs["velocityIn"].length
       ? inputs["velocityIn"][0]
       : 0;
-    emitterEmitter.emit("engine:emit-midi-message", node);
+    if (!emitterEmitter.passive) emitterEmitter.emit("engine:emit-midi-message", node);
   }
 }

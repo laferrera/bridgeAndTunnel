@@ -25,6 +25,6 @@ export class OSCEmitterComponent extends BnTNode {
         node.data.oscValues.push(input[0]);
       }
     });
-    emitterEmitter.emit("send-osc-message", node);
+    if (!emitterEmitter.passive) emitterEmitter.emit("send-osc-message", node);
   }
 }

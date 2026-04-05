@@ -178,6 +178,7 @@ app.whenReady().then(() => {
   ipcMain.on("store-session", (event, session) => {
     store.set("session", session);
     engine.storeNodes(session.editor.nodes);
+    engine.passiveProcessJSON(session.editor);
   });
 
   checkUSB();
