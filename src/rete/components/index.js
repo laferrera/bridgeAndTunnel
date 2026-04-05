@@ -22,6 +22,9 @@ import { MonomeGridComponent } from "./MonomeGridComponent.jsx";
 import { MonomeCrowComponent } from "./MonomeCrowComponent.jsx";
 import { SampleAndHoldComponent } from "./SampleAndHoldComponent.jsx";
 import { ClockComponent } from "./ClockComponent.jsx";
+import { GateComponent } from "./GateComponent.jsx";
+import { ToggleComponent } from "./ToggleComponent.jsx";
+import { SelectComponent } from "./SelectComponent.jsx";
 
 const reteComponents = [
   new MIDIReceiverComponent(),
@@ -47,6 +50,9 @@ const reteComponents = [
   new ViewComponent(),
   new TriggerComponent(),
   new ClockComponent(),
+  new GateComponent(),
+  new ToggleComponent(),
+  new SelectComponent(),
   new QuantizerComponent(),
 ];
 

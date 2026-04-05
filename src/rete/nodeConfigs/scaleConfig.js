@@ -1,0 +1,45 @@
+const scaleConfig = {
+  type: "scaleConfig",
+  inputMin: {
+    value: 0,
+    name: "Input Min",
+    type: "number",
+    ui: "slider",
+    label: "In Min",
+    min: -1000,
+    max: 1000,
+    step: 1,
+  },
+  inputMax: {
+    value: 127,
+    name: "Input Max",
+    type: "number",
+    ui: "slider",
+    label: "In Max",
+    min: -1000,
+    max: 1000,
+    step: 1,
+  },
+  outputMin: {
+    value: 0,
+    name: "Output Min",
+    type: "number",
+    ui: "slider",
+    label: "Out Min",
+    min: -1000,
+    max: 1000,
+    step: 1,
+  },
+  outputMax: {
+    value: 127,
+    name: "Output Max",
+    type: "number",
+    ui: "slider",
+    label: "Out Max",
+    min: -1000,
+    max: 1000,
+    step: 1,
+  },
+};
+
+export default scaleConfig;

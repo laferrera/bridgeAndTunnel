@@ -4,7 +4,7 @@
 
 Bridge & Tunnel is a desktop app for routing and transforming signals between musical hardware and software. You build a graph of nodes — MIDI devices, OSC endpoints, Monome hardware, math operations — and wire them together to create routing logic that would otherwise require scripting or dedicated hardware.
 
-The core metaphor is a signal flow graph: data enters through receiver nodes, flows through processing nodes, and exits through emitter nodes. Everything is numeric. Connections carry floating-point values.
+The core metaphor is a signal flow graph: data enters through source and receiver nodes, flows through processing nodes, and exits through emitter nodes. Everything is numeric. Connections carry floating-point values.
 
 ---
 
@@ -14,7 +14,7 @@ The core metaphor is a signal flow graph: data enters through receiver nodes, fl
 
 **Connections** carry numeric values between an output socket on one node and an input socket on another. All sockets share a single type (numeric), so any output can connect to any input.
 
-**The Graph** is processed reactively — any time a hardware event arrives (MIDI note, OSC message, grid button press), the engine processes the affected nodes and propagates values downstream through the connection graph.
+**The Graph** is processed event-driven. Most nodes process reactively — when a hardware event arrives (MIDI note, OSC message, grid button press), the engine processes the affected nodes and propagates values downstream. Clock nodes are the exception: they drive processing autonomously on a timer.
 
 **Config Panel** — selecting a node opens an inspector panel. Controls are defined per-node (dropdowns, sliders, toggles, text fields, buttons, piano keyboard, REPL console) and feed into the node's processing logic.
 
@@ -24,7 +24,9 @@ The core metaphor is a signal flow graph: data enters through receiver nodes, fl
 
 ## Node Inventory
 
-### MIDI Receiver
+### Hardware I/O
+
+#### MIDI Receiver
 Listens to incoming MIDI note messages on a configurable port and channel.
 
 **Outputs:** `noteOut` (0–127), `velocityOut` (0–127)
@@ -36,7 +38,7 @@ Listens to incoming MIDI note messages on a configurable port and channel.
 
 ---
 
-### MIDI Emitter
+#### MIDI Emitter
 Sends MIDI note messages to a configurable port and channel.
 
 **Inputs:** `noteIn`, `velocityIn`
@@ -48,7 +50,7 @@ Sends MIDI note messages to a configurable port and channel.
 
 ---
 
-### OSC Receiver
+#### OSC Receiver
 Listens for incoming OSC messages at a configurable address. Number of output sockets is adjustable to match the number of arguments in the expected message.
 
 **Outputs:** `num1`, `num2`, ... (one per OSC argument)
@@ -60,7 +62,7 @@ Listens for incoming OSC messages at a configurable address. Number of output so
 
 ---
 
-### OSC Emitter
+#### OSC Emitter
 Sends an OSC message to a configurable host, port, and address. Number of input sockets is adjustable.
 
 **Inputs:** `num1`, `num2`, ... (each becomes an OSC argument)
@@ -73,7 +75,7 @@ Sends an OSC message to a configurable host, port, and address. Number of input 
 
 ---
 
-### Grid (Monome Grid)
+#### Grid (Monome Grid)
 Bidirectional interface for Monome Grid hardware. Reports button presses as outputs; inputs control LED brightness.
 
 **Inputs:** `x`, `y`, `state` (LED coordinate + brightness 0–15)
@@ -84,7 +86,7 @@ Bidirectional interface for Monome Grid hardware. Reports button presses as outp
 
 ---
 
-### Crow (Monome Crow)
+#### Crow (Monome Crow)
 Interface for Monome Crow eurorack module. Exposes a REPL console for sending Lua commands and viewing output. Dynamic input/output sockets for signal routing.
 
 **Inputs:** `num1`, `num2`, ... (configurable count)
@@ -98,7 +100,9 @@ Interface for Monome Crow eurorack module. Exposes a REPL console for sending Lu
 
 ---
 
-### Constant
+### Sources
+
+#### Constant
 Outputs a fixed user-defined value.
 
 **Output:** `constant`
@@ -108,7 +112,29 @@ Outputs a fixed user-defined value.
 
 ---
 
-### Add
+#### Trigger
+Emits a single pulse of 1 when the button is clicked, then resets to 0 on the next process cycle.
+
+**Output:** `trigger`
+
+---
+
+#### Clock
+Emits a continuous stream of trigger pulses at a configurable BPM and subdivision. Unlike all other nodes, Clock drives processing autonomously — the interval runs in the main process and fires regardless of external events. On each tick the output is 1 for one process cycle, then 0 until the next tick.
+
+**Output:** `trigger`
+
+**Config:**
+- BPM — tempo in beats per minute (default 120, range 1–300)
+- Subdivision — pulse rate relative to a quarter note: Whole, Half, Quarter, Eighth, Sixteenth, 32nd (default Quarter)
+
+**Formula:** `intervalMs = 240000 / (bpm × subdivision)`
+
+---
+
+### Math
+
+#### Add
 Adds two numbers.
 
 **Inputs:** `num1`, `num2`
@@ -116,7 +142,7 @@ Adds two numbers.
 
 ---
 
-### Subtract
+#### Subtract
 Subtracts the second input from the first.
 
 **Inputs:** `num1`, `num2`
@@ -124,7 +150,7 @@ Subtracts the second input from the first.
 
 ---
 
-### Multiply
+#### Multiply
 Multiplies two numbers.
 
 **Inputs:** `num1`, `num2`
@@ -132,7 +158,7 @@ Multiplies two numbers.
 
 ---
 
-### Divide
+#### Divide
 Divides the first input by the second. Outputs 0 if the divisor is 0.
 
 **Inputs:** `num1`, `num2`
@@ -140,7 +166,7 @@ Divides the first input by the second. Outputs 0 if the divisor is 0.
 
 ---
 
-### Min
+#### Min
 Passes the smaller of two input values.
 
 **Inputs:** `num1`, `num2`
@@ -148,7 +174,7 @@ Passes the smaller of two input values.
 
 ---
 
-### Max
+#### Max
 Passes the larger of two input values.
 
 **Inputs:** `num1`, `num2`
@@ -156,7 +182,7 @@ Passes the larger of two input values.
 
 ---
 
-### Abs
+#### Abs
 Returns the absolute value of the input.
 
 **Input:** `num`
@@ -164,7 +190,7 @@ Returns the absolute value of the input.
 
 ---
 
-### Modulo
+#### Modulo
 Returns `num1 % num2`. Outputs 0 if the divisor is 0.
 
 **Inputs:** `num1`, `num2`
@@ -172,7 +198,7 @@ Returns `num1 % num2`. Outputs 0 if the divisor is 0.
 
 ---
 
-### Round
+#### Round
 Rounds the input to the nearest integer.
 
 **Input:** `num`
@@ -180,7 +206,7 @@ Rounds the input to the nearest integer.
 
 ---
 
-### Clamp
+#### Clamp
 Limits the input to a configurable min/max range.
 
 **Input:** `num`
@@ -192,7 +218,7 @@ Limits the input to a configurable min/max range.
 
 ---
 
-### Scale
+#### Scale
 Remaps a value from one numeric range to another.
 
 **Input:** `num`
@@ -206,7 +232,58 @@ Remaps a value from one numeric range to another.
 
 ---
 
-### Quantizer
+### Logic & Control
+
+#### Gate
+Outputs 1 if the input exceeds a threshold, 0 otherwise. Useful for detecting note-on/off, converting continuous values into triggers, or reading button states.
+
+**Input:** `num`
+**Output:** `out` (1 if `num > threshold`, else 0)
+
+**Config:**
+- Threshold — comparison value (default 0, range −1000–1000)
+
+---
+
+#### Toggle
+Flips between 0 and 1 on each rising edge of the trigger input. Turns a momentary press into a latch. State persists until the next trigger.
+
+**Input:** `trigger`
+**Output:** `out` (0 or 1)
+
+---
+
+#### Select
+Routes one of two inputs to the output based on a control signal. Control = 0 passes A; any non-zero value passes B.
+
+**Inputs:** `a`, `b`, `control`
+**Output:** `out`
+
+---
+
+#### Counter
+Increments a count on each rising edge of the trigger input, wrapping at a configurable max. A rising edge on the reset input returns the count to 0.
+
+**Inputs:** `trigger`, `reset`
+**Output:** `count`
+
+**Config:**
+- Max — wrap value (default 8, range 1–64)
+- Step — increment per trigger (default 1, range 1–16)
+
+---
+
+#### Sample & Hold
+Latches the input value at the moment of a rising edge on the trigger. Holds that value until the next rising edge.
+
+**Inputs:** `input`, `trigger`
+**Output:** `out` (held value)
+
+---
+
+### Music
+
+#### Quantizer
 Maps an input value onto a musical scale with an octave offset. Useful for converting continuous or stepped values into valid MIDI notes.
 
 **Inputs:** `input` (value to quantize), `shift` (scale position offset)
@@ -219,51 +296,13 @@ Maps an input value onto a musical scale with an octave offset. Useful for conve
 
 ---
 
-### Counter
-Increments a count on each rising edge of the trigger input, wrapping at a configurable max. A rising edge on the reset input returns the count to 0.
+### Monitoring
 
-**Inputs:** `trigger`, `reset`
-**Output:** `count`
-
-**Config:**
-- Max — wrap value (default 8, range 1–64)
-- Step — increment per trigger (default 1, range 1–16)
-
----
-
-### View
+#### View
 Displays the current value passing through. Useful for debugging signal flow.
 
 **Input:** `num`
 **Output:** `num` (passthrough)
-
----
-
-### Trigger
-Emits a single pulse of 1 when the button is clicked, then resets to 0 on the next process cycle.
-
-**Output:** `trigger`
-
----
-
-### Clock
-Emits a continuous stream of trigger pulses at a configurable BPM and subdivision. Unlike all other nodes, Clock is a timing source — it drives processing autonomously rather than reacting to external events. The interval runs in the main process; on each tick the clock outputs 1 for one process cycle, then 0 until the next tick.
-
-**Output:** `trigger`
-
-**Config:**
-- BPM — tempo in beats per minute (default 120, range 1–300)
-- Subdivision — pulse rate relative to a quarter note: Whole, Half, Quarter, Eighth, Sixteenth, 32nd (default Quarter)
-
-**Formula:** `intervalMs = 240000 / (bpm × subdivision)`
-
----
-
-### Sample & Hold
-Latches the input value at the moment of a rising edge on the trigger. Holds that value until the next rising edge.
-
-**Inputs:** `input` (value to sample), `trigger`
-**Output:** `out` (held value)
 
 ---
 
@@ -286,7 +325,7 @@ Latches the input value at the moment of a rising edge on the trigger. Holds tha
 | Device | Library | Status |
 |--------|---------|--------|
 | MIDI in/out | `@julusian/midi` | Working |
-| OSC in/out | `osc-emitter` / `osc-receiver` | Working (listens on port 2626) |
+| OSC in/out | `kiss-and-tell` | Working (listens on port 2626) |
 | Monome Grid | `monome-grid` | Working |
 | Monome Crow | `huginn-and-muninn` + `serialport` | REPL only |
 | Ableton Link | `abletonlink` | Not yet integrated |
