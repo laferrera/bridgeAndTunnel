@@ -16,6 +16,7 @@ import DragSelectionPlugin from "./plugins/drag-selection-plugin.js";
 import { numSocket } from "./components/numSocket.js";
 import { reteComponents } from "./components/index.js";
 import { viewUpdateBus } from "./viewUpdateBus.js";
+import { flashBus } from "./flashBus.js";
 // import DataChangeAction from "./plugins/data-change-action.js";
 
 const min = (arr) => (arr.length === 0 ? 0 : Math.min(...arr));
@@ -171,6 +172,10 @@ export function createEditor(container, rendererEmitter, editorRef) {
 
   window.electronAPI.handleViewNodeUpdate((_event, { nodeId, value }) => {
     viewUpdateBus.emit("update", { nodeId, value });
+  });
+
+  window.electronAPI.handleNodeFlash((_event, nodeIds) => {
+    nodeIds.forEach((id) => flashBus.emit("flash", id));
   });
 
   editor.sendSessionToMain();

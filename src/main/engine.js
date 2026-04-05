@@ -30,8 +30,7 @@ class Engine extends EventEmitter {
     this.oscCommunicator.bind(oscListenPort);
     this.oscCommunicator.on("message", (message) => { this.handleOSCMessage(message);});
 
-    this.link = new abletonlink();
-    this.link.enable();
+    this.link = null;
     this.linkRunning = false;
 
     this.reteEngine = new Rete.Engine(name);
@@ -108,6 +107,9 @@ class Engine extends EventEmitter {
     nodeIds.forEach((id) => {
       this.reteEngine.process(data, id);
     });
+    if (this.mainWindow) {
+      this.mainWindow.webContents.send("node-flash", nodeIds);
+    }
   }
 
   setMainWindow(mainWindow) {
@@ -148,6 +150,10 @@ class Engine extends EventEmitter {
 
   startLinkUpdates(initialBpm, quantum) {
     if (this.linkRunning) return;
+    if (!this.link) {
+      this.link = new abletonlink();
+      this.link.enable();
+    }
     this.link.bpm = initialBpm;
     this.link.quantum = quantum;
     this.linkRunning = true;
@@ -178,8 +184,10 @@ class Engine extends EventEmitter {
   }
 
   destroyLink() {
+    if (!this.link) return;
     this.stopLinkUpdates();
     this.link.disable();
+    this.link = null;
   }
 
   storeNodes(nodes) {

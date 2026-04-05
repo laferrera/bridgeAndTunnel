@@ -1,14 +1,42 @@
 import React from "react";
 import { Node, Socket, Control } from "rete-react-render-plugin";
 import { deepCopy } from "../../globalUtils.js";
+import { flashBus } from "../flashBus.js";
+
 export class ReactNode extends Node {
+
+  constructor(props) {
+    super(props);
+    this.state = { ...this.state, flashing: false };
+    this._flashTimeout = null;
+  }
+
+  componentDidMount() {
+    super.componentDidMount && super.componentDidMount();
+    this._onFlash = (id) => {
+      if (id !== this.props.node.id) return;
+      // Restart animation by toggling off then on
+      if (this._flashTimeout) clearTimeout(this._flashTimeout);
+      this.setState({ flashing: false }, () => {
+        this.setState({ flashing: true });
+        this._flashTimeout = setTimeout(() => this.setState({ flashing: false }), 200);
+      });
+    };
+    flashBus.on("flash", this._onFlash);
+  }
+
+  componentWillUnmount() {
+    super.componentWillUnmount && super.componentWillUnmount();
+    flashBus.off("flash", this._onFlash);
+    if (this._flashTimeout) clearTimeout(this._flashTimeout);
+  }
 
   render() {
     const { node, bindSocket, bindControl } = this.props;
-    const { outputs, controls, inputs, selected } = this.state;
+    const { outputs, controls, inputs, selected, flashing } = this.state;
 
     return (
-      <div className={`node ${selected}`}>
+      <div className={`node ${selected}${flashing ? " flashing" : ""}`}>
         <div className="title">{node.name}</div>
         <div className="inputs-outputs-container">
           {/* Inputs */}
