@@ -42,6 +42,8 @@ class Engine extends EventEmitter {
     this.monomeGridLeds = [];
     this.monomeGridStates = [];
     this.crow = null;
+    this.monomeArc = null;
+    this.setupMonomeArc();
 
     reteComponents.forEach((c) => {
       this.reteEngine.register(c);
@@ -66,6 +68,12 @@ class Engine extends EventEmitter {
         this.crow.writeLines(`output[${outputNum}].volts = ${voltage}`);
       }
     });
+
+    emitterEmitter.on("arc:set-ring", ({ n, level }) => {
+      if (this.monomeArc) {
+        this.monomeArc.all(n, Math.round(Math.max(0, Math.min(15, level))));
+      }
+    });
   }
 
   setupMonomeGrid() {
@@ -83,6 +91,27 @@ class Engine extends EventEmitter {
     }).catch(() => {
       // No grid connected — stay silent
     });
+  }
+
+  setupMonomeArc() {
+    const serialosc = require("serialosc");
+    serialosc.on("device:add", (device) => {
+      if (device.type !== "arc" || this.monomeArc) return;
+      device.on("initialized", () => {
+        this.monomeArc = device;
+        device.on("delta", ({ n, d }) => this.distributeMonomeArcDelta(n, d));
+      });
+      device.start();
+    });
+  }
+
+  distributeMonomeArcDelta(encoderNum, delta) {
+    const arcNodes = Object.values(this.nodes).filter((n) => n.name === "Arc");
+    arcNodes.forEach((a) => {
+      if (!a.data.delta) a.data.delta = [0, 0, 0, 0];
+      a.data.delta[encoderNum] = delta;
+    });
+    if (arcNodes.length) this.process(arcNodes.map((a) => a.id));
   }
 
   setupCrow() {

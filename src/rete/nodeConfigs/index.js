@@ -12,6 +12,7 @@ import mathConfig from "./mathConfig.js";
 import quantizerConfig from "./quantizerConfig.js";
 import monomeCrowConfig from "./monomeCrowConfig.js";
 import monomeGridConfig from "./monomeGridConfig.js";
+import monomeArcConfig from "./monomeArcConfig.js";
 import minConfig from "./minConfig.js";
 import chordConfig from "./chordConfig.js";
 import randomConfig from "./randomConfig.js";
@@ -26,6 +27,7 @@ const uiConfigs = {
   quantizerConfig,
   monomeCrowConfig,
   monomeGridConfig,
+  monomeArcConfig,
   minConfig,
   chordConfig,
   randomConfig,

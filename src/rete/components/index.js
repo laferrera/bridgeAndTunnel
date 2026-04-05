@@ -19,6 +19,7 @@ import { MIDIEmitterComponent } from "./MIDIEmitterComponent.jsx";
 import { OSCEmitterComponent } from "./OSCEmitterComponent.jsx";
 import { OSCReceiverComponent } from "./OSCReceiverComponent.jsx";
 import { MonomeGridComponent } from "./MonomeGridComponent.jsx";
+import { MonomeArcComponent } from "./MonomeArcComponent.jsx";
 import { MonomeCrowComponent } from "./MonomeCrowComponent.jsx";
 import { SampleAndHoldComponent } from "./SampleAndHoldComponent.jsx";
 import { ClockComponent } from "./ClockComponent.jsx";
@@ -36,6 +37,7 @@ const reteComponents = [
   new OSCEmitterComponent(),
   new OSCReceiverComponent(),
   new MonomeGridComponent(),
+  new MonomeArcComponent(),
   new MonomeCrowComponent(),
   new ConstantComponent(),
   new AddComponent(),
