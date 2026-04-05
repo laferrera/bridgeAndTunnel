@@ -60,6 +60,12 @@ class Engine extends EventEmitter {
         this.mainWindow.webContents.send("view-node-update", { nodeId, value });
       }
     });
+
+    emitterEmitter.on("crow:set-output", ({ outputNum, voltage }) => {
+      if (this.crow) {
+        this.crow.writeLines(`output[${outputNum}].volts = ${voltage}`);
+      }
+    });
   }
 
   setupMonomeGrid() {
@@ -80,16 +86,31 @@ class Engine extends EventEmitter {
   }
 
   setupCrow() {
-    // TODO, do this when USB connect / disconnect...
-    if (!this.crow) {
-      const callBack = (data) => {
-        this.handleCrowOutput(data);
-      };
-      hugAndMun().then((crow) => {
+    if (this.crow) return;
+    const callBack = (data) => this.handleCrowOutput(data);
+    hugAndMun()
+      .then((crow) => {
         this.crow = crow;
         this.crow.setCallback(callBack);
+        this.crow.writeLines(
+          [
+            "input[1].mode('change', 1.0, 0.1, 'rising')",
+            "input[1].change = function(state) print('>>crow:in:1:' .. input[1].volts) end",
+            "input[2].mode('change', 1.0, 0.1, 'rising')",
+            "input[2].change = function(state) print('>>crow:in:2:' .. input[2].volts) end",
+          ].join("\n")
+        );
+        if (this.mainWindow) {
+          this.mainWindow.webContents.send("crow-status", { connected: true });
+          this.mainWindow.webContents.send("receive-lines-from-crow", "Crow connected.");
+        }
+      })
+      .catch(() => {
+        if (this.mainWindow) {
+          this.mainWindow.webContents.send("crow-status", { connected: false });
+          this.mainWindow.webContents.send("receive-lines-from-crow", "Crow not found.");
+        }
       });
-    }
   }
 
   processJSON(json) {
@@ -337,17 +358,23 @@ class Engine extends EventEmitter {
   }
 
   handleCrowOutput(data) {
+    const match = data.trim().match(/^>>crow:in:(\d+):([\d.eE+\-]+)/);
+    if (match) {
+      this.distributeCrowData(parseInt(match[1]), parseFloat(match[2]));
+      return;
+    }
     if (this.mainWindow) {
       this.mainWindow.webContents.send("receive-lines-from-crow", data);
     }
   }
 
-  distributeCrowData(data) {
-    let crowNodes = Object.values(this.nodes).filter((n) => n.name == "Crow");
+  distributeCrowData(inputNum, voltage) {
+    const crowNodes = Object.values(this.nodes).filter((n) => n.name === "Crow");
     crowNodes.forEach((c) => {
-      c.data.data = data;
+      if (!c.data.voltages) c.data.voltages = [0, 0];
+      c.data.voltages[inputNum - 1] = voltage;
     });
-    // TODO: wire crow node outputs to hardware I/O — how to trigger re-process here?
+    if (crowNodes.length) this.process(crowNodes.map((c) => c.id));
   }
 }
         

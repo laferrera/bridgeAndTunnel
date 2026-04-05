@@ -3,6 +3,7 @@ import { BnTNode } from "./BnTNode.jsx";
 import { numSocket } from "./numSocket.js";
 import config from "../nodeConfigs/monomeCrowConfig.js";
 import { multiInputs, multiOutputs } from "./utils.js";
+import { emitterEmitter } from "../emitterEmitter.js";
 
 export class MonomeCrowComponent extends BnTNode {
   constructor() {
@@ -19,9 +20,17 @@ export class MonomeCrowComponent extends BnTNode {
   }
 
   worker(node, inputs, outputs) {
-    // checkInputsAndSetData(inputs,node.data);
-    // outputs['x'] = node.data.x;
-    // outputs['y'] = node.data.y;
-    // outputs["state"] = node.data.state;
+    const voltages = node.data.voltages || [];
+    const numOutputs = node.data.config?.numOutputs ?? 1;
+    for (let i = 0; i < numOutputs; i++) {
+      outputs[`num${i + 1}`] = voltages[i] ?? 0;
+    }
+    const numInputs = node.data.config?.numInputs ?? 1;
+    for (let i = 0; i < numInputs; i++) {
+      const vals = inputs[`num${i + 1}`];
+      if (vals && vals.length > 0 && vals[0] !== undefined) {
+        emitterEmitter.emit("crow:set-output", { outputNum: i + 1, voltage: vals[0] });
+      }
+    }
   }
 }

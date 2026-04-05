@@ -26,6 +26,7 @@ contextBridge.exposeInMainWorld("electronAPI", {
   handleNewSession: (callback) => ipcRenderer.on("new-session", callback),
   handleMidiDeviceUpdate: (callback) => ipcRenderer.on("midi-device-update", callback),
   handleReceiveLinesFromCrow: (callback) => ipcRenderer.on("receive-lines-from-crow", callback),
+  handleCrowStatus: (callback) => ipcRenderer.on("crow-status", callback),
   handleViewNodeUpdate: (callback) => ipcRenderer.on("view-node-update", callback),
   handleNodeFlash: (callback) => ipcRenderer.on("node-flash", callback),
 });

@@ -11,7 +11,7 @@ class ViewDisplay extends React.Component {
   componentDidMount() {
     this._handler = ({ nodeId, value }) => {
       if (nodeId === this.props.nodeId) {
-        this.setState({ value });
+        this.setState({ value: value ?? 0 });
       }
     };
     viewUpdateBus.on("update", this._handler);

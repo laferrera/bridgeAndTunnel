@@ -4,6 +4,13 @@ import { ReactReplView } from "./ReactReplView.js";
 
 export default function GeneralPurposeReplUI(props) {
   let lines = [...props.state[props.settingKey].val];
+  const [crowConnected, setCrowConnected] = useState(null);
+
+  useEffect(() => {
+    window.electronAPI.handleCrowStatus((_event, status) => {
+      setCrowConnected(status.connected);
+    });
+  }, []);
 
   const clearCode = () => {
     props.state[props.settingKey].fn([]);
@@ -16,9 +23,11 @@ export default function GeneralPurposeReplUI(props) {
     props.state[props.settingKey].fn(lines);
   };
 
+  const title = crowConnected === null ? "Crow" : crowConnected ? "Crow ●" : "Crow ○";
+
   return (
     <ReactReplView
-      title={`Crow`}
+      title={title}
       tabs={[]}
       onSubmit={submitCode}
       onClear={clearCode}

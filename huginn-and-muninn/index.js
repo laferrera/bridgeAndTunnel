@@ -5,24 +5,21 @@ const EventEmitter = require("events");
 class Crow extends EventEmitter{
   constructor(cb) {
     super();
-    crowPort: null;
-    initialized: false;
+    this.crowPort = null;
+    this.initialized = false;
   }
 
   initialize = async (cb) => {
-    this.fetchModems().then((modem) => {
-      // NOTE: It is crucial that we use arrow
-      // functions here so that we may preserve
-      // the `this` context.
-      this.crowPort = modem;
-      // this.initialized = true;
-      if (cb) {
-        this.setCallback(cb);
-      }
-      this.helloWorld();
-      this.emit("initialized");
-      // return this;
-    });
+    this.fetchModems()
+      .then((modem) => {
+        this.crowPort = modem;
+        if (cb) {
+          this.setCallback(cb);
+        }
+        this.helloWorld();
+        this.emit("initialized");
+      })
+      .catch((err) => this.emit("error", err));
   }
 
   setCallback = (cb) => {
@@ -35,33 +32,29 @@ class Crow extends EventEmitter{
 
   fetchModems = async function () {
     const list = await SerialPort.list();
-    let crowModem;
     return new Promise((resolve, reject) => {
-      // console.log(list);
-      list.forEach((device) => {
+      for (const device of list) {
         if (
           device.vendorId === "0483" &&
           device.productId === "5740" &&
           device.manufacturer === "monome & whimsical raps"
         ) {
           console.log("found crow");
-          crowModem = new SerialPort(
+          const crowModem = new SerialPort(
             { path: device.path, baudRate: 115200 },
-            function (err) {
+            (err) => {
               if (err) {
-                // reject("error connecting to crow!");
-                // return console.log("Error: ", err.message);
+                reject(err);
               } else {
                 console.log("Connected to Crow");
                 resolve(crowModem);
               }
             }
           );
-        } else {
-          // reject("no crow!");
+          return;
         }
-      });
-      // });
+      }
+      reject(new Error("no crow found"));
     });
   };
 
@@ -72,11 +65,9 @@ class Crow extends EventEmitter{
   writeLines = async function (lines) {
     lines = lines.split("\n");
     for (var i = 0; i < lines.length; i++) {
-      let utf8Line = Buffer.from(lines[i], "utf8");
-      utf8Line += "\r\n";
-      this.crowPort.write(utf8Line, function (err) {
+      this.crowPort.write(lines[i] + "\r\n", "utf8", (err) => {
         if (err) {
-          return console.log("Error on write: ", err.message);
+          console.log("Error on write: ", err.message);
         }
       });
       await this.sleep(100);
@@ -84,8 +75,7 @@ class Crow extends EventEmitter{
   };
 
   disconnect = () => {
-    // TODO, conditionally close?
-    this.crowPort.close();
+    if (this.crowPort) this.crowPort.close();
   };
 
   clear = () => {
@@ -117,10 +107,8 @@ input[1].change = function (state) print('Hello, Molly!') end`;
 module.exports = (id, cb) => {
   return new Promise((resolve, reject) => {
     const crow = new Crow();
+    crow.on("initialized", () => resolve(crow));
+    crow.on("error", reject);
     crow.initialize();
-    crow.on("initialized", () => {
-      //todo something with cb...
-      resolve(crow);
-    });
   });
 }
