@@ -115,6 +115,7 @@ app.on("will-quit", (event) => {
     engine.crow.disconnect();
   }
   // TODO: kill abletonlink on quit once integrated
+  engine.stopAllClocks();
 });
 
 const checkUSB = () => {

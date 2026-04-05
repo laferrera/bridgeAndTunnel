@@ -246,6 +246,27 @@ Emits a single pulse of 1 when the button is clicked, then resets to 0 on the ne
 
 ---
 
+### Clock
+Emits a continuous stream of trigger pulses at a configurable BPM and subdivision. Unlike all other nodes, Clock is a timing source — it drives processing autonomously rather than reacting to external events. The interval runs in the main process; on each tick the clock outputs 1 for one process cycle, then 0 until the next tick.
+
+**Output:** `trigger`
+
+**Config:**
+- BPM — tempo in beats per minute (default 120, range 1–300)
+- Subdivision — pulse rate relative to a quarter note: Whole, Half, Quarter, Eighth, Sixteenth, 32nd (default Quarter)
+
+**Formula:** `intervalMs = 240000 / (bpm × subdivision)`
+
+---
+
+### Sample & Hold
+Latches the input value at the moment of a rising edge on the trigger. Holds that value until the next rising edge.
+
+**Inputs:** `input` (value to sample), `trigger`
+**Output:** `out` (held value)
+
+---
+
 ## UI Behaviors
 
 **Editor canvas** — pan with middle mouse / drag, zoom with scroll. Nodes can be multi-selected (drag selection or shift-click) and moved as a group.
@@ -278,8 +299,6 @@ OSC listens globally on port 2626; individual OSC Receiver nodes filter by addre
 ---
 
 ## Planned
-
-**Clock** — generates tempo-synced triggers at a configurable BPM and division.
 
 **Random** — outputs random values within a configurable range on each trigger.
 

@@ -17,6 +17,7 @@ class Engine extends EventEmitter {
     super();
     this.name = name;
     this.nodes = {};
+    this.clockIntervals = {};
     this.midiInputStreams = [];
     this.midiInputStreams.push(
       new midiInputStream.init(this, "Bridge & Tunnel")
@@ -118,8 +119,40 @@ class Engine extends EventEmitter {
     console.log(this.nodes);
   }
 
+  startClock(node) {
+    this.stopClock(node.id);
+    const bpm = node.data.config.bpm.value;
+    const subdivision = node.data.config.subdivision.value;
+    const intervalMs = 240000 / (bpm * subdivision);
+    this.clockIntervals[node.id] = setInterval(() => {
+      const liveNode = this.nodes[node.id];
+      if (!liveNode) { this.stopClock(node.id); return; }
+      liveNode.data._fired = true;
+      this.process([node.id]);
+    }, intervalMs);
+  }
+
+  stopClock(nodeId) {
+    if (this.clockIntervals[nodeId]) {
+      clearInterval(this.clockIntervals[nodeId]);
+      delete this.clockIntervals[nodeId];
+    }
+  }
+
+  stopAllClocks() {
+    Object.keys(this.clockIntervals).forEach((id) => this.stopClock(id));
+  }
+
   storeNodes(nodes) {
+    Object.keys(this.clockIntervals).forEach((id) => {
+      if (!nodes[id]) this.stopClock(id);
+    });
+
     this.nodes = nodes;
+
+    Object.values(nodes)
+      .filter((n) => n.name === "Clock")
+      .forEach((n) => this.startClock(n));
   }
 
   getMIDIInputPorts() {

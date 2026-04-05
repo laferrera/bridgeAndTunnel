@@ -21,6 +21,7 @@ import { OSCReceiverComponent } from "./OSCReceiverComponent.jsx";
 import { MonomeGridComponent } from "./MonomeGridComponent.jsx";
 import { MonomeCrowComponent } from "./MonomeCrowComponent.jsx";
 import { SampleAndHoldComponent } from "./SampleAndHoldComponent.jsx";
+import { ClockComponent } from "./ClockComponent.jsx";
 
 const reteComponents = [
   new MIDIReceiverComponent(),
@@ -45,6 +46,7 @@ const reteComponents = [
   new SampleAndHoldComponent(),
   new ViewComponent(),
   new TriggerComponent(),
+  new ClockComponent(),
   new QuantizerComponent(),
 ];
 
