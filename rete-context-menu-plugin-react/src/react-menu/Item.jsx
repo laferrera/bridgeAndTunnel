@@ -39,7 +39,7 @@ class Item extends Component {
         {subitems && visibleSubitems && (
           <div className="subitems">
             {subitems.map((subitem) => (
-              <Item item={subitem} />
+              <Item key={subitem.title} item={subitem} />
             ))}
           </div>
         )}

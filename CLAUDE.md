@@ -5,7 +5,6 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ## Setup (fresh clone)
 
 ```bash
-git submodule update --init --recursive   # rete, rete-context-menu-plugin-react, huginn-and-muninn
 nvm use v17.5.0                           # must match .nvmrc; native modules fail on v22+
 npm install --legacy-peer-deps            # --legacy-peer-deps due to local rete fork version
 # Build the context menu plugin (ships without a build artifact)
@@ -15,17 +14,20 @@ npm run rebuild                           # recompile native modules for Electro
 
 `kiss-and-tell` (OSC library) is expected at `../kiss-and-tell` — a stub at `./kiss-and-tell-stub` is used when unavailable, making OSC a no-op.
 
+`rete`, `rete-context-menu-plugin-react`, and `huginn-and-muninn` are inlined directories (formerly git submodules). Do not treat them as submodules.
+
 ## Commands
 
 ```bash
 npm start          # Start dev build (electron-forge with webpack + hot reload)
+npm test           # Run test suite (Mocha, no Electron required)
 npm run lint       # ESLint check
 npm run rebuild    # Rebuild all native modules for Electron (serialport, midi, usb-detection, etc.)
 npm run package    # Package app for distribution
 npm run make       # Create platform installers (DMG, EXE, DEB/RPM)
 ```
 
-No test suite is configured.
+Tests live in `test/`. `test/helpers/setup.js` registers Babel and mocks `rete`, `ReactNode`, and `globalUtils` so component workers can be instantiated without a running editor. Use `callWorker(ComponentClass, inputs, nodeData)` from `test/helpers/nodeHelpers.js` to test any node.
 
 ## Architecture
 

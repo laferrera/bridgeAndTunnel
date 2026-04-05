@@ -119,6 +119,19 @@ Emits a single pulse of 1 when the button is clicked, then resets to 0 on the ne
 
 ---
 
+#### Ableton Link
+Syncs tempo and transport with Ableton Live and other Link-enabled apps on the local network. Outputs continuous beat position, phase within the quantum, current BPM, and a trigger pulse that fires once per quantum boundary.
+
+**Outputs:** `beat` (absolute beat position), `phase` (0–quantum), `bpm`, `trigger` (1 on quantum boundary, else 0)
+
+**Config:**
+- BPM — initial tempo pushed to the Link session (range 20–300, step 0.5)
+- Quantum — beats per loop/phase cycle: 1, 2, 4, or 8 (default 4)
+
+The Link session starts automatically when an Ableton Link node is present in the graph and stops when it is removed. BPM and quantum changes from other peers on the network are reflected in the outputs. The trigger output is suitable for driving clocked nodes (Counter, Sample & Hold, Random, etc.) in tempo sync.
+
+---
+
 #### Clock
 Emits a continuous stream of trigger pulses at a configurable BPM and subdivision. Unlike all other nodes, Clock drives processing autonomously — the interval runs in the main process and fires regardless of external events. On each tick the output is 1 for one process cycle, then 0 until the next tick.
 
@@ -281,7 +294,44 @@ Latches the input value at the moment of a rising edge on the trigger. Holds tha
 
 ---
 
+#### Random
+Generates a new random value within a configurable range on each rising edge of the trigger input. Holds the last value between triggers.
+
+**Input:** `trigger`
+**Output:** `out` (random float in [min, max])
+
+**Config:**
+- Min — lower bound (default 0, range −1000–1000)
+- Max — upper bound (default 127, range −1000–1000)
+
+Wire through **Round** if integer output is needed.
+
+---
+
 ### Music
+
+#### Note → Hz
+Converts a MIDI note number to a frequency in Hz using equal temperament tuning. Useful when sending to OSC targets that expect frequency rather than note number.
+
+**Input:** `note` (MIDI note number, default 69)
+**Output:** `out` (frequency in Hz)
+
+**Formula:** `440 × 2^((note − 69) / 12)`
+
+---
+
+#### Chord
+Takes a root note and a chord type and outputs up to four note values representing the chord tones.
+
+**Input:** `root` (MIDI note number, default 60)
+**Outputs:** `note1`, `note2`, `note3`, `note4`
+
+**Config:**
+- Chord Type — Major, Minor, Dom 7th, Major 7th, Minor 7th, Diminished, Augmented, Sus2, Sus4, Dim 7th
+
+Note: for triads, `note4` repeats the root interval (semitone offset 0). Wire only the outputs you need.
+
+---
 
 #### Quantizer
 Maps an input value onto a musical scale with an octave offset. Useful for converting continuous or stepped values into valid MIDI notes.
@@ -328,7 +378,7 @@ Displays the current value passing through. Useful for debugging signal flow.
 | OSC in/out | `kiss-and-tell` | Working (listens on port 2626) |
 | Monome Grid | `monome-grid` | Working |
 | Monome Crow | `huginn-and-muninn` + `serialport` | REPL only |
-| Ableton Link | `abletonlink` | Not yet integrated |
+| Ableton Link | `abletonlink` | Working (tempo + phase sync, trigger output) |
 | USB hot-plug | `usb-detection` | Not yet integrated |
 
 MIDI ports are enumerated at startup. A virtual "Bridge & Tunnel" MIDI port is created automatically.
@@ -339,11 +389,7 @@ OSC listens globally on port 2626; individual OSC Receiver nodes filter by addre
 
 ## Planned
 
-**Random** — outputs random values within a configurable range on each trigger.
-
 **Sequencer** — steps through a sequence of values on each trigger input.
-
-**Ableton Link** — sync tempo and transport with Ableton Live and other Link-enabled apps.
 
 **Crow signal routing** — wire Crow node inputs/outputs to actual Crow hardware CV/gate I/O.
 
