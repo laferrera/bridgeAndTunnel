@@ -30,6 +30,7 @@ import { NoteToHzComponent } from "./NoteToHzComponent.jsx";
 import { ChordComponent } from "./ChordComponent.jsx";
 import { RandomComponent } from "./RandomComponent.jsx";
 import { AbletonLinkComponent } from "./AbletonLinkComponent.jsx";
+import { XYPadComponent } from "./XYPadComponent.jsx";
 
 const reteComponents = [
   new MIDIReceiverComponent(),
@@ -64,6 +65,7 @@ const reteComponents = [
   new ChordComponent(),
   new RandomComponent(),
   new AbletonLinkComponent(),
+  new XYPadComponent(),
 ];
 
 export { reteComponents };

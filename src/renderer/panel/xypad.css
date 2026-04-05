@@ -1,0 +1,49 @@
+.XYPadWrapper {
+  padding: 8px 12px;
+}
+
+.XYPad {
+  position: relative;
+  width: 180px;
+  height: 180px;
+  background: var(--bnt-black0, #111);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  cursor: crosshair;
+  user-select: none;
+}
+
+.XYPadCrosshairH {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.15);
+  pointer-events: none;
+  transform: translateY(-50%);
+}
+
+.XYPadCrosshairV {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background: rgba(255, 255, 255, 0.15);
+  pointer-events: none;
+  transform: translateX(-50%);
+}
+
+.XYPadDot {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--bnt-cyan, #0ff);
+  pointer-events: none;
+  transform: translate(-50%, -50%);
+}
+
+.XYPadReadout {
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.4);
+  margin-top: 4px;
+}

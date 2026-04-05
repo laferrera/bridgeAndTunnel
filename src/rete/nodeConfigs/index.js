@@ -17,6 +17,7 @@ import minConfig from "./minConfig.js";
 import chordConfig from "./chordConfig.js";
 import randomConfig from "./randomConfig.js";
 import abletonLinkConfig from "./abletonLinkConfig.js";
+import xypadConfig from "./xypadConfig.js";
 
 const uiConfigs = {
   oscEmitterConfig,
@@ -32,6 +33,7 @@ const uiConfigs = {
   chordConfig,
   randomConfig,
   abletonLinkConfig,
+  xypadConfig,
 };
 
 export { uiConfigs };

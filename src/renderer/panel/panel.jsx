@@ -6,7 +6,8 @@ import PanelSlider from "./slider.jsx";
 import PanelPiano from "./piano.jsx";
 import GeneralPurposeReplUI from "./repl.jsx";
 import Button from "./button.jsx";
-import TextInput from "./textInput.jsx"
+import TextInput from "./textInput.jsx";
+import XYPad from "./xypad.jsx";
 // import { uiConfigs } from '../nodeConfigs';
 import DataChangeAction from "../../rete/plugins/data-change-action.js";
 import { mergeJSON } from "../../globalUtils.js";
@@ -101,6 +102,16 @@ export default function Panel(props) {
       case "text":
         components.push(
           <TextInput
+            key={setting}
+            state={state}
+            settingKey={setting}
+            setting={uiConfig[setting]}
+          />
+        );
+        break;
+      case "xypad":
+        components.push(
+          <XYPad
             key={setting}
             state={state}
             settingKey={setting}
