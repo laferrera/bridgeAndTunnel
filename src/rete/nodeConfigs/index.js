@@ -13,6 +13,7 @@ import quantizerConfig from "./quantizerConfig.js";
 import monomeCrowConfig from "./monomeCrowConfig.js";
 import monomeGridConfig from "./monomeGridConfig.js";
 import minConfig from "./minConfig.js";
+import chordConfig from "./chordConfig.js";
 
 const uiConfigs = {
   oscEmitterConfig,
@@ -23,7 +24,8 @@ const uiConfigs = {
   quantizerConfig,
   monomeCrowConfig,
   monomeGridConfig,
-  minConfig
+  minConfig,
+  chordConfig,
 };
 
 export { uiConfigs };

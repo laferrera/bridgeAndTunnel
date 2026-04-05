@@ -25,6 +25,8 @@ import { ClockComponent } from "./ClockComponent.jsx";
 import { GateComponent } from "./GateComponent.jsx";
 import { ToggleComponent } from "./ToggleComponent.jsx";
 import { SelectComponent } from "./SelectComponent.jsx";
+import { NoteToHzComponent } from "./NoteToHzComponent.jsx";
+import { ChordComponent } from "./ChordComponent.jsx";
 
 const reteComponents = [
   new MIDIReceiverComponent(),
@@ -54,6 +56,8 @@ const reteComponents = [
   new ToggleComponent(),
   new SelectComponent(),
   new QuantizerComponent(),
+  new NoteToHzComponent(),
+  new ChordComponent(),
 ];
 
 export { reteComponents };
