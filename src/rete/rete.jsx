@@ -77,7 +77,7 @@ export function createEditor(container, rendererEmitter, editorRef) {
   editor.use(MultiSelectPlugin);
   editor.use(DragSelectionPlugin, { enabled: true });
 
-  reteComponents.map((c) => {
+  reteComponents.forEach((c) => {
     editor.register(c);
   });
 

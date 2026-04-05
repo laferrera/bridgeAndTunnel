@@ -73,6 +73,8 @@ Sends an OSC message to a configurable host, port, and address. Number of input 
 - Address — OSC address pattern
 - Add/Remove Input — dynamically add or remove input sockets
 
+OSC arguments are sent in input-number order (`num1` first, `num2` second, etc.), regardless of connection order.
+
 ---
 
 #### Grid (Monome Grid)
@@ -142,6 +144,8 @@ Emits a continuous stream of trigger pulses at a configurable BPM and subdivisio
 - Subdivision — pulse rate relative to a quarter note: Whole, Half, Quarter, Eighth, Sixteenth, 32nd (default Quarter)
 
 **Formula:** `intervalMs = 240000 / (bpm × subdivision)`
+
+The timer restarts only when BPM or subdivision changes. Session auto-saves do not reset the interval.
 
 ---
 
@@ -342,7 +346,14 @@ Maps an input value onto a musical scale with an octave offset. Useful for conve
 **Config:**
 - Scale — piano keyboard UI for selecting active scale degrees (defaults to natural minor)
 
-**Logic:** `output = (octave * 12) + scale[abs((shift + input) % scale.length)]`
+**Logic:**
+```
+combined  = floor(shift + input)
+octave    = floor(combined / scale.length)
+index     = ((combined % scale.length) + scale.length) % scale.length
+output    = (octave * 12) + scale[index]
+```
+The double-modulo ensures negative inputs map to the correct scale degree rather than wrapping below zero.
 
 ---
 
@@ -353,6 +364,8 @@ Displays the current value passing through. Useful for debugging signal flow.
 
 **Input:** `num`
 **Output:** `num` (passthrough)
+
+The display updates and emits an IPC event only when the value changes — unchanged values do not trigger re-renders.
 
 ---
 

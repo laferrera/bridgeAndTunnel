@@ -43,7 +43,7 @@ class Engine extends EventEmitter {
     this.monomeGridStates = [];
     this.crow = null;
 
-    reteComponents.map((c) => {
+    reteComponents.forEach((c) => {
       this.reteEngine.register(c);
     });
 
@@ -74,6 +74,8 @@ class Engine extends EventEmitter {
         this.monomeGridStates[y] = Array.from(new Float32Array(16));
       }
       this.monomeGrid.refresh(this.monomeGridLeds);
+    }).catch(() => {
+      // No grid connected — stay silent
     });
   }
 
@@ -118,7 +120,9 @@ class Engine extends EventEmitter {
   }
 
   alertErrorToRenderer(message, data) {
-    this.mainWindow.webContents.send("engine-error", message, data);
+    if (this.mainWindow) {
+      this.mainWindow.webContents.send("engine-error", message, data);
+    }
   }
 
   display() {
@@ -248,7 +252,9 @@ class Engine extends EventEmitter {
   }
 
   updateMIDIPorts() {
-    this.mainWindow.webContents.send("midi-device-update", this.getMIDIPorts());
+    if (this.mainWindow) {
+      this.mainWindow.webContents.send("midi-device-update", this.getMIDIPorts());
+    }
   }
 
   decodeMIDIMessage(message) {
@@ -309,6 +315,7 @@ class Engine extends EventEmitter {
   }
 
   distributeMonomeGridPress(x, y, state) {
+    if (!this.monomeGrid) return;
     this.monomeGridLeds[y][x] = state * 15;
     this.monomeGridStates[y][x] = state;
     this.monomeGrid.refresh(this.monomeGridLeds);
@@ -324,13 +331,15 @@ class Engine extends EventEmitter {
   sendLinesToCrow(cmd) {
     if (this.crow) {
       this.crow.writeLines(cmd);
-    } else {
+    } else if (this.mainWindow) {
       this.mainWindow.webContents.send("receive-lines-from-crow", "no crow.");
     }
   }
 
   handleCrowOutput(data) {
-    this.mainWindow.webContents.send("receive-lines-from-crow", data);
+    if (this.mainWindow) {
+      this.mainWindow.webContents.send("receive-lines-from-crow", data);
+    }
   }
 
   distributeCrowData(data) {
