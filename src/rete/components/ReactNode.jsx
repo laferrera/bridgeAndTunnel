@@ -7,20 +7,18 @@ export class ReactNode extends Node {
 
   constructor(props) {
     super(props);
-    this.state = { ...this.state, flashing: false };
-    this._flashTimeout = null;
+    this._nodeRef = React.createRef();
   }
 
   componentDidMount() {
     super.componentDidMount && super.componentDidMount();
     this._onFlash = (id) => {
       if (id !== this.props.node.id) return;
-      // Restart animation by toggling off then on
-      if (this._flashTimeout) clearTimeout(this._flashTimeout);
-      this.setState({ flashing: false }, () => {
-        this.setState({ flashing: true });
-        this._flashTimeout = setTimeout(() => this.setState({ flashing: false }), 200);
-      });
+      const el = this._nodeRef.current;
+      if (!el) return;
+      el.classList.remove("flashing");
+      void el.offsetWidth; // force reflow to restart animation
+      el.classList.add("flashing");
     };
     flashBus.on("flash", this._onFlash);
   }
@@ -28,15 +26,14 @@ export class ReactNode extends Node {
   componentWillUnmount() {
     super.componentWillUnmount && super.componentWillUnmount();
     flashBus.off("flash", this._onFlash);
-    if (this._flashTimeout) clearTimeout(this._flashTimeout);
   }
 
   render() {
     const { node, bindSocket, bindControl } = this.props;
-    const { outputs, controls, inputs, selected, flashing } = this.state;
+    const { outputs, controls, inputs, selected } = this.state;
 
     return (
-      <div className={`node ${selected}${flashing ? " flashing" : ""}`}>
+      <div ref={this._nodeRef} className={`node ${selected}`}>
         <div className="title">{node.name}</div>
         <div className="inputs-outputs-container">
           {/* Inputs */}
