@@ -13,7 +13,8 @@ Data enters through receiver nodes, flows through processing nodes, and exits th
 | MIDI in/out | Working |
 | OSC in/out (UDP, port 2626) | Working |
 | Monome Grid | Working |
-| Monome Crow | REPL only |
+| Monome Arc | Working |
+| Monome Crow | Working |
 | Ableton Link | Working |
 
 ---
@@ -26,7 +27,8 @@ Data enters through receiver nodes, flows through processing nodes, and exits th
 - **OSC Receiver** — listens for OSC messages at a configurable address (dynamic output count)
 - **OSC Emitter** — sends OSC messages to a host/port/address (dynamic input count)
 - **Grid** — bidirectional Monome Grid interface; button presses out, LED brightness in
-- **Crow** — Monome Crow REPL console and signal routing
+- **Arc** — Monome Arc rotary encoder interface; delta outputs per encoder, ring LED brightness inputs
+- **Crow** — Monome Crow eurorack module; REPL console, CV input/output signal routing
 
 **Sources**
 - **Constant** — outputs a fixed value

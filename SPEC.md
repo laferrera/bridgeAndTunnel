@@ -88,17 +88,27 @@ Bidirectional interface for Monome Grid hardware. Reports button presses as outp
 
 ---
 
-#### Crow (Monome Crow)
-Interface for Monome Crow eurorack module. Exposes a REPL console for sending Lua commands and viewing output. Dynamic input/output sockets for signal routing.
+#### Arc (Monome Arc)
+Interface for the Monome Arc rotary encoder controller (2 or 4 encoders). Encoder rotation fires delta outputs; ring LED brightness is driven by inputs.
 
-**Inputs:** `num1`, `num2`, ... (configurable count)
-**Outputs:** `num1`, `num2`, ... (configurable count)
+**Outputs:** `delta0`–`delta3` (rotation delta per encoder, fires on each movement)
+**Inputs:** `ring0`–`ring3` (LED ring brightness 0–15, applied to all LEDs on that encoder's ring)
+
+Delta values are momentary — they are cleared after each processing cycle. Connect `delta` outputs to a **Counter** or **Sample & Hold** to accumulate position. On an Arc 2, outputs `delta2` and `delta3` never fire.
+
+---
+
+#### Crow (Monome Crow)
+Interface for Monome Crow eurorack module. Exposes a REPL console for sending Lua commands and viewing output. Dynamic input/output sockets route CV signals between the graph and Crow hardware I/O.
+
+**Inputs:** `num1`, `num2`, ... (configurable count — drive Crow hardware outputs as CV voltage)
+**Outputs:** `num1`, `num2`, ... (configurable count — receive CV voltage from Crow hardware inputs)
 
 **Config:**
-- REPL — interactive console; commands sent to Crow hardware, output displayed here
+- REPL — interactive console; commands sent to Crow hardware, output displayed here. Shows connection status (● connected, ○ not found).
 - Add/Remove Input / Add/Remove Output — dynamic socket management
 
-**Status:** REPL is functional. Signal routing between node sockets and Crow hardware I/O is not yet connected.
+Node input sockets send `output[n].volts = value` Lua commands to Crow hardware. Node output sockets receive CV from Crow hardware inputs via change-detection callbacks installed automatically on connection. The REPL remains fully interactive alongside signal routing.
 
 ---
 
@@ -390,7 +400,8 @@ The display updates and emits an IPC event only when the value changes — uncha
 | MIDI in/out | `@julusian/midi` | Working |
 | OSC in/out | `kiss-and-tell` | Working (listens on port 2626) |
 | Monome Grid | `monome-grid` | Working |
-| Monome Crow | `huginn-and-muninn` + `serialport` | REPL only |
+| Monome Arc | `serialosc` (shared with Grid) | Working |
+| Monome Crow | `huginn-and-muninn` + `serialport` | Working (REPL + CV routing) |
 | Ableton Link | `abletonlink` | Working (tempo + phase sync, trigger output) |
 | USB hot-plug | `usb-detection` | Not yet integrated |
 
@@ -403,7 +414,5 @@ OSC listens globally on port 2626; individual OSC Receiver nodes filter by addre
 ## Planned
 
 **Sequencer** — steps through a sequence of values on each trigger input.
-
-**Crow signal routing** — wire Crow node inputs/outputs to actual Crow hardware CV/gate I/O.
 
 **USB hot-plug** — automatically detect and respond to MIDI device connect/disconnect events.
