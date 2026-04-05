@@ -114,7 +114,7 @@ app.on("will-quit", (event) => {
   if (engine.crow) {
     engine.crow.disconnect();
   }
-  // TODO: kill abletonlink on quit once integrated
+  engine.destroyLink();
   engine.stopAllClocks();
 });
 

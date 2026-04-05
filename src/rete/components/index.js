@@ -28,6 +28,7 @@ import { SelectComponent } from "./SelectComponent.jsx";
 import { NoteToHzComponent } from "./NoteToHzComponent.jsx";
 import { ChordComponent } from "./ChordComponent.jsx";
 import { RandomComponent } from "./RandomComponent.jsx";
+import { AbletonLinkComponent } from "./AbletonLinkComponent.jsx";
 
 const reteComponents = [
   new MIDIReceiverComponent(),
@@ -60,6 +61,7 @@ const reteComponents = [
   new NoteToHzComponent(),
   new ChordComponent(),
   new RandomComponent(),
+  new AbletonLinkComponent(),
 ];
 
 export { reteComponents };

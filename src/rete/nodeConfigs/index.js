@@ -15,6 +15,7 @@ import monomeGridConfig from "./monomeGridConfig.js";
 import minConfig from "./minConfig.js";
 import chordConfig from "./chordConfig.js";
 import randomConfig from "./randomConfig.js";
+import abletonLinkConfig from "./abletonLinkConfig.js";
 
 const uiConfigs = {
   oscEmitterConfig,
@@ -28,6 +29,7 @@ const uiConfigs = {
   minConfig,
   chordConfig,
   randomConfig,
+  abletonLinkConfig,
 };
 
 export { uiConfigs };

@@ -30,7 +30,10 @@ class Engine extends EventEmitter {
     this.oscCommunicator.bind(oscListenPort);
     this.oscCommunicator.on("message", (message) => { this.handleOSCMessage(message);});
 
-    // TODO: initialize abletonlink here for tempo sync
+    this.link = new abletonlink();
+    this.link.enable();
+    this.linkRunning = false;
+
     this.reteEngine = new Rete.Engine(name);
     this.reteEngine.on("error", ({ message, data }) => {
       this.alertErrorToRenderer(message, data);
@@ -143,6 +146,42 @@ class Engine extends EventEmitter {
     Object.keys(this.clockIntervals).forEach((id) => this.stopClock(id));
   }
 
+  startLinkUpdates(initialBpm, quantum) {
+    if (this.linkRunning) return;
+    this.link.bpm = initialBpm;
+    this.link.quantum = quantum;
+    this.linkRunning = true;
+    this.link.startUpdate(16, (beat, phase, bpm) => {
+      const linkNodes = Object.values(this.nodes).filter(
+        (n) => n.name === "Ableton Link"
+      );
+      linkNodes.forEach((n) => {
+        const q = n.data.config?.quantum?.value ?? 4;
+        const fired = phase < n.data._prevPhase;
+        n.data._beat = beat;
+        n.data._phase = phase;
+        n.data._bpm = bpm;
+        n.data._trigger = fired ? 1 : 0;
+        n.data._prevPhase = phase;
+        this.link.quantum = q;
+      });
+      if (linkNodes.length) {
+        this.process(linkNodes.map((n) => n.id));
+      }
+    });
+  }
+
+  stopLinkUpdates() {
+    if (!this.linkRunning) return;
+    this.link.stopUpdate();
+    this.linkRunning = false;
+  }
+
+  destroyLink() {
+    this.stopLinkUpdates();
+    this.link.disable();
+  }
+
   storeNodes(nodes) {
     Object.keys(this.clockIntervals).forEach((id) => {
       if (!nodes[id]) this.stopClock(id);
@@ -153,6 +192,18 @@ class Engine extends EventEmitter {
     Object.values(nodes)
       .filter((n) => n.name === "Clock")
       .forEach((n) => this.startClock(n));
+
+    const linkNodes = Object.values(nodes).filter(
+      (n) => n.name === "Ableton Link"
+    );
+    if (linkNodes.length) {
+      const firstNode = linkNodes[0];
+      const bpm = firstNode.data.config?.bpm?.value ?? 120;
+      const quantum = firstNode.data.config?.quantum?.value ?? 4;
+      this.startLinkUpdates(bpm, quantum);
+    } else {
+      this.stopLinkUpdates();
+    }
   }
 
   getMIDIInputPorts() {
