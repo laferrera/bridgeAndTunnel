@@ -107,6 +107,8 @@ app.on("selectAll", () => {
 
 
 app.on("will-quit", (event) => {
+  event.preventDefault();
+
   if (BrowserWindow.getFocusedWindow()) {
     BrowserWindow.getFocusedWindow().send("redo");
   }
@@ -116,6 +118,10 @@ app.on("will-quit", (event) => {
   }
   engine.destroyLink();
   engine.stopAllClocks();
+
+  // Give the abletonlink callback thread time to see the stop flag and exit
+  // before process teardown runs C++ finalizers. app.exit() skips will-quit.
+  setTimeout(() => app.exit(0), 100);
 });
 
 const checkUSB = () => {
