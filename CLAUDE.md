@@ -5,7 +5,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ## Setup (fresh clone)
 
 ```bash
-nvm use v17.5.0                           # must match .nvmrc; native modules fail on v22+
+nvm use v20.19.0                          # must match .nvmrc; native modules fail on v22+
 npm install --legacy-peer-deps            # --legacy-peer-deps due to local rete fork version
 # Build the context menu plugin (ships without a build artifact)
 cd rete-context-menu-plugin-react && npm install --legacy-peer-deps && npm run build && cd ..

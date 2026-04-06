@@ -55,15 +55,16 @@ Data enters through receiver nodes, flows through processing nodes, and exits th
 
 **Utils**
 - **View** — displays the current value passing through (passthrough node)
+- **XY Pad** — 2D touch pad that outputs X and Y values mapped to configurable ranges
 
 ---
 
 ## Setup
 
-Requires Node v17.5.0 and [nvm](https://github.com/nvm-sh/nvm).
+Requires Node v20.19.0 and [nvm](https://github.com/nvm-sh/nvm).
 
 ```bash
-nvm use v17.5.0
+nvm use v20.19.0
 npm install --legacy-peer-deps
 cd rete-context-menu-plugin-react && npm install --legacy-peer-deps && npm run build && cd ..
 npm run rebuild

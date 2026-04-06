@@ -379,6 +379,21 @@ The display updates and emits an IPC event only when the value changes — uncha
 
 ---
 
+#### XY Pad
+A 2D touch pad that outputs X and Y position values mapped to configurable numeric ranges. Position is stored as a normalized 0–1 value internally and scaled to the configured min/max on output.
+
+**Outputs:** `x`, `y`
+
+**Config:**
+- X Min / X Max — output range for the X axis (default 0–127, range −1000–1000)
+- Y Min / Y Max — output range for the Y axis (default 0–127, range −1000–1000)
+
+**Formula:** `output = min + position × (max − min)` where `position` is 0 (left/top) to 1 (right/bottom).
+
+The panel displays a draggable crosshair and a live readout of the normalized X/Y position.
+
+---
+
 ## UI Behaviors
 
 **Editor canvas** — pan with middle mouse / drag, zoom with scroll. Nodes can be multi-selected (drag selection or shift-click) and moved as a group.
